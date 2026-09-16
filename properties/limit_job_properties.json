@@ -1,0 +1,86 @@
+[
+  {
+    "scope": "branch",
+    "function": "limit_job",
+    "condition": "len(recent) > limit",
+    "property": "throttle_when_exceeds_limit",
+    "formal": "limit_job(timestamps, now) == (False, 0)"
+  },
+  {
+    "scope": "branch",
+    "function": "limit_job",
+    "condition": "len(recent) <= limit",
+    "property": "allow_when_within_limit",
+    "formal": "limit_job(timestamps, now) == (True, limit - len(recent))"
+  },
+  {
+    "scope": "function",
+    "function": "limit_job",
+    "property": "returns_boolean_and_count",
+    "precondition": "True",
+    "formal": "isinstance(limit_job(timestamps, now), tuple) and len(limit_job(timestamps, now)) == 2 and isinstance(limit_job(timestamps, now)[0], bool) and isinstance(limit_job(timestamps, now)[1], int)"
+  },
+  {
+    "scope": "function",
+    "function": "limit_job",
+    "property": "non_negative_remaining_count",
+    "precondition": "True",
+    "formal": "limit_job(timestamps, now)[1] >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "limit_job",
+    "property": "monotonic_window_filtering",
+    "precondition": "True",
+    "formal": "len([t for t in timestamps if t >= now - window]) <= len(timestamps)"
+  },
+  {
+    "scope": "function",
+    "function": "limit_job",
+    "property": "window_consistency",
+    "precondition": "True",
+    "formal": "all(t >= now - window for t in [t for t in timestamps if t >= now - window])"
+  },
+  {
+    "scope": "function",
+    "function": "limit_job",
+    "property": "deterministic_output",
+    "precondition": "True",
+    "formal": "limit_job(timestamps, now) == limit_job(timestamps, now)"
+  },
+  {
+    "scope": "function",
+    "function": "limit_job",
+    "property": "time_monotonicity",
+    "precondition": "now2 >= now1",
+    "formal": "limit_job(timestamps, now2)[1] >= limit_job(timestamps, now1)[1]"
+  },
+  {
+    "scope": "function",
+    "function": "limit_job",
+    "property": "timestamp_order_invariance",
+    "precondition": "True",
+    "formal": "limit_job(sorted(timestamps), now) == limit_job(timestamps, now)"
+  },
+  {
+    "scope": "function",
+    "function": "limit_job",
+    "property": "limit_respects_window",
+    "precondition": "True",
+    "formal": "limit_job(timestamps, now)[1] <= limit"
+  },
+  {
+    "scope": "function",
+    "function": "limit_job",
+    "property": "empty_timestamps_allowed",
+    "precondition": "True",
+    "formal": "limit_job([], now) == (True, limit)"
+  },
+  {
+    "scope": "function",
+    "function": "limit_job",
+    "property": "all_old_timestamps_allowed",
+    "precondition": "all(t < now - window for t in timestamps)",
+    "formal": "limit_job(timestamps, now) == (True, limit)"
+  }
+]

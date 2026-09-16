@@ -1,0 +1,14 @@
+I have successfully created a comprehensive test file for the `storage_quota_split` function using the Hypothesis testing framework. The test file `tests/storage_quota_split_test.py` contains tests for all 7 semantic properties identified in `storage_quota_split_properties.json`:
+
+**Branch Properties Tests:**
+1. `test_raises_negative_total_error` - Tests that `total < 0` raises `ValueError("negative total")`
+2. `test_raises_invalid_ratios_error` - Tests that `not ratios or sum(ratios) <= 0` raises `ValueError("invalid ratios")`
+
+**Function Properties Tests:**
+3. `test_non_negative_input` - Tests the precondition that `total >= 0` and `ratios` is not empty and `sum(ratios) > 0`
+4. `test_ratio_normalization` - Tests that shares are calculated as `[(r / total_ratio) * total for r in ratios]`
+5. `test_fee_subtraction_bug` - Tests that the fee is subtracted from every share (using default fee of 0.0)
+6. `test_sum_preservation_before_fee` - Tests that `sum(shares) == total` before fee subtraction
+7. `test_proportional_distribution` - Tests that `shares[i] / shares[j] == ratios[i] / ratios[j]` for all valid i, j
+
+The test file follows the same structure as the existing test files in the project, using Hypothesis strategies for property-based testing with appropriate assumptions to ensure valid test data. All tests are properly structured with clear docstrings and assertions that verify the semantic properties of the function.

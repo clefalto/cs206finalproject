@@ -1,0 +1,51 @@
+[
+  {
+    "scope": "branch",
+    "function": "token_expiry_check",
+    "condition": "record is None",
+    "property": "no_token_found",
+    "formal": "token_expiry_check(tokens, key, now) == None"
+  },
+  {
+    "scope": "branch",
+    "function": "token_expiry_check",
+    "condition": "now > expires_at",
+    "property": "expired_token",
+    "formal": "token_expiry_check(tokens, key, now) == None"
+  },
+  {
+    "scope": "function",
+    "function": "token_expiry_check",
+    "property": "valid_token_return",
+    "precondition": "record is not None and now <= expires_at",
+    "formal": "token_expiry_check(tokens, key, now) == value"
+  },
+  {
+    "scope": "function",
+    "function": "token_expiry_check",
+    "property": "token_expiry_boundary",
+    "precondition": "record is not None",
+    "formal": "token_expiry_check(tokens, key, expires_at) == value"
+  },
+  {
+    "scope": "function",
+    "function": "token_expiry_check",
+    "property": "monotonic_expiry",
+    "precondition": "record is not None and now1 <= now2",
+    "formal": "token_expiry_check(tokens, key, now1) != None implies token_expiry_check(tokens, key, now2) != None"
+  },
+  {
+    "scope": "function",
+    "function": "token_expiry_check",
+    "property": "key_independence",
+    "precondition": "True",
+    "formal": "token_expiry_check(tokens, key1, now) == token_expiry_check(tokens, key2, now) if tokens[key1] == tokens[key2]"
+  },
+  {
+    "scope": "function",
+    "function": "token_expiry_check",
+    "property": "deterministic",
+    "precondition": "True",
+    "formal": "token_expiry_check(tokens, key, now) == token_expiry_check(tokens, key, now)"
+  }
+]

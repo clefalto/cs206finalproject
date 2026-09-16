@@ -1,0 +1,79 @@
+[
+  {
+    "scope": "branch",
+    "function": "calibrate_latency",
+    "condition": "x1 == x0",
+    "property": "zero_length_error",
+    "formal": "raises ValueError(\"zero length\")"
+  },
+  {
+    "scope": "branch",
+    "function": "calibrate_latency",
+    "condition": "clamp",
+    "property": "output_clamped_to_y_range",
+    "formal": "y = min(max(y, min(y0, y1)), max(y0, y1))"
+  },
+  {
+    "scope": "function",
+    "function": "calibrate_latency",
+    "property": "linear_interpolation",
+    "precondition": "x1 != x0",
+    "formal": "y = (1 - t) * y0 + t * y1 where t = (x - x0) / (x1 - x0)"
+  },
+  {
+    "scope": "function",
+    "function": "calibrate_latency",
+    "property": "endpoint_preservation",
+    "precondition": "x1 != x0",
+    "formal": "calibrate_latency(x0, y0, x1, y1, x0) == y0 and calibrate_latency(x0, y0, x1, y1, x1) == y1"
+  },
+  {
+    "scope": "function",
+    "function": "calibrate_latency",
+    "property": "monotonicity_preservation",
+    "precondition": "x1 != x0 and clamp",
+    "formal": "if y0 <= y1 then min(y0, y1) <= y <= max(y0, y1)"
+  },
+  {
+    "scope": "function",
+    "function": "calibrate_latency",
+    "property": "range_clamping",
+    "precondition": "x1 != x0 and clamp",
+    "formal": "min(y0, y1) <= y <= max(y0, y1)"
+  },
+  {
+    "scope": "function",
+    "function": "calibrate_latency",
+    "property": "scale_invariance",
+    "precondition": "x1 != x0",
+    "formal": "calibrate_latency(k*x0, k*y0, k*x1, k*y1, k*x) == k*calibrate_latency(x0, y0, x1, y1, x) for any scalar k"
+  },
+  {
+    "scope": "function",
+    "function": "calibrate_latency",
+    "property": "translation_invariance",
+    "precondition": "x1 != x0",
+    "formal": "calibrate_latency(x0+c, y0+d, x1+c, y1+d, x+c) == calibrate_latency(x0, y0, x1, y1, x) + d for any constants c, d"
+  },
+  {
+    "scope": "function",
+    "function": "calibrate_latency",
+    "property": "convex_combination",
+    "precondition": "x1 != x0",
+    "formal": "y is a convex combination of y0 and y1 when t in [0, 1]"
+  },
+  {
+    "scope": "function",
+    "function": "calibrate_latency",
+    "property": "parameter_symmetry",
+    "precondition": "x1 != x0",
+    "formal": "calibrate_latency(x1, y1, x0, y0, x) == calibrate_latency(x0, y0, x1, y1, x)"
+  },
+  {
+    "scope": "function",
+    "function": "calibrate_latency",
+    "property": "clamp_idempotence",
+    "precondition": "x1 != x0 and clamp",
+    "formal": "if y is already in [min(y0,y1), max(y0,y1)] then clamping has no effect"
+  }
+]

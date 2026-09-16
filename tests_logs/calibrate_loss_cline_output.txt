@@ -1,0 +1,22 @@
+I have successfully created a comprehensive test file `tests/calibrate_loss_test.py` that uses the Hypothesis testing framework to exercise all 8 semantic properties of the `calibrate_loss` function. 
+
+The test file includes:
+
+**Core Property Tests (8 semantic properties):**
+1. **test_degenerate_segment_error** - Tests that ValueError is raised when x1 == x0
+2. **test_lower_clamp** - Tests that values below the lower bound are clamped to lo
+3. **test_upper_clamp** - Tests that values above the upper bound are clamped to hi
+4. **test_linear_interpolation** - Tests the core linear interpolation formula
+5. **test_boundary_preservation** - Tests that results stay within [min(y0,y1), max(y0,y1)] when clamped
+6. **test_endpoint_identity** - Tests that endpoints return their corresponding y values
+7. **test_monotonicity** - Tests that the function is monotonic when y1 >= y0
+8. **test_clamp_range** - Tests that clamped results are always in the valid range
+
+**Additional Edge Case Tests:**
+- Tests for clamp=False behavior
+- Tests for error message accuracy
+- Tests for clamping consistency
+
+The tests use Hypothesis strategies to generate comprehensive test cases with floats (excluding NaN and infinity) and booleans, with appropriate preconditions using `assume()` statements to handle edge cases. Floating-point comparisons use `math.isclose()` for numerical precision.
+
+All tests are properly structured with clear documentation and follow Hypothesis best practices for property-based testing.

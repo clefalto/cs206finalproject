@@ -1,0 +1,37 @@
+[
+  {
+    "scope": "branch",
+    "function": "warning_meter",
+    "condition": "cap is not None and counters[key] > cap",
+    "property": "cap_enforcement",
+    "formal": "counters[key] = cap"
+  },
+  {
+    "scope": "function",
+    "function": "warning_meter",
+    "property": "key_preservation",
+    "precondition": "key in counters",
+    "formal": "counters[key] is not None"
+  },
+  {
+    "scope": "function",
+    "function": "warning_meter",
+    "property": "cap_bound",
+    "precondition": "cap is not None",
+    "formal": "counters[key] <= cap"
+  },
+  {
+    "scope": "function",
+    "function": "warning_meter",
+    "property": "non_negative",
+    "precondition": "counters[key] >= 0",
+    "formal": "counters[key] >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "warning_meter",
+    "property": "monotonicity",
+    "precondition": "counters[key] >= 0",
+    "formal": "counters[key] <= initial_counters[key]"
+  }
+]

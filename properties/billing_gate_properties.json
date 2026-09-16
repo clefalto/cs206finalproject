@@ -1,0 +1,72 @@
+[
+  {
+    "scope": "branch",
+    "function": "billing_gate",
+    "condition": "len(active) > limit",
+    "property": "limit_exceeded_rejection",
+    "formal": "if len(active) > limit then return False, 0"
+  },
+  {
+    "scope": "branch",
+    "function": "billing_gate",
+    "condition": "not (len(active) > limit)",
+    "property": "limit_not_exceeded_approval",
+    "formal": "if not (len(active) > limit) then return True, limit - len(active)"
+  },
+  {
+    "scope": "function",
+    "function": "billing_gate",
+    "property": "boolean_return",
+    "precondition": "true",
+    "formal": "billing_gate(timestamps, now) returns (bool, int)"
+  },
+  {
+    "scope": "function",
+    "function": "billing_gate",
+    "property": "capacity_return",
+    "precondition": "not (len(active) > limit)",
+    "formal": "if not (len(active) > limit) then billing_gate(timestamps, now)[1] == limit - len(active)"
+  },
+  {
+    "scope": "function",
+    "function": "billing_gate",
+    "property": "zero_capacity_on_rejection",
+    "precondition": "len(active) > limit",
+    "formal": "if len(active) > limit then billing_gate(timestamps, now)[1] == 0"
+  },
+  {
+    "scope": "function",
+    "function": "billing_gate",
+    "property": "non_negative_capacity",
+    "precondition": "true",
+    "formal": "billing_gate(timestamps, now)[1] >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "billing_gate",
+    "property": "capacity_monotonicity",
+    "precondition": "true",
+    "formal": "if len(active1) <= len(active2) then billing_gate(timestamps1, now)[1] >= billing_gate(timestamps2, now)[1]"
+  },
+  {
+    "scope": "function",
+    "function": "billing_gate",
+    "property": "limit_bound",
+    "precondition": "true",
+    "formal": "billing_gate(timestamps, now)[1] <= limit"
+  },
+  {
+    "scope": "function",
+    "function": "billing_gate",
+    "property": "time_independence",
+    "precondition": "true",
+    "formal": "billing_gate(timestamps, now) depends only on len(active) and limit, not on specific timestamp values"
+  },
+  {
+    "scope": "function",
+    "function": "billing_gate",
+    "property": "deterministic",
+    "precondition": "true",
+    "formal": "for same inputs, billing_gate(timestamps, now) always returns same output"
+  }
+]

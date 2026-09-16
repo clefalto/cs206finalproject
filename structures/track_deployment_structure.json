@@ -1,0 +1,31 @@
+{
+    "functions": [
+        {
+            "name": "track_deployment",
+            "parameters": [
+                "counts",
+                "key"
+            ],
+            "branches": [
+                {
+                    "type": "if",
+                    "condition": "max_value is not None",
+                    "branches": [
+                        {
+                            "type": "if",
+                            "condition": "new_value > max_value",
+                            "branches": null,
+                            "body_contains": "new_value = max_value",
+                            "returns": null,
+                            "early_exit": false
+                        }
+                    ],
+                    "body_contains": "if new_value > max_value:\n            new_value = max_value",
+                    "returns": null,
+                    "early_exit": false
+                }
+            ],
+            "returns": "new_value"
+        }
+    ]
+}

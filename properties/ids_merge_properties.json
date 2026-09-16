@@ -1,0 +1,93 @@
+[
+  {
+    "scope": "branch",
+    "function": "ids_merge",
+    "condition": "left[i] <= right[j]",
+    "property": "left_element_selected",
+    "formal": "merged.append(left[i])"
+  },
+  {
+    "scope": "branch",
+    "function": "ids_merge",
+    "condition": "not (left[i] <= right[j])",
+    "property": "right_element_selected",
+    "formal": "merged.append(right[j])"
+  },
+  {
+    "scope": "branch",
+    "function": "ids_merge",
+    "condition": "merged and left and right and merged[-1] == left[-1] == right[-1]",
+    "property": "duplicate_removed",
+    "formal": "merged.pop()"
+  },
+  {
+    "scope": "function",
+    "function": "ids_merge",
+    "property": "sorted_merge",
+    "precondition": "left and right are sorted lists",
+    "formal": "merged is sorted"
+  },
+  {
+    "scope": "function",
+    "function": "ids_merge",
+    "property": "contains_all_elements",
+    "precondition": "left and right are lists",
+    "formal": "set(merged) == set(left) | set(right)"
+  },
+  {
+    "scope": "function",
+    "function": "ids_merge",
+    "property": "no_duplicates",
+    "precondition": "left and right are lists",
+    "formal": "len(set(merged)) == len(merged)"
+  },
+  {
+    "scope": "function",
+    "function": "ids_merge",
+    "property": "preserves_order",
+    "precondition": "left and right are sorted lists",
+    "formal": "relative order of elements from left and right is preserved in merged"
+  },
+  {
+    "scope": "function",
+    "function": "ids_merge",
+    "property": "empty_lists_handled",
+    "precondition": "left or right is empty",
+    "formal": "if not left: merged == right; if not right: merged == left"
+  },
+  {
+    "scope": "function",
+    "function": "ids_merge",
+    "property": "idempotent_merge",
+    "precondition": "left == right",
+    "formal": "ids_merge(left, left) == left"
+  },
+  {
+    "scope": "function",
+    "function": "ids_merge",
+    "property": "commutative_merge",
+    "precondition": "left and right are sorted lists",
+    "formal": "ids_merge(left, right) == ids_merge(right, left)"
+  },
+  {
+    "scope": "function",
+    "function": "ids_merge",
+    "property": "associative_merge",
+    "precondition": "left, right, and third are sorted lists",
+    "formal": "ids_merge(ids_merge(left, right), third) == ids_merge(left, ids_merge(right, third))"
+  },
+  {
+    "scope": "function",
+    "function": "ids_merge",
+    "property": "length_bound",
+    "precondition": "left and right are lists",
+    "formal": "len(merged) <= len(left) + len(right)"
+  },
+  {
+    "scope": "function",
+    "function": "ids_merge",
+    "property": "minimum_length",
+    "precondition": "left and right are non-empty lists",
+    "formal": "len(merged) >= max(len(left), len(right))"
+  }
+]

@@ -1,0 +1,107 @@
+[
+  {
+    "scope": "branch",
+    "function": "rebate_splitter",
+    "condition": "len(ratios) == 0",
+    "property": "empty_ratios_error",
+    "formal": "len(ratios) == 0 => raise ValueError(\"no ratios\")"
+  },
+  {
+    "scope": "branch",
+    "function": "rebate_splitter",
+    "condition": "sum(ratios) <= 0",
+    "property": "invalid_ratios_error",
+    "formal": "sum(ratios) <= 0 => raise ValueError(\"invalid ratios\")"
+  },
+  {
+    "scope": "branch",
+    "function": "rebate_splitter",
+    "condition": "amount < 0",
+    "property": "negative_amount_error",
+    "formal": "amount < 0 => raise ValueError(\"negative amount\")"
+  },
+  {
+    "scope": "function",
+    "function": "rebate_splitter",
+    "property": "ratio_sum_preservation",
+    "precondition": "len(ratios) > 0 and sum(ratios) > 0 and amount >= 0",
+    "formal": "sum([(r / sum(ratios)) * amount for r in ratios]) == amount"
+  },
+  {
+    "scope": "function",
+    "function": "rebate_splitter",
+    "property": "proportional_distribution",
+    "precondition": "len(ratios) > 0 and sum(ratios) > 0 and amount >= 0 and fee == 0",
+    "formal": "all(result[i] / result[j] == ratios[i] / ratios[j] for i in range(len(ratios)) for j in range(len(ratios)) if ratios[j] != 0)"
+  },
+  {
+    "scope": "function",
+    "function": "rebate_splitter",
+    "property": "fee_deduction",
+    "precondition": "len(ratios) > 0 and sum(ratios) > 0 and amount >= 0",
+    "formal": "all(result[i] == base[i] - fee for i in range(len(ratios)))"
+  },
+  {
+    "scope": "function",
+    "function": "rebate_splitter",
+    "property": "output_length_preservation",
+    "precondition": "len(ratios) > 0 and sum(ratios) > 0 and amount >= 0",
+    "formal": "len(result) == len(ratios)"
+  },
+  {
+    "scope": "function",
+    "function": "rebate_splitter",
+    "property": "non_negative_base_shares",
+    "precondition": "len(ratios) > 0 and sum(ratios) > 0 and amount >= 0",
+    "formal": "all(base[i] >= 0 for i in range(len(ratios)))"
+  },
+  {
+    "scope": "function",
+    "function": "rebate_splitter",
+    "property": "monotonic_amount",
+    "precondition": "len(ratios) > 0 and sum(ratios) > 0 and fee == 0",
+    "formal": "amount1 >= amount2 => all(result1[i] >= result2[i] for i in range(len(ratios)))"
+  },
+  {
+    "scope": "function",
+    "function": "rebate_splitter",
+    "property": "zero_amount_zero_result",
+    "precondition": "len(ratios) > 0 and sum(ratios) > 0",
+    "formal": "amount == 0 => all(result[i] == 0 for i in range(len(ratios)))"
+  },
+  {
+    "scope": "function",
+    "function": "rebate_splitter",
+    "property": "fee_bug_invariant",
+    "precondition": "len(ratios) > 0 and sum(ratios) > 0 and amount >= 0",
+    "formal": "sum(result) == amount - (fee * len(ratios))  # BUG: should be amount - fee"
+  },
+  {
+    "scope": "function",
+    "function": "rebate_splitter",
+    "property": "ratio_scaling_invariance",
+    "precondition": "len(ratios) > 0 and sum(ratios) > 0 and amount >= 0 and fee == 0",
+    "formal": "rebate_splitter(amount, [k*r for r in ratios]) == rebate_splitter(amount, ratios) for any k > 0"
+  },
+  {
+    "scope": "function",
+    "function": "rebate_splitter",
+    "property": "amount_scaling_linearity",
+    "precondition": "len(ratios) > 0 and sum(ratios) > 0 and fee == 0",
+    "formal": "rebate_splitter(k*amount, ratios) == [k*x for x in rebate_splitter(amount, ratios)] for any k >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "rebate_splitter",
+    "property": "fee_additivity",
+    "precondition": "len(ratios) > 0 and sum(ratios) > 0 and amount >= 0",
+    "formal": "rebate_splitter(amount, ratios, fee=fee1+fee2) == [x - fee2 for x in rebate_splitter(amount, ratios, fee=fee1)]"
+  },
+  {
+    "scope": "function",
+    "function": "rebate_splitter",
+    "property": "zero_fee_identity",
+    "precondition": "len(ratios) > 0 and sum(ratios) > 0 and amount >= 0",
+    "formal": "fee == 0 => result == [(r / sum(ratios)) * amount for r in ratios]"
+  }
+]

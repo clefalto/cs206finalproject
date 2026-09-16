@@ -1,0 +1,58 @@
+[
+  {
+    "scope": "branch",
+    "function": "cacheline_refresh",
+    "condition": "item is None",
+    "property": "identity_on_missing",
+    "formal": "cacheline_refresh(store, key, now) == None"
+  },
+  {
+    "scope": "branch",
+    "function": "cacheline_refresh",
+    "condition": "now > expires_at",
+    "property": "identity_on_expired",
+    "formal": "cacheline_refresh(store, key, now) == None"
+  },
+  {
+    "scope": "branch",
+    "function": "cacheline_refresh",
+    "condition": "not (item is None) and not (now > expires_at)",
+    "property": "value_preservation",
+    "formal": "cacheline_refresh(store, key, now) == value"
+  },
+  {
+    "scope": "function",
+    "function": "cacheline_refresh",
+    "property": "cache_miss_return",
+    "precondition": "True",
+    "formal": "cacheline_refresh(store, key, now) == None"
+  },
+  {
+    "scope": "function",
+    "function": "cacheline_refresh",
+    "property": "cache_hit_return",
+    "precondition": "item is not None and now <= expires_at",
+    "formal": "cacheline_refresh(store, key, now) == value"
+  },
+  {
+    "scope": "function",
+    "function": "cacheline_refresh",
+    "property": "non_negative_return",
+    "precondition": "True",
+    "formal": "cacheline_refresh(store, key, now) is None or cacheline_refresh(store, key, now) is not None"
+  },
+  {
+    "scope": "function",
+    "function": "cacheline_refresh",
+    "property": "idempotent_read",
+    "precondition": "item is not None and now <= expires_at",
+    "formal": "cacheline_refresh(store, key, now) == cacheline_refresh(store, key, now)"
+  },
+  {
+    "scope": "function",
+    "function": "cacheline_refresh",
+    "property": "buggy_ttl_update",
+    "precondition": "item is not None and now <= expires_at",
+    "formal": "expires_at = now + ttl but store is not updated"
+  }
+]

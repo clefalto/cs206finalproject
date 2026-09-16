@@ -1,0 +1,58 @@
+[
+    {
+        "scope": "branch",
+        "function": "blend_orders",
+        "condition": "a < b",
+        "property": "append_smaller_first",
+        "formal": "merged.append(a) and i += 1"
+    },
+    {
+        "scope": "branch",
+        "function": "blend_orders",
+        "condition": "b < a",
+        "property": "append_smaller_first",
+        "formal": "merged.append(b) and j += 1"
+    },
+    {
+        "scope": "branch",
+        "function": "blend_orders",
+        "condition": "not (a < b and b < a)",
+        "property": "append_equal_elements",
+        "formal": "merged.append(a) and merged.append(b) and i += 1 and j += 1"
+    },
+    {
+        "scope": "branch",
+        "function": "blend_orders",
+        "condition": "merged and left and right and merged[-1] == left[-1] == right[-1]",
+        "property": "remove_duplicate_last",
+        "formal": "merged.pop()"
+    },
+    {
+        "scope": "function",
+        "function": "blend_orders",
+        "property": "sorted_output",
+        "precondition": "left and right are sorted lists",
+        "formal": "is_sorted(blend_orders(left, right))"
+    },
+    {
+        "scope": "function",
+        "function": "blend_orders",
+        "property": "length_preserved",
+        "precondition": "True",
+        "formal": "len(blend_orders(left, right)) == len(left) + len(right) - (1 if left and right and left[-1] == right[-1] else 0)"
+    },
+    {
+        "scope": "function",
+        "function": "blend_orders",
+        "property": "merge_correctness",
+        "precondition": "left and right are sorted lists",
+        "formal": "blend_orders(left, right) == sorted(left + right)"
+    },
+    {
+        "scope": "function",
+        "function": "blend_orders",
+        "property": "idempotent",
+        "precondition": "left and right are sorted lists",
+        "formal": "blend_orders(blend_orders(left, right), []) == blend_orders(left, right)"
+    }
+]

@@ -1,0 +1,51 @@
+[
+  {
+    "scope": "branch",
+    "function": "timestamps_stream",
+    "condition": "left[i] <= right[j]",
+    "property": "left_element_selected",
+    "formal": "merged.append(left[i])"
+  },
+  {
+    "scope": "branch",
+    "function": "timestamps_stream",
+    "condition": "not (left[i] <= right[j])",
+    "property": "right_element_selected",
+    "formal": "merged.append(right[j])"
+  },
+  {
+    "scope": "branch",
+    "function": "timestamps_stream",
+    "condition": "merged and left and right and merged[-1] == left[-1] == right[-1]",
+    "property": "duplicate_removed",
+    "formal": "merged.pop()"
+  },
+  {
+    "scope": "function",
+    "function": "timestamps_stream",
+    "property": "sorted_merge",
+    "precondition": "left and right are sorted lists",
+    "formal": "merged is sorted"
+  },
+  {
+    "scope": "function",
+    "function": "timestamps_stream",
+    "property": "no_duplicates",
+    "precondition": "left and right contain no duplicates",
+    "formal": "merged contains no duplicates"
+  },
+  {
+    "scope": "function",
+    "function": "timestamps_stream",
+    "property": "contains_all_elements",
+    "precondition": "left and right are non-empty",
+    "formal": "merged contains all elements from left and right"
+  },
+  {
+    "scope": "function",
+    "function": "timestamps_stream",
+    "property": "preserves_order",
+    "precondition": "left and right are sorted",
+    "formal": "relative order of elements from left and right is preserved in merged"
+  }
+]

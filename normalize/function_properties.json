@@ -1,0 +1,30 @@
+[
+    {
+        "scope": "function",
+        "function": "normalize",
+        "property": "unit_sum",
+        "precondition": "sum(xs) != 0",
+        "formal": "sum(normalize(xs)) == 1"
+    },
+    {
+        "scope": "function",
+        "function": "normalize",
+        "property": "non_negative_outputs",
+        "precondition": "all(x >= 0 for x in xs)",
+        "formal": "all(x >= 0 for x in normalize(xs))"
+    },
+    {
+        "scope": "function",
+        "function": "normalize",
+        "property": "scale_invariance",
+        "precondition": "c != 0",
+        "formal": "normalize([c * x for x in xs]) == normalize(xs)"
+    },
+    {
+        "scope": "function",
+        "function": "normalize",
+        "property": "identity_on_empty",
+        "precondition": "len(xs) == 0",
+        "formal": "normalize(xs) == xs"
+    }
+]

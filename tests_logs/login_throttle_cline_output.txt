@@ -1,0 +1,29 @@
+I have successfully created a comprehensive Hypothesis test file for the login_throttle function semantic properties. The test file `tests/login_throttle_test.py` contains:
+
+**12 Test Methods Covering All Semantic Properties:**
+
+1. **Branch Properties (2 tests):**
+   - `test_block_on_excess_attempts_branch_property`: Tests that when recent attempts exceed limit, function returns (False, 0)
+   - `test_allow_on_within_limit_branch_property`: Tests that when within limit, function returns (True, remaining allowance)
+
+2. **Function Properties (10 tests):**
+   - `test_monotonic_allowance_function_property`: Verifies allowance calculation when within limit
+   - `test_block_on_limit_exceeded_function_property`: Confirms blocking behavior when limit exceeded
+   - `test_non_negative_allowance_function_property`: Ensures allowance is never negative
+   - `test_window_filtering_function_property`: Validates timestamp filtering logic
+   - `test_deterministic_output_function_property`: Confirms deterministic behavior
+   - `test_time_monotonicity_function_property`: Tests that allowance increases with time
+   - `test_limit_monotonicity_function_property`: Verifies allowance increases with higher limits
+   - `test_window_monotonicity_function_property`: Confirms allowance decreases with larger windows
+   - `test_empty_timestamps_identity_function_property`: Tests behavior with empty timestamp list
+   - `test_max_allowance_bound_function_property`: Ensures allowance never exceeds limit
+
+**Key Features:**
+- Uses Hypothesis strategies for comprehensive property-based testing
+- Includes proper assumptions (`assume()`) to ensure test preconditions
+- Provides clear, descriptive test names and docstrings
+- Follows pytest conventions with organized test class structure
+- Includes proper imports and execution block
+- All tests are ready to run with `pytest tests/login_throttle_test.py -v`
+
+The test file is located in the `tests` directory with the required `_test.py` suffix and is ready for execution when needed.

@@ -1,0 +1,82 @@
+[
+  {
+    "scope": "branch",
+    "function": "api_rate_guard",
+    "condition": "len(recent) > limit",
+    "property": "rate_limit_exceeded",
+    "formal": "api_rate_guard(timestamps, now, window, limit) == (False, 0)"
+  },
+  {
+    "scope": "branch",
+    "function": "api_rate_guard",
+    "condition": "not (len(recent) > limit)",
+    "property": "rate_limit_allowed",
+    "formal": "api_rate_guard(timestamps, now, window, limit) == (True, limit - len(recent))"
+  },
+  {
+    "scope": "function",
+    "function": "api_rate_guard",
+    "property": "return_type_consistency",
+    "formal": "isinstance(api_rate_guard(timestamps, now, window, limit), tuple) and len(api_rate_guard(timestamps, now, window, limit)) == 2"
+  },
+  {
+    "scope": "function",
+    "function": "api_rate_guard",
+    "property": "boolean_first_element",
+    "formal": "type(api_rate_guard(timestamps, now, window, limit)[0]) == bool"
+  },
+  {
+    "scope": "function",
+    "function": "api_rate_guard",
+    "property": "non_negative_second_element",
+    "formal": "api_rate_guard(timestamps, now, window, limit)[1] >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "api_rate_guard",
+    "property": "monotonic_quota_decrease",
+    "formal": "len(timestamps1) <= len(timestamps2) implies api_rate_guard(timestamps1, now, window, limit)[1] >= api_rate_guard(timestamps2, now, window, limit)[1]"
+  },
+  {
+    "scope": "function",
+    "function": "api_rate_guard",
+    "property": "window_boundary_consistency",
+    "formal": "all(t >= now - window for t in recent) and all(t < now - window for t in timestamps if t not in recent)"
+  },
+  {
+    "scope": "function",
+    "function": "api_rate_guard",
+    "property": "limit_respect",
+    "formal": "api_rate_guard(timestamps, now, window, limit)[1] <= limit"
+  },
+  {
+    "scope": "function",
+    "function": "api_rate_guard",
+    "property": "empty_timestamps_allowed",
+    "formal": "api_rate_guard([], now, window, limit) == (True, limit)"
+  },
+  {
+    "scope": "function",
+    "function": "api_rate_guard",
+    "property": "time_monotonicity",
+    "formal": "now1 <= now2 implies api_rate_guard(timestamps, now1, window, limit)[1] <= api_rate_guard(timestamps, now2, window, limit)[1]"
+  },
+  {
+    "scope": "function",
+    "function": "api_rate_guard",
+    "property": "window_parameter_effect",
+    "formal": "window1 <= window2 implies api_rate_guard(timestamps, now, window1, limit)[1] <= api_rate_guard(timestamps, now, window2, limit)[1]"
+  },
+  {
+    "scope": "function",
+    "function": "api_rate_guard",
+    "property": "limit_parameter_effect",
+    "formal": "limit1 <= limit2 implies api_rate_guard(timestamps, now, window, limit1)[1] <= api_rate_guard(timestamps, now, window, limit2)[1]"
+  },
+  {
+    "scope": "function",
+    "function": "api_rate_guard",
+    "property": "boundary_bug_invariant",
+    "formal": "len(recent) == limit implies api_rate_guard(timestamps, now, window, limit) == (True, 0)"
+  }
+]

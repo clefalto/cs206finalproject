@@ -1,0 +1,58 @@
+[
+  {
+    "scope": "branch",
+    "function": "budget_mix",
+    "condition": "len(current) != len(target)",
+    "property": "shape_mismatch_error",
+    "formal": "budget_mix(current, target) raises ValueError(\"shape mismatch\")"
+  },
+  {
+    "scope": "branch",
+    "function": "budget_mix",
+    "condition": "not current",
+    "property": "empty_allocation_error",
+    "formal": "budget_mix(current, target) raises ValueError(\"empty allocation\")"
+  },
+  {
+    "scope": "function",
+    "function": "budget_mix",
+    "property": "shape_consistency",
+    "precondition": "len(current) == len(target)",
+    "formal": "len(budget_mix(current, target)) == len(current)"
+  },
+  {
+    "scope": "function",
+    "function": "budget_mix",
+    "property": "non_empty_input",
+    "precondition": "current != []",
+    "formal": "budget_mix(current, target) is not None"
+  },
+  {
+    "scope": "function",
+    "function": "budget_mix",
+    "property": "linear_interpolation",
+    "precondition": "len(current) == len(target) and current != []",
+    "formal": "budget_mix(current, target)[i] == current[i] + (target[i] - current[i]) * damping for all i"
+  },
+  {
+    "scope": "function",
+    "function": "budget_mix",
+    "property": "identity_on_same_inputs",
+    "precondition": "current == target and current != []",
+    "formal": "budget_mix(current, target) == current"
+  },
+  {
+    "scope": "function",
+    "function": "budget_mix",
+    "property": "damping_factor_effect",
+    "precondition": "len(current) == len(target) and current != []",
+    "formal": "budget_mix(current, target) moves current towards target by factor damping"
+  },
+  {
+    "scope": "function",
+    "function": "budget_mix",
+    "property": "no_renormalization_bug",
+    "precondition": "len(current) == len(target) and current != [] and sum(current) == 1.0",
+    "formal": "sum(budget_mix(current, target)) != 1.0 in general"
+  }
+]

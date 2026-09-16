@@ -1,0 +1,20 @@
+I have successfully created a comprehensive test file for the adjust_queue function using the Hypothesis testing framework. The test file `tests/adjust_queue_test.py` contains tests for all 8 semantic properties identified in the properties/adjust_queue_properties.json file:
+
+1. **test_shape_mismatch_error**: Tests that ValueError is raised when current and target have different lengths
+2. **test_empty_allocation_error**: Tests that ValueError is raised when current is empty
+3. **test_shape_consistency**: Verifies that output length matches input length when shapes are consistent
+4. **test_non_empty_input**: Ensures non-empty input produces non-empty output
+5. **test_linear_interpolation**: Validates the core linear interpolation formula for all elements
+6. **test_damping_factor_effect**: Tests edge cases where damping=0 (returns current) and damping=1 (returns target)
+7. **test_monotonicity_preservation**: Verifies that results stay between current and target values when current[i] <= target[i]
+8. **test_total_drift**: Tests that the sum generally changes due to the interpolation process
+
+The test file includes:
+- Proper Hypothesis strategies for generating test data
+- Appropriate assumptions to filter test cases
+- Comprehensive error handling verification
+- Floating-point precision handling with tolerance
+- Clear documentation and test structure
+- Direct implementation of the adjust_queue function for testing
+
+All tests are designed to run with pytest and use Hypothesis's property-based testing approach to thoroughly exercise the semantic properties across a wide range of inputs.

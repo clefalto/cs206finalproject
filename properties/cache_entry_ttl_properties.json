@@ -1,0 +1,44 @@
+[
+  {
+    "scope": "branch",
+    "function": "cache_entry_ttl",
+    "condition": "key not in entries",
+    "property": "missing_key_returns_none",
+    "formal": "cache_entry_ttl(entries, key, now) == None"
+  },
+  {
+    "scope": "branch",
+    "function": "cache_entry_ttl",
+    "condition": "now > expires",
+    "property": "expired_entry_returns_none",
+    "formal": "cache_entry_ttl(entries, key, now) == None"
+  },
+  {
+    "scope": "function",
+    "function": "cache_entry_ttl",
+    "property": "valid_entry_returns_value",
+    "precondition": "key in entries and now <= entries[key][1]",
+    "formal": "cache_entry_ttl(entries, key, now) == entries[key][0]"
+  },
+  {
+    "scope": "function",
+    "function": "cache_entry_ttl",
+    "property": "non_negative_time",
+    "precondition": "now >= 0",
+    "formal": "cache_entry_ttl(entries, key, now) is not None or True"
+  },
+  {
+    "scope": "function",
+    "function": "cache_entry_ttl",
+    "property": "monotonic_expiry",
+    "precondition": "key in entries and now1 <= now2",
+    "formal": "cache_entry_ttl(entries, key, now1) is not None implies cache_entry_ttl(entries, key, now2) is not None"
+  },
+  {
+    "scope": "function",
+    "function": "cache_entry_ttl",
+    "property": "deterministic_lookup",
+    "precondition": "True",
+    "formal": "cache_entry_ttl(entries, key, now) == cache_entry_ttl(entries, key, now)"
+  }
+]

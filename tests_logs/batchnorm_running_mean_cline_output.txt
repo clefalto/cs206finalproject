@@ -1,0 +1,27 @@
+I have successfully created a comprehensive test file for the batchnorm_running_mean function using the Hypothesis testing framework. The test file `tests/batchnorm_running_mean_test.py` contains 13 test methods that exercise all the semantic properties identified in `properties/batchnorm_running_mean_properties.json`:
+
+**Test Coverage:**
+
+1. **test_invalid_momentum_error** - Tests the branch property that raises ValueError when momentum is outside [0,1]
+2. **test_momentum_range_validation** - Tests the function property for momentum range validation
+3. **test_weighted_average_update** - Tests the core weighted average calculation
+4. **test_convex_combination** - Tests that the result is a convex combination of inputs
+5. **test_momentum_weight_swap_bug** - Tests the specific weight assignment pattern
+6. **test_aggressive_update_behavior** - Tests behavior when momentum > 0.5
+7. **test_conservative_update_behavior** - Tests behavior when momentum < 0.5
+8. **test_equal_weight_update** - Tests the special case when momentum = 0.5
+9. **test_current_mean_preservation** - Tests the special case when momentum = 0
+10. **test_batch_mean_preservation** - Tests the special case when momentum = 1
+11. **test_linear_interpolation** - Tests that result lies on the line segment between inputs
+12. **test_momentum_monotonicity** - Tests monotonic behavior with respect to momentum changes
+13. **test_numerical_stability** - Tests that results remain finite for valid inputs
+
+**Key Features:**
+- Uses Hypothesis strategies for comprehensive property-based testing
+- Includes proper assumptions to filter test data
+- Handles floating-point precision with appropriate tolerances
+- Tests both branch conditions and function-level properties
+- Follows pytest conventions with proper test class structure
+- Includes detailed docstrings explaining each test's purpose
+
+The test file is ready to be executed with pytest and will thoroughly validate all semantic properties of the batchnorm_running_mean function.

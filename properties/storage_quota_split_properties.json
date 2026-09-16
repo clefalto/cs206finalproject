@@ -1,0 +1,51 @@
+[
+  {
+    "scope": "branch",
+    "function": "storage_quota_split",
+    "condition": "total < 0",
+    "property": "negative_total_error",
+    "formal": "if total < 0 then ValueError(\"negative total\") is raised"
+  },
+  {
+    "scope": "branch",
+    "function": "storage_quota_split",
+    "condition": "not ratios or sum(ratios) <= 0",
+    "property": "invalid_ratios_error",
+    "formal": "if not ratios or sum(ratios) <= 0 then ValueError(\"invalid ratios\") is raised"
+  },
+  {
+    "scope": "function",
+    "function": "storage_quota_split",
+    "property": "non_negative_input",
+    "precondition": "total >= 0 and ratios is not empty and sum(ratios) > 0",
+    "formal": "if total >= 0 and ratios is not empty and sum(ratios) > 0 then function proceeds to compute shares"
+  },
+  {
+    "scope": "function",
+    "function": "storage_quota_split",
+    "property": "ratio_normalization",
+    "precondition": "ratios is not empty and sum(ratios) > 0",
+    "formal": "shares = [(r / total_ratio) * total for r in ratios] where total_ratio = sum(ratios)"
+  },
+  {
+    "scope": "function",
+    "function": "storage_quota_split",
+    "property": "fee_subtraction_bug",
+    "precondition": "function completes without raising ValueError",
+    "formal": "return [s - fee for s in shares] where fee is subtracted from every share"
+  },
+  {
+    "scope": "function",
+    "function": "storage_quota_split",
+    "property": "sum_preservation_before_fee",
+    "precondition": "ratios is not empty and sum(ratios) > 0",
+    "formal": "sum(shares) == total before fee subtraction"
+  },
+  {
+    "scope": "function",
+    "function": "storage_quota_split",
+    "property": "proportional_distribution",
+    "precondition": "ratios is not empty and sum(ratios) > 0",
+    "formal": "shares[i] / shares[j] == ratios[i] / ratios[j] for all valid i, j"
+  }
+]

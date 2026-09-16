@@ -1,0 +1,114 @@
+[
+  {
+    "scope": "branch",
+    "function": "versions_stream",
+    "condition": "a < b",
+    "property": "append_smaller_element",
+    "formal": "merged.append(a) and i += 1"
+  },
+  {
+    "scope": "branch",
+    "function": "versions_stream",
+    "condition": "b < a",
+    "property": "append_smaller_element",
+    "formal": "merged.append(b) and j += 1"
+  },
+  {
+    "scope": "branch",
+    "function": "versions_stream",
+    "condition": "not (a < b and b < a)",
+    "property": "append_equal_elements",
+    "formal": "merged.append(a) and merged.append(b) and i += 1 and j += 1"
+  },
+  {
+    "scope": "branch",
+    "function": "versions_stream",
+    "condition": "merged and left and right and merged[-1] == left[-1] == right[-1]",
+    "property": "remove_duplicate_end",
+    "formal": "merged.pop()"
+  },
+  {
+    "scope": "function",
+    "function": "versions_stream",
+    "property": "monotonic_order",
+    "precondition": "left and right are sorted in ascending order",
+    "formal": "all(merged[i] <= merged[i+1] for i in range(len(merged)-1))"
+  },
+  {
+    "scope": "function",
+    "function": "versions_stream",
+    "property": "contains_all_elements",
+    "precondition": "true",
+    "formal": "sorted(merged) == sorted(left + right)"
+  },
+  {
+    "scope": "function",
+    "function": "versions_stream",
+    "property": "preserves_duplicates",
+    "precondition": "elements appear in both input lists",
+    "formal": "count(x, merged) == count(x, left) + count(x, right) for all x"
+  },
+  {
+    "scope": "function",
+    "function": "versions_stream",
+    "property": "handles_empty_lists",
+    "precondition": "left is empty or right is empty",
+    "formal": "if not left: merged == right elif not right: merged == left"
+  },
+  {
+    "scope": "function",
+    "function": "versions_stream",
+    "property": "associative_merge",
+    "precondition": "true",
+    "formal": "versions_stream(versions_stream(a, b), c) == versions_stream(a, versions_stream(b, c))"
+  },
+  {
+    "scope": "function",
+    "function": "versions_stream",
+    "property": "commutative_merge",
+    "precondition": "true",
+    "formal": "versions_stream(left, right) == versions_stream(right, left)"
+  },
+  {
+    "scope": "function",
+    "function": "versions_stream",
+    "property": "idempotent_end_removal",
+    "precondition": "merged[-1] == left[-1] == right[-1]",
+    "formal": "if merged and left and right and merged[-1] == left[-1] == right[-1]: len(merged) decreases by 1"
+  },
+  {
+    "scope": "function",
+    "function": "versions_stream",
+    "property": "length_bound",
+    "precondition": "true",
+    "formal": "len(merged) <= len(left) + len(right)"
+  },
+  {
+    "scope": "function",
+    "function": "versions_stream",
+    "property": "length_exact",
+    "precondition": "no common elements at end of both lists",
+    "formal": "len(merged) == len(left) + len(right)"
+  },
+  {
+    "scope": "function",
+    "function": "versions_stream",
+    "property": "first_element_preservation",
+    "precondition": "left and right are non-empty",
+    "formal": "merged[0] == min(left[0], right[0])"
+  },
+  {
+    "scope": "function",
+    "function": "versions_stream",
+    "property": "last_element_preservation",
+    "precondition": "left and right are non-empty and last elements are different",
+    "formal": "merged[-1] == max(left[-1], right[-1])"
+  },
+  {
+    "scope": "function",
+    "function": "versions_stream",
+    "property": "bug_invariant",
+    "precondition": "left and right end with same element",
+    "formal": "BUG: removes one occurrence of the common last element"
+  }
+]

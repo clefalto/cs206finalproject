@@ -1,0 +1,58 @@
+[
+  {
+    "scope": "branch",
+    "function": "calibrate_loss",
+    "condition": "x1 == x0",
+    "property": "degenerate_segment_error",
+    "formal": "calibrate_loss(x0, y0, x0, y1, x) raises ValueError"
+  },
+  {
+    "scope": "branch",
+    "function": "calibrate_loss",
+    "condition": "clamp and y < lo",
+    "property": "lower_clamp",
+    "formal": "if clamp and y < lo then y = lo"
+  },
+  {
+    "scope": "branch",
+    "function": "calibrate_loss",
+    "condition": "clamp and y > hi",
+    "property": "upper_clamp",
+    "formal": "if clamp and y > hi then y = hi"
+  },
+  {
+    "scope": "function",
+    "function": "calibrate_loss",
+    "property": "linear_interpolation",
+    "precondition": "x1 != x0",
+    "formal": "calibrate_loss(x0, y0, x1, y1, x) = y0 + ((x - x0) / (x1 - x0)) * (y1 - y0)"
+  },
+  {
+    "scope": "function",
+    "function": "calibrate_loss",
+    "property": "boundary_preservation",
+    "precondition": "x1 != x0 and clamp",
+    "formal": "min(y0, y1) <= calibrate_loss(x0, y0, x1, y1, x) <= max(y0, y1)"
+  },
+  {
+    "scope": "function",
+    "function": "calibrate_loss",
+    "property": "endpoint_identity",
+    "precondition": "x1 != x0",
+    "formal": "calibrate_loss(x0, y0, x1, y1, x0) == y0 and calibrate_loss(x0, y0, x1, y1, x1) == y1"
+  },
+  {
+    "scope": "function",
+    "function": "calibrate_loss",
+    "property": "monotonicity",
+    "precondition": "x1 != x0 and y1 >= y0",
+    "formal": "if x_a <= x_b then calibrate_loss(x0, y0, x1, y1, x_a) <= calibrate_loss(x0, y0, x1, y1, x_b)"
+  },
+  {
+    "scope": "function",
+    "function": "calibrate_loss",
+    "property": "clamp_range",
+    "precondition": "x1 != x0 and clamp",
+    "formal": "calibrate_loss(x0, y0, x1, y1, x) in [min(y0, y1), max(y0, y1)]"
+  }
+]

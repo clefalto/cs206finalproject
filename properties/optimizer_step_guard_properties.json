@@ -1,0 +1,65 @@
+[
+  {
+    "scope": "branch",
+    "function": "optimizer_step_guard",
+    "condition": "loss_value < 0",
+    "property": "negative_loss_rejection",
+    "formal": "optimizer_step_guard(loss_value) raises ValueError when loss_value < 0"
+  },
+  {
+    "scope": "branch",
+    "function": "optimizer_step_guard",
+    "condition": "loss_value == loss_value and loss_value > max_loss",
+    "property": "max_loss_violation_rejection",
+    "formal": "optimizer_step_guard(loss_value) returns False when loss_value > max_loss and loss_value is not NaN"
+  },
+  {
+    "scope": "branch",
+    "function": "optimizer_step_guard",
+    "condition": "not (loss_value == loss_value and loss_value > max_loss)",
+    "property": "acceptance_on_valid_loss",
+    "formal": "optimizer_step_guard(loss_value) returns True when loss_value <= max_loss or loss_value is NaN"
+  },
+  {
+    "scope": "function",
+    "function": "optimizer_step_guard",
+    "property": "non_negative_loss_requirement",
+    "precondition": "loss_value is a number",
+    "formal": "optimizer_step_guard(loss_value) raises ValueError if loss_value < 0"
+  },
+  {
+    "scope": "function",
+    "function": "optimizer_step_guard",
+    "property": "max_loss_bound_check",
+    "precondition": "loss_value >= 0 and loss_value is not NaN",
+    "formal": "optimizer_step_guard(loss_value) returns False if loss_value > max_loss"
+  },
+  {
+    "scope": "function",
+    "function": "optimizer_step_guard",
+    "property": "NaN_acceptance_bug",
+    "precondition": "loss_value is NaN",
+    "formal": "optimizer_step_guard(loss_value) returns True when loss_value is NaN (inverted NaN check)"
+  },
+  {
+    "scope": "function",
+    "function": "optimizer_step_guard",
+    "property": "guard_acceptance",
+    "precondition": "0 <= loss_value <= max_loss",
+    "formal": "optimizer_step_guard(loss_value) returns True for valid loss values"
+  },
+  {
+    "scope": "function",
+    "function": "optimizer_step_guard",
+    "property": "guard_rejection",
+    "precondition": "loss_value < 0 or (loss_value > max_loss and loss_value is not NaN)",
+    "formal": "optimizer_step_guard(loss_value) raises ValueError or returns False for invalid loss values"
+  },
+  {
+    "scope": "function",
+    "function": "optimizer_step_guard",
+    "property": "monotonicity_violation",
+    "precondition": "loss_value1 < loss_value2 and both are valid",
+    "formal": "optimizer_step_guard may return False for smaller valid loss and True for larger invalid loss due to NaN handling"
+  }
+]

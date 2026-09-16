@@ -1,0 +1,86 @@
+[
+  {
+    "scope": "branch",
+    "function": "limit_sensor",
+    "condition": "len(active) > limit",
+    "property": "sensor_blocked",
+    "formal": "if len(active) > limit then return False, 0"
+  },
+  {
+    "scope": "branch",
+    "function": "limit_sensor",
+    "condition": "not (len(active) > limit)",
+    "property": "sensor_allowed",
+    "formal": "if not (len(active) > limit) then return True, limit - len(active)"
+  },
+  {
+    "scope": "function",
+    "function": "limit_sensor",
+    "property": "boolean_status",
+    "precondition": "true",
+    "formal": "limit_sensor(timestamps, now, window, limit) returns (bool, int) where bool indicates if sensor action is allowed"
+  },
+  {
+    "scope": "function",
+    "function": "limit_sensor",
+    "property": "remaining_count",
+    "precondition": "true",
+    "formal": "limit_sensor(timestamps, now, window, limit) returns (status, remaining) where remaining >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "limit_sensor",
+    "property": "sliding_window_filter",
+    "precondition": "true",
+    "formal": "active = [t for t in timestamps if t >= (now - window)]"
+  },
+  {
+    "scope": "function",
+    "function": "limit_sensor",
+    "property": "boundary_conditions",
+    "precondition": "true",
+    "formal": "if len(active) == 0 then remaining == limit, if len(active) >= limit then status == False"
+  },
+  {
+    "scope": "function",
+    "function": "limit_sensor",
+    "property": "monotonic_remaining",
+    "precondition": "true",
+    "formal": "if len(active) increases then remaining decreases or stays same"
+  },
+  {
+    "scope": "function",
+    "function": "limit_sensor",
+    "property": "idempotency",
+    "precondition": "true",
+    "formal": "limit_sensor(timestamps, now, window, limit) == limit_sensor(timestamps, now, window, limit) for same inputs"
+  },
+  {
+    "scope": "function",
+    "function": "limit_sensor",
+    "property": "deterministic",
+    "precondition": "true",
+    "formal": "same inputs always produce same outputs"
+  },
+  {
+    "scope": "function",
+    "function": "limit_sensor",
+    "property": "window_boundary",
+    "precondition": "true",
+    "formal": "only timestamps >= (now - window) are considered in active count"
+  },
+  {
+    "scope": "function",
+    "function": "limit_sensor",
+    "property": "bug_boundary_condition",
+    "precondition": "true",
+    "formal": "BUG: when len(active) == limit, returns True, 0 (permits one extra action)"
+  },
+  {
+    "scope": "function",
+    "function": "limit_sensor",
+    "property": "non_negative_remaining",
+    "precondition": "true",
+    "formal": "remaining = max(0, limit - len(active))"
+  }
+]

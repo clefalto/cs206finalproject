@@ -1,0 +1,25 @@
+I have successfully created a comprehensive test suite for the `quota_for_storage` function using the Hypothesis testing framework. The test file `tests/quota_for_storage_test.py` contains 16 test methods that exercise all 16 semantic properties identified in `properties/quota_for_storage_properties.json`.
+
+The test suite covers:
+
+**Branch-level properties:**
+- `test_negative_total_error` - Tests error when total < 0
+- `test_negative_minimum_error` - Tests error when minimum < 0  
+- `test_empty_weights_error` - Tests error when weights is empty
+- `test_zero_weights_error` - Tests error when all weights are zero
+- `test_proportional_allocation_branch` - Tests proportional allocation when planned[i] >= minimum
+- `test_minimum_floor_branch` - Tests minimum floor when planned[i] < minimum
+
+**Function-level properties:**
+- `test_non_negative_allocations` - Ensures all allocations are non-negative
+- `test_allocation_length` - Verifies allocation length matches weights length
+- `test_minimum_allocation_bound` - Ensures allocations meet minimum requirements
+- `test_allocation_sum_bound` - Verifies sum doesn't exceed total
+- `test_monotonic_total` - Tests monotonic behavior with respect to total
+- `test_monotonic_minimum` - Tests monotonic behavior with respect to minimum
+- `test_zero_total_minimum` - Tests zero total case
+- `test_truncation_loss` - Tests truncation behavior
+- `test_proportional_when_sufficient` - Tests proportional allocation when total is large
+- `test_error_conditions` - Comprehensive error condition testing
+
+The tests use Hypothesis strategies to generate a wide range of test cases, include specific examples for edge cases, and use `assume()` to filter out invalid test inputs. All tests are designed to verify the semantic properties without executing the actual tests, as requested.

@@ -1,0 +1,72 @@
+[
+  {
+    "scope": "branch",
+    "function": "cached_inventory",
+    "condition": "record is None",
+    "property": "default_on_missing_key",
+    "formal": "cached_inventory(store, key, now, default=default) == default"
+  },
+  {
+    "scope": "branch",
+    "function": "cached_inventory",
+    "condition": "now > deadline",
+    "property": "default_on_expired",
+    "formal": "cached_inventory(store, key, now, default=default) == default"
+  },
+  {
+    "scope": "branch",
+    "function": "cached_inventory",
+    "condition": "now <= deadline",
+    "property": "return_cached_value",
+    "formal": "cached_inventory(store, key, now, default=default) == value"
+  },
+  {
+    "scope": "function",
+    "function": "cached_inventory",
+    "property": "cache_hit_return",
+    "precondition": "record is not None and now <= deadline",
+    "formal": "cached_inventory(store, key, now, default=default) == value"
+  },
+  {
+    "scope": "function",
+    "function": "cached_inventory",
+    "property": "cache_miss_return",
+    "precondition": "record is None",
+    "formal": "cached_inventory(store, key, now, default=default) == default"
+  },
+  {
+    "scope": "function",
+    "function": "cached_inventory",
+    "property": "expired_return",
+    "precondition": "record is not None and now > deadline",
+    "formal": "cached_inventory(store, key, now, default=default) == default"
+  },
+  {
+    "scope": "function",
+    "function": "cached_inventory",
+    "property": "boundary_value_valid",
+    "precondition": "record is not None and now == deadline",
+    "formal": "cached_inventory(store, key, now, default=default) == value"
+  },
+  {
+    "scope": "function",
+    "function": "cached_inventory",
+    "property": "monotonic_expiry",
+    "precondition": "record is not None and now1 <= now2",
+    "formal": "if cached_inventory(store, key, now1, default=default) == value then cached_inventory(store, key, now2, default=default) == value"
+  },
+  {
+    "scope": "function",
+    "function": "cached_inventory",
+    "property": "idempotent",
+    "precondition": "true",
+    "formal": "cached_inventory(store, key, now, default=default) == cached_inventory(store, key, now, default=default)"
+  },
+  {
+    "scope": "function",
+    "function": "cached_inventory",
+    "property": "read_only",
+    "precondition": "true",
+    "formal": "store remains unchanged after calling cached_inventory"
+  }
+]

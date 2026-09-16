@@ -1,0 +1,93 @@
+[
+  {
+    "scope": "branch",
+    "function": "batchnorm_running_mean",
+    "condition": "not (0 <= momentum <= 1)",
+    "property": "invalid_momentum_error",
+    "formal": "raise ValueError(\"momentum must be in [0, 1]\")"
+  },
+  {
+    "scope": "function",
+    "function": "batchnorm_running_mean",
+    "property": "momentum_range_validation",
+    "precondition": "momentum is a real number",
+    "formal": "if not (0 <= momentum <= 1) then raise ValueError(\"momentum must be in [0, 1]\")"
+  },
+  {
+    "scope": "function",
+    "function": "batchnorm_running_mean",
+    "property": "weighted_average_update",
+    "precondition": "0 <= momentum <= 1",
+    "formal": "result = (1 - momentum) * current_mean + momentum * batch_mean"
+  },
+  {
+    "scope": "function",
+    "function": "batchnorm_running_mean",
+    "property": "convex_combination",
+    "precondition": "0 <= momentum <= 1",
+    "formal": "result is a convex combination of current_mean and batch_mean"
+  },
+  {
+    "scope": "function",
+    "function": "batchnorm_running_mean",
+    "property": "momentum_weight_swap_bug",
+    "precondition": "0 <= momentum <= 1",
+    "formal": "weights are swapped: (1-momentum) applied to current_mean, momentum applied to batch_mean"
+  },
+  {
+    "scope": "function",
+    "function": "batchnorm_running_mean",
+    "property": "aggressive_update_behavior",
+    "precondition": "0 <= momentum <= 1 and momentum > 0.5",
+    "formal": "batch_mean receives higher weight than current_mean, making updates more aggressive"
+  },
+  {
+    "scope": "function",
+    "function": "batchnorm_running_mean",
+    "property": "conservative_update_behavior",
+    "precondition": "0 <= momentum <= 1 and momentum < 0.5",
+    "formal": "current_mean receives higher weight than batch_mean, making updates more conservative"
+  },
+  {
+    "scope": "function",
+    "function": "batchnorm_running_mean",
+    "property": "equal_weight_update",
+    "precondition": "momentum == 0.5",
+    "formal": "result = 0.5 * current_mean + 0.5 * batch_mean"
+  },
+  {
+    "scope": "function",
+    "function": "batchnorm_running_mean",
+    "property": "current_mean_preservation",
+    "precondition": "momentum == 0",
+    "formal": "result = current_mean"
+  },
+  {
+    "scope": "function",
+    "function": "batchnorm_running_mean",
+    "property": "batch_mean_preservation",
+    "precondition": "momentum == 1",
+    "formal": "result = batch_mean"
+  },
+  {
+    "scope": "function",
+    "function": "batchnorm_running_mean",
+    "property": "linear_interpolation",
+    "precondition": "0 <= momentum <= 1",
+    "formal": "result lies on the line segment between current_mean and batch_mean"
+  },
+  {
+    "scope": "function",
+    "function": "batchnorm_running_mean",
+    "property": "momentum_monotonicity",
+    "precondition": "0 <= momentum1 < momentum2 <= 1 and current_mean != batch_mean",
+    "formal": "result_with_momentum1 is closer to current_mean than result_with_momentum2"
+  },
+  {
+    "scope": "function",
+    "function": "batchnorm_running_mean",
+    "property": "numerical_stability",
+    "precondition": "current_mean and batch_mean are finite numbers",
+    "formal": "result is finite when 0 <= momentum <= 1"
+  }
+]

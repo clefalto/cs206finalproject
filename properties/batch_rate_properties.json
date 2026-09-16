@@ -1,0 +1,72 @@
+[
+  {
+    "scope": "branch",
+    "function": "batch_rate",
+    "condition": "len(recent) > limit",
+    "property": "rate_limit_exceeded",
+    "formal": "if len(recent) > limit then return False, 0"
+  },
+  {
+    "scope": "branch",
+    "function": "batch_rate",
+    "condition": "not (len(recent) > limit)",
+    "property": "rate_limit_ok",
+    "formal": "if not (len(recent) > limit) then return True, limit - len(recent)"
+  },
+  {
+    "scope": "function",
+    "function": "batch_rate",
+    "property": "boolean_result",
+    "precondition": "true",
+    "formal": "batch_rate(timestamps, now) returns (bool, int)"
+  },
+  {
+    "scope": "function",
+    "function": "batch_rate",
+    "property": "capacity_calculation",
+    "precondition": "not (len(recent) > limit)",
+    "formal": "capacity = limit - len(recent)"
+  },
+  {
+    "scope": "function",
+    "function": "batch_rate",
+    "property": "non_negative_capacity",
+    "precondition": "not (len(recent) > limit)",
+    "formal": "limit - len(recent) >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "batch_rate",
+    "property": "maximum_capacity",
+    "precondition": "len(recent) == 0",
+    "formal": "limit - len(recent) == limit"
+  },
+  {
+    "scope": "function",
+    "function": "batch_rate",
+    "property": "zero_capacity_on_limit",
+    "precondition": "len(recent) == limit",
+    "formal": "limit - len(recent) == 0"
+  },
+  {
+    "scope": "function",
+    "function": "batch_rate",
+    "property": "monotonic_capacity",
+    "precondition": "not (len(recent) > limit)",
+    "formal": "if len(recent1) <= len(recent2) then capacity1 >= capacity2"
+  },
+  {
+    "scope": "function",
+    "function": "batch_rate",
+    "property": "rate_limit_boundary",
+    "precondition": "true",
+    "formal": "if len(recent) == limit + 1 then return False, 0"
+  },
+  {
+    "scope": "function",
+    "function": "batch_rate",
+    "property": "capacity_boundary",
+    "precondition": "true",
+    "formal": "if len(recent) == limit - 1 then return True, 1"
+  }
+]

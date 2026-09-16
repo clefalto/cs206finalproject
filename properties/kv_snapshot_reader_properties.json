@@ -1,0 +1,58 @@
+[
+  {
+    "scope": "branch",
+    "function": "kv_snapshot_reader",
+    "condition": "k == key",
+    "property": "key_found_return",
+    "formal": "kv_snapshot_reader(snapshot, key) == v"
+  },
+  {
+    "scope": "branch",
+    "function": "kv_snapshot_reader",
+    "condition": "k > key",
+    "property": "early_termination",
+    "formal": "kv_snapshot_reader(snapshot, key) == default"
+  },
+  {
+    "scope": "function",
+    "function": "kv_snapshot_reader",
+    "property": "key_not_found_default",
+    "precondition": "key not in [k for k, v in snapshot]",
+    "formal": "kv_snapshot_reader(snapshot, key, default=default) == default"
+  },
+  {
+    "scope": "function",
+    "function": "kv_snapshot_reader",
+    "property": "key_found_value",
+    "precondition": "key in [k for k, v in snapshot]",
+    "formal": "kv_snapshot_reader(snapshot, key, default=default) == v where (key, v) in snapshot"
+  },
+  {
+    "scope": "function",
+    "function": "kv_snapshot_reader",
+    "property": "sorted_assumption",
+    "precondition": "snapshot is sorted by key",
+    "formal": "kv_snapshot_reader(snapshot, key) returns first matching value or default"
+  },
+  {
+    "scope": "function",
+    "function": "kv_snapshot_reader",
+    "property": "deterministic",
+    "precondition": "snapshot and key are unchanged",
+    "formal": "kv_snapshot_reader(snapshot, key) always returns same result"
+  },
+  {
+    "scope": "function",
+    "function": "kv_snapshot_reader",
+    "property": "no_side_effects",
+    "precondition": "None",
+    "formal": "snapshot remains unchanged after function call"
+  },
+  {
+    "scope": "function",
+    "function": "kv_snapshot_reader",
+    "property": "monotonic_search",
+    "precondition": "snapshot is sorted by key",
+    "formal": "function terminates early when k > key is encountered"
+  }
+]

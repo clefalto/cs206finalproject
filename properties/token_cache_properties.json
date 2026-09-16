@@ -1,0 +1,51 @@
+[
+  {
+    "scope": "branch",
+    "function": "token_cache",
+    "condition": "item is None",
+    "property": "cache_miss",
+    "formal": "token_cache(cache, key, now) == None"
+  },
+  {
+    "scope": "branch",
+    "function": "token_cache",
+    "condition": "now > ttl",
+    "property": "expired_entry",
+    "formal": "token_cache(cache, key, now) == None"
+  },
+  {
+    "scope": "function",
+    "function": "token_cache",
+    "property": "cache_hit",
+    "precondition": "item is not None and now <= ttl",
+    "formal": "token_cache(cache, key, now) == payload"
+  },
+  {
+    "scope": "function",
+    "function": "token_cache",
+    "property": "non_negative_ttl",
+    "precondition": "item is not None",
+    "formal": "ttl >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "token_cache",
+    "property": "monotonic_expiry",
+    "precondition": "item is not None",
+    "formal": "now1 <= now2 and now2 > ttl implies now1 > ttl"
+  },
+  {
+    "scope": "function",
+    "function": "token_cache",
+    "property": "deterministic",
+    "precondition": "cache, key, now unchanged",
+    "formal": "token_cache(cache, key, now) == token_cache(cache, key, now)"
+  },
+  {
+    "scope": "function",
+    "function": "token_cache",
+    "property": "buggy_expiry",
+    "precondition": "item is not None",
+    "formal": "now == ttl implies token_cache(cache, key, now) == payload (should be None)"
+  }
+]

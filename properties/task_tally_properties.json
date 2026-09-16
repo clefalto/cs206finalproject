@@ -1,0 +1,65 @@
+[
+  {
+    "scope": "branch",
+    "function": "task_tally",
+    "condition": "max_value is not None",
+    "property": "ceiling_enforcement",
+    "formal": "new_value <= max_value"
+  },
+  {
+    "scope": "branch",
+    "function": "task_tally",
+    "condition": "new_value > max_value",
+    "property": "boundary_violation_fix",
+    "formal": "new_value = max_value"
+  },
+  {
+    "scope": "function",
+    "function": "task_tally",
+    "property": "incremental_counting",
+    "precondition": "True",
+    "formal": "new_value == counts.get(key, 0) + 1"
+  },
+  {
+    "scope": "function",
+    "function": "task_tally",
+    "property": "state_persistence",
+    "precondition": "True",
+    "formal": "counts[key] == new_value"
+  },
+  {
+    "scope": "function",
+    "function": "task_tally",
+    "property": "return_value_consistency",
+    "precondition": "True",
+    "formal": "return_value == new_value"
+  },
+  {
+    "scope": "function",
+    "function": "task_tally",
+    "property": "monotonic_increase",
+    "precondition": "max_value is None or new_value <= max_value",
+    "formal": "new_value >= counts.get(key, 0) + 1"
+  },
+  {
+    "scope": "function",
+    "function": "task_tally",
+    "property": "bounded_counting",
+    "precondition": "max_value is not None",
+    "formal": "new_value <= max_value"
+  },
+  {
+    "scope": "function",
+    "function": "task_tally",
+    "property": "key_preservation",
+    "precondition": "True",
+    "formal": "key in counts"
+  },
+  {
+    "scope": "function",
+    "function": "task_tally",
+    "property": "non_negative_counting",
+    "precondition": "True",
+    "formal": "new_value >= 1"
+  }
+]

@@ -1,0 +1,121 @@
+[
+  {
+    "scope": "branch",
+    "function": "quota_for_capacity",
+    "condition": "len(weights) == 0",
+    "property": "empty_weights_error",
+    "formal": "quota_for_capacity(total, []) raises ValueError(\"weights required\")"
+  },
+  {
+    "scope": "branch",
+    "function": "quota_for_capacity",
+    "condition": "total < 0",
+    "property": "negative_total_error",
+    "formal": "quota_for_capacity(negative_total, weights) raises ValueError(\"negative total\")"
+  },
+  {
+    "scope": "branch",
+    "function": "quota_for_capacity",
+    "condition": "minimum < 0",
+    "property": "negative_minimum_error",
+    "formal": "quota_for_capacity(total, weights, minimum=negative_minimum) raises ValueError(\"negative minimum\")"
+  },
+  {
+    "scope": "branch",
+    "function": "quota_for_capacity",
+    "condition": "sum(weights) == 0",
+    "property": "zero_weight_sum_error",
+    "formal": "quota_for_capacity(total, [0, 0, 0]) raises ValueError(\"zero total weight\")"
+  },
+  {
+    "scope": "branch",
+    "function": "quota_for_capacity",
+    "condition": "floor_to_int",
+    "property": "floor_to_int_conversion",
+    "formal": "quota_for_capacity(total, weights, floor_to_int=True) returns [int(v) for v in shares]"
+  },
+  {
+    "scope": "branch",
+    "function": "quota_for_capacity",
+    "condition": "portion > minimum",
+    "property": "proportional_allocation",
+    "formal": "portion = (w / weight_sum) * total; shares.append(portion) when portion > minimum"
+  },
+  {
+    "scope": "branch",
+    "function": "quota_for_capacity",
+    "condition": "portion <= minimum",
+    "property": "minimum_floor",
+    "formal": "shares.append(minimum) when portion <= minimum"
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_capacity",
+    "property": "non_negative_shares",
+    "precondition": "total >= 0 and minimum >= 0 and sum(weights) > 0 and len(weights) > 0",
+    "formal": "all(share >= 0 for share in quota_for_capacity(total, weights, minimum=minimum))"
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_capacity",
+    "property": "shares_sum_bound",
+    "precondition": "total >= 0 and minimum >= 0 and sum(weights) > 0 and len(weights) > 0",
+    "formal": "sum(quota_for_capacity(total, weights, minimum=minimum)) >= total"
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_capacity",
+    "property": "shares_length",
+    "precondition": "len(weights) > 0 and sum(weights) > 0",
+    "formal": "len(quota_for_capacity(total, weights)) == len(weights)"
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_capacity",
+    "property": "monotonic_total",
+    "precondition": "total1 >= total2 and minimum >= 0 and sum(weights) > 0 and len(weights) > 0",
+    "formal": "all(s1 >= s2 for s1, s2 in zip(quota_for_capacity(total1, weights, minimum=minimum), quota_for_capacity(total2, weights, minimum=minimum)))"
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_capacity",
+    "property": "monotonic_minimum",
+    "precondition": "minimum1 >= minimum2 and total >= 0 and sum(weights) > 0 and len(weights) > 0",
+    "formal": "all(s1 >= s2 for s1, s2 in zip(quota_for_capacity(total, weights, minimum=minimum1), quota_for_capacity(total, weights, minimum=minimum2)))"
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_capacity",
+    "property": "zero_total_zero_shares",
+    "precondition": "minimum >= 0 and sum(weights) > 0 and len(weights) > 0",
+    "formal": "quota_for_capacity(0, weights, minimum=minimum) == [minimum] * len(weights)"
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_capacity",
+    "property": "zero_minimum_proportional",
+    "precondition": "total >= 0 and sum(weights) > 0 and len(weights) > 0",
+    "formal": "quota_for_capacity(total, weights, minimum=0) == [(w / sum(weights)) * total for w in weights]"
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_capacity",
+    "property": "single_weight_total",
+    "precondition": "total >= 0 and minimum >= 0",
+    "formal": "quota_for_capacity(total, [1], minimum=minimum) == [max(minimum, total)]"
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_capacity",
+    "property": "integer_floor_bug",
+    "precondition": "floor_to_int=True and total >= 0 and minimum >= 0 and sum(weights) > 0 and len(weights) > 0",
+    "formal": "sum(quota_for_capacity(total, weights, floor_to_int=True, minimum=minimum)) <= total"
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_capacity",
+    "property": "error_conditions",
+    "precondition": "true",
+    "formal": "quota_for_capacity raises ValueError when len(weights) == 0 or total < 0 or minimum < 0 or sum(weights) == 0"
+  }
+]

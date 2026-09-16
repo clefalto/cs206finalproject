@@ -1,0 +1,58 @@
+[
+  {
+    "scope": "branch",
+    "function": "maintenance_booking",
+    "condition": "a >= b",
+    "property": "empty_window_error",
+    "formal": "raises ValueError(\"empty window\")"
+  },
+  {
+    "scope": "branch",
+    "function": "maintenance_booking",
+    "condition": "any(not (b <= s or a >= e) for s, e in timeline)",
+    "property": "conflict_detection",
+    "formal": "return False, timeline"
+  },
+  {
+    "scope": "function",
+    "function": "maintenance_booking",
+    "property": "window_validity",
+    "precondition": "a < b",
+    "formal": "window is valid interval"
+  },
+  {
+    "scope": "function",
+    "function": "maintenance_booking",
+    "property": "timeline_sorted",
+    "precondition": "no precondition",
+    "formal": "result is sorted by start time"
+  },
+  {
+    "scope": "function",
+    "function": "maintenance_booking",
+    "property": "window_inclusion",
+    "precondition": "no precondition",
+    "formal": "window is included in result"
+  },
+  {
+    "scope": "function",
+    "function": "maintenance_booking",
+    "property": "conflict_preservation",
+    "precondition": "conflict detected",
+    "formal": "original timeline returned unchanged"
+  },
+  {
+    "scope": "function",
+    "function": "maintenance_booking",
+    "property": "non_conflict_insertion",
+    "precondition": "no conflicts detected",
+    "formal": "window inserted into timeline"
+  },
+  {
+    "scope": "function",
+    "function": "maintenance_booking",
+    "property": "timeline_structure",
+    "precondition": "no precondition",
+    "formal": "result contains list of (start, end) tuples"
+  }
+]

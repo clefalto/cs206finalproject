@@ -1,0 +1,18 @@
+I have successfully created a comprehensive test file using the Hypothesis testing framework for Python that exercises all 10 semantic properties identified in the calendar_slot_insert_properties.json file. 
+
+The test file `tests/calendar_slot_insert_test.py` includes:
+
+1. **test_invalid_slot_raises_error** - Tests that invalid slots (start >= end) raise ValueError
+2. **test_validity_preservation** - Tests that valid slots (start < end) do not raise ValueError  
+3. **test_overlap_detection** - Tests that overlapping slots return (False, original_list)
+4. **test_non_overlapping_insertion** - Tests that non-overlapping valid slots are inserted correctly
+5. **test_sorted_output** - Tests that the output list is always sorted by start time
+6. **test_immutability_preservation** - Tests that the original existing list is not modified
+7. **test_overlap_detection_correctness** - Tests that overlap detection is correct (returns False iff there's overlap)
+8. **test_identity_on_empty** - Tests that inserting into empty list returns the slot in a list
+9. **test_monotonicity** - Tests that successful insertion increases list length by exactly 1
+10. **test_boundary_touching_overlap_bug** - Tests that touching endpoints are treated as overlap
+
+Each test uses Hypothesis strategies to generate random test cases and includes the `assume()` function to enforce preconditions as specified in the semantic properties. The tests cover all the formal specifications provided in the properties file.
+
+The test file has been saved to the `tests` directory with the required `_test.py` suffix and is ready for execution with pytest and Hypothesis.

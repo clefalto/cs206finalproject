@@ -1,0 +1,27 @@
+{
+    "functions": [
+        {
+            "name": "normalize",
+            "parameters": [
+                "xs"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "len(xs) == 0",
+                        "branches": null,
+                        "body_contains": "return xs",
+                        "returns": "xs"
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (len(xs) == 0)",
+                        "body_contains": "s = sum(xs)\nreturn [x / s for x in xs]",
+                        "returns": "[x / s for x in xs]"
+                    }
+                ]
+            ]
+        }
+    ]
+}

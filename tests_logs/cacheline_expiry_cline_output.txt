@@ -1,0 +1,26 @@
+I have successfully created a comprehensive test file for the cacheline_expiry function using the Hypothesis testing framework. The test file `tests/cacheline_expiry_test.py` contains:
+
+**Test Coverage:**
+- **Branch Properties (3 tests):**
+  - `test_cache_miss_return`: Tests when item is None returns None
+  - `test_expired_entry_return`: Tests when now > ttl returns None  
+  - `test_valid_entry_return`: Tests when now <= ttl returns payload
+
+- **Function Properties (7 tests):**
+  - `test_cache_miss_consistency`: Verifies cache miss behavior
+  - `test_non_negative_ttl`: Ensures TTL values are non-negative
+  - `test_payload_preservation`: Tests payload preservation when not expired
+  - `test_expiration_behavior`: Tests expiration behavior when expired
+  - `test_deterministic_output`: Verifies function returns same result for same inputs
+  - `test_buggy_equality_handling`: Tests the known bug where now == ttl should return None but returns payload
+  - `test_monotonic_expiry`: Tests that expiration is monotonic over time
+
+**Key Features:**
+- Uses Hypothesis strategies to generate comprehensive test data
+- Includes proper assumptions (`assume()`) to ensure test preconditions
+- Tests cover all 10 semantic properties from the properties file
+- Includes detailed docstrings explaining each test's purpose
+- Uses appropriate data generation strategies for cache dictionaries, keys, and timestamps
+- The buggy equality handling test documents the known issue in the code
+
+The test file is ready to be executed with pytest and will thoroughly exercise all the semantic properties identified in the cacheline_expiry_properties.json file.

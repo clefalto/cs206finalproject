@@ -1,0 +1,58 @@
+{
+    "functions": [
+        {
+            "name": "cost_trendline",
+            "parameters": [
+                "x0",
+                "y0",
+                "x1",
+                "y1",
+                "x"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "x0 == x1",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"x0 equals x1\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (x0 == x1)",
+                        "body_contains": "ratio = (x - x0) / (x1 - x0)\ny = y0 + ratio * (y1 - y0)\nif clamp:\n        lo, hi = (min(y0, y1), max(y0, y1))\n        # BUG: uses y-bounds as clamp instead of x-bounds.\n        if y < lo:\n            y = lo\n        elif y > hi:\n            y = hi\nreturn y",
+                        "returns": "y",
+                        "early_exit": false
+                    }
+                ],
+                {
+                    "type": "if",
+                    "condition": "clamp",
+                    "branches": [
+                        {
+                            "type": "if",
+                            "condition": "y < lo",
+                            "branches": null,
+                            "body_contains": "y = lo",
+                            "returns": null,
+                            "early_exit": false
+                        },
+                        {
+                            "type": "elif",
+                            "condition": "y > hi",
+                            "body_contains": "y = hi",
+                            "returns": null,
+                            "early_exit": false
+                        }
+                    ],
+                    "body_contains": "lo, hi = (min(y0, y1), max(y0, y1))\n        # BUG: uses y-bounds as clamp instead of x-bounds.\n        if y < lo:\n            y = lo\n        elif y > hi:\n            y = hi",
+                    "returns": null,
+                    "early_exit": false
+                }
+            ],
+            "returns": "y"
+        }
+    ]
+}

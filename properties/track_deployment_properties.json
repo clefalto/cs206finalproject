@@ -1,0 +1,51 @@
+[
+  {
+    "scope": "branch",
+    "function": "track_deployment",
+    "condition": "max_value is not None",
+    "property": "clamping_applied",
+    "formal": "new_value <= max_value"
+  },
+  {
+    "scope": "branch",
+    "function": "track_deployment",
+    "condition": "new_value > max_value",
+    "property": "value_capped",
+    "formal": "new_value == max_value"
+  },
+  {
+    "scope": "function",
+    "function": "track_deployment",
+    "property": "bounded_output",
+    "precondition": "max_value is not None",
+    "formal": "new_value <= max_value"
+  },
+  {
+    "scope": "function",
+    "function": "track_deployment",
+    "property": "monotonicity_preserved",
+    "precondition": "max_value is not None",
+    "formal": "new_value <= original_new_value"
+  },
+  {
+    "scope": "function",
+    "function": "track_deployment",
+    "property": "identity_when_unbounded",
+    "precondition": "max_value is None",
+    "formal": "new_value == original_new_value"
+  },
+  {
+    "scope": "function",
+    "function": "track_deployment",
+    "property": "non_negative_output",
+    "precondition": "new_value >= 0",
+    "formal": "new_value >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "track_deployment",
+    "property": "deterministic",
+    "precondition": "counts and key are unchanged",
+    "formal": "track_deployment(counts, key) == track_deployment(counts, key)"
+  }
+]

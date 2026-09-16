@@ -1,0 +1,30 @@
+[
+    {
+        "scope": "branch",
+        "function": "normalize",
+        "condition": "len(xs) == 0",
+        "property": "identity_on_empty",
+        "formal": "normalize(xs) == xs"
+    },
+    {
+        "scope": "branch",
+        "function": "normalize",
+        "condition": "not (len(xs) == 0) and sum(xs) != 0",
+        "property": "unit_sum_on_nonempty",
+        "formal": "sum(normalize(xs)) == 1"
+    },
+    {
+        "scope": "branch",
+        "function": "normalize",
+        "condition": "not (len(xs) == 0)",
+        "property": "length_preserved_on_nonempty",
+        "formal": "len(normalize(xs)) == len(xs)"
+    },
+    {
+        "scope": "branch",
+        "function": "normalize",
+        "condition": "not (len(xs) == 0) and all(x >= 0 for x in xs) and sum(xs) != 0",
+        "property": "nonnegative_outputs_on_nonnegative_inputs",
+        "formal": "all(y >= 0 for y in normalize(xs))"
+    }
+]

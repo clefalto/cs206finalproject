@@ -1,0 +1,65 @@
+[
+  {
+    "scope": "branch",
+    "function": "upload_gate",
+    "condition": "len(active) > limit",
+    "property": "reject_on_limit_exceeded",
+    "formal": "upload_gate(timestamps, now) == (False, 0)"
+  },
+  {
+    "scope": "branch",
+    "function": "upload_gate",
+    "condition": "not (len(active) > limit)",
+    "property": "accept_with_remaining_capacity",
+    "formal": "upload_gate(timestamps, now) == (True, limit - len(active))"
+  },
+  {
+    "scope": "function",
+    "function": "upload_gate",
+    "property": "boolean_result",
+    "precondition": "true",
+    "formal": "isinstance(upload_gate(timestamps, now)[0], bool)"
+  },
+  {
+    "scope": "function",
+    "function": "upload_gate",
+    "property": "non_negative_capacity",
+    "precondition": "true",
+    "formal": "upload_gate(timestamps, now)[1] >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "upload_gate",
+    "property": "capacity_bound",
+    "precondition": "true",
+    "formal": "upload_gate(timestamps, now)[1] <= limit"
+  },
+  {
+    "scope": "function",
+    "function": "upload_gate",
+    "property": "capacity_monotonicity",
+    "precondition": "len(active1) <= len(active2)",
+    "formal": "upload_gate(timestamps1, now)[1] >= upload_gate(timestamps2, now)[1]"
+  },
+  {
+    "scope": "function",
+    "function": "upload_gate",
+    "property": "reject_when_full",
+    "precondition": "len(active) >= limit",
+    "formal": "upload_gate(timestamps, now) == (False, 0)"
+  },
+  {
+    "scope": "function",
+    "function": "upload_gate",
+    "property": "accept_when_not_full",
+    "precondition": "len(active) < limit",
+    "formal": "upload_gate(timestamps, now)[0] == True"
+  },
+  {
+    "scope": "function",
+    "function": "upload_gate",
+    "property": "capacity_calculation",
+    "precondition": "len(active) < limit",
+    "formal": "upload_gate(timestamps, now)[1] == limit - len(active)"
+  }
+]

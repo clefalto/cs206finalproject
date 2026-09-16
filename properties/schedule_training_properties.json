@@ -1,0 +1,86 @@
+[
+  {
+    "scope": "branch",
+    "function": "schedule_training",
+    "condition": "start >= end",
+    "property": "invalid_interval_detection",
+    "formal": "if start >= end then ValueError is raised"
+  },
+  {
+    "scope": "branch", 
+    "function": "schedule_training",
+    "condition": "not (start >= end)",
+    "property": "valid_interval_processing",
+    "formal": "if start < end then proceed to overlap checking"
+  },
+  {
+    "scope": "branch",
+    "function": "schedule_training", 
+    "condition": "not (end <= s or start >= e)",
+    "property": "overlap_detection",
+    "formal": "if intervals overlap then return False, existing"
+  },
+  {
+    "scope": "branch",
+    "function": "schedule_training",
+    "condition": "not (not (end <= s or start >= e))",
+    "property": "no_overlap_confirmation", 
+    "formal": "if intervals don't overlap then continue checking other intervals"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_training",
+    "property": "interval_validation",
+    "precondition": "interval is a tuple/list with two elements",
+    "formal": "start and end must be comparable and start < end"
+  },
+  {
+    "scope": "function", 
+    "function": "schedule_training",
+    "property": "overlap_detection",
+    "precondition": "existing contains valid intervals",
+    "formal": "if any existing interval overlaps with new interval then return False"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_training", 
+    "property": "sorted_output",
+    "precondition": "existing is a list of intervals",
+    "formal": "updated list is sorted by start time"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_training",
+    "property": "interval_addition",
+    "precondition": "no overlap detected",
+    "formal": "if no overlap then interval is added to existing list"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_training",
+    "property": "immutability_preservation",
+    "precondition": "existing is a list",
+    "formal": "original existing list is not modified"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_training",
+    "property": "return_format",
+    "precondition": "function executes successfully",
+    "formal": "returns tuple (bool, list) where bool indicates success and list is updated intervals"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_training",
+    "property": "touching_endpoint_overlap",
+    "precondition": "intervals share endpoints",
+    "formal": "intervals that touch at endpoints are treated as overlapping (bug noted in code)"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_training",
+    "property": "empty_existing_handling",
+    "precondition": "existing is empty list",
+    "formal": "if existing is empty then new interval is always added"
+  }
+]

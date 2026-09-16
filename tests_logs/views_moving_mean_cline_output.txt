@@ -1,0 +1,30 @@
+I have successfully created a comprehensive test file for the `views_moving_mean` function using the Hypothesis testing framework. The test file `tests/views_moving_mean_test.py` contains tests for all 8 semantic properties identified in `properties/views_moving_mean_properties.json`:
+
+**Test Coverage:**
+
+1. **Branch-level properties:**
+   - `test_invalid_window_error`: Tests ValueError when window <= 0
+   - `test_empty_values_error`: Tests ValueError when values is empty
+   - `test_insufficient_data`: Tests None return when len(recent) < warmup_min
+
+2. **Function-level properties:**
+   - `test_positive_window_requirement`: Tests window must be positive precondition
+   - `test_non_empty_values_requirement`: Tests values must not be empty precondition
+   - `test_moving_average_computation`: Tests the core moving average calculation
+   - `test_warmup_period_handling`: Tests warmup period logic
+   - `test_bug_division_by_full_window`: Tests the identified bug behavior
+
+3. **Additional comprehensive tests:**
+   - Boundary conditions testing
+   - Numerical stability testing
+   - Specific example test cases
+
+**Key Features:**
+- Uses Hypothesis strategies for property-based testing with generated test data
+- Includes proper assumptions to filter invalid test cases
+- Tests both valid and invalid input scenarios
+- Verifies the specific bug where division occurs by full window size even during warmup
+- Follows pytest conventions with descriptive test names and docstrings
+- File is properly placed in the `tests` directory with `_test.py` suffix
+
+The test file is ready for execution with pytest and will thoroughly exercise all the semantic properties of the `views_moving_mean` function.

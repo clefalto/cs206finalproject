@@ -1,0 +1,17 @@
+I have successfully created a comprehensive test file for the cache_entry_ttl function using the Hypothesis testing framework. The test file `tests/cache_entry_ttl_test.py` contains:
+
+1. **test_missing_key_returns_none**: Tests the branch where the key is not in the entries dictionary
+2. **test_expired_entry_returns_none**: Tests the branch where the current time exceeds the expiry time
+3. **test_valid_entry_returns_value**: Tests that valid entries return the correct stored value
+4. **test_non_negative_time**: Tests that the function handles non-negative time correctly
+5. **test_monotonic_expiry**: Tests that if an entry is valid at time t1, it remains valid at any later time t2
+6. **test_deterministic_lookup**: Tests that multiple lookups with the same parameters return identical results
+
+Each test uses Hypothesis strategies to generate appropriate test data and includes the necessary assumptions to satisfy the preconditions specified in the semantic properties. The tests cover all branches and functions identified in the cache_entry_ttl_properties.json file.
+
+The test file is properly structured with:
+- Import statements for pytest and hypothesis
+- The cache_entry_ttl function implementation for testing
+- A TestCacheEntryTTL class containing all test methods
+- Proper docstrings and comments explaining each test
+- A main block that allows running the tests with pytest

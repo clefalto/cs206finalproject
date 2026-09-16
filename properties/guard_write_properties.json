@@ -1,0 +1,65 @@
+[
+  {
+    "scope": "branch",
+    "function": "guard_write",
+    "condition": "len(recent) > limit",
+    "property": "rejection_on_exceed_limit",
+    "formal": "guard_write(timestamps, now, window, limit) == (False, 0)"
+  },
+  {
+    "scope": "branch",
+    "function": "guard_write",
+    "condition": "len(recent) <= limit",
+    "property": "acceptance_with_remaining_capacity",
+    "formal": "guard_write(timestamps, now, window, limit) == (True, limit - len(recent))"
+  },
+  {
+    "scope": "function",
+    "function": "guard_write",
+    "property": "rate_limiting",
+    "precondition": "len([t for t in timestamps if t >= now - window]) <= limit",
+    "formal": "guard_write(timestamps, now, window, limit)[0] == True"
+  },
+  {
+    "scope": "function",
+    "function": "guard_write",
+    "property": "remaining_capacity_calculation",
+    "precondition": "len([t for t in timestamps if t >= now - window]) <= limit",
+    "formal": "guard_write(timestamps, now, window, limit)[1] == limit - len([t for t in timestamps if t >= now - window])"
+  },
+  {
+    "scope": "function",
+    "function": "guard_write",
+    "property": "window_filtering",
+    "precondition": "True",
+    "formal": "guard_write(timestamps, now, window, limit) depends only on timestamps >= now - window"
+  },
+  {
+    "scope": "function",
+    "function": "guard_write",
+    "property": "monotonic_restriction",
+    "precondition": "len([t for t in timestamps1 if t >= now - window]) <= len([t for t in timestamps2 if t >= now - window])",
+    "formal": "guard_write(timestamps1, now, window, limit)[0] >= guard_write(timestamps2, now, window, limit)[0]"
+  },
+  {
+    "scope": "function",
+    "function": "guard_write",
+    "property": "bounded_remaining_capacity",
+    "precondition": "guard_write(timestamps, now, window, limit)[0] == True",
+    "formal": "0 <= guard_write(timestamps, now, window, limit)[1] <= limit"
+  },
+  {
+    "scope": "function",
+    "function": "guard_write",
+    "property": "exact_capacity_when_empty",
+    "precondition": "len([t for t in timestamps if t >= now - window]) == 0",
+    "formal": "guard_write(timestamps, now, window, limit) == (True, limit)"
+  },
+  {
+    "scope": "function",
+    "function": "guard_write",
+    "property": "zero_capacity_on_exceed",
+    "precondition": "len([t for t in timestamps if t >= now - window]) > limit",
+    "formal": "guard_write(timestamps, now, window, limit) == (False, 0)"
+  }
+]

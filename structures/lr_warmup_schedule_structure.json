@@ -1,0 +1,64 @@
+{
+    "functions": [
+        {
+            "name": "lr_warmup_schedule",
+            "parameters": [
+                "step"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "warmup_steps <= 0",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"warmup_steps must be positive\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (warmup_steps <= 0)",
+                        "body_contains": "if step < 0:\n        raise ValueError(\"step must be non-negative\")\n# BUG: boundary uses >= so the last warmup step is skipped.\nif step >= warmup_steps:\n        return base_lr\nreturn base_lr * (step / warmup_steps)",
+                        "returns": "base_lr * (step / warmup_steps)",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "step < 0",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"step must be non-negative\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (step < 0)",
+                        "body_contains": "# BUG: boundary uses >= so the last warmup step is skipped.\nif step >= warmup_steps:\n        return base_lr\nreturn base_lr * (step / warmup_steps)",
+                        "returns": "base_lr * (step / warmup_steps)",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "step >= warmup_steps",
+                        "branches": null,
+                        "body_contains": "return base_lr",
+                        "returns": "base_lr",
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (step >= warmup_steps)",
+                        "body_contains": "return base_lr * (step / warmup_steps)",
+                        "returns": "base_lr * (step / warmup_steps)",
+                        "early_exit": false
+                    }
+                ]
+            ],
+            "returns": "base_lr * (step / warmup_steps)"
+        }
+    ]
+}

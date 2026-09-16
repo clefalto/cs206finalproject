@@ -1,0 +1,31 @@
+{
+    "functions": [
+        {
+            "name": "notification_gate",
+            "parameters": [
+                "timestamps",
+                "now"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "len(recent) > limit",
+                        "branches": null,
+                        "body_contains": "return False, 0",
+                        "returns": "False, 0",
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (len(recent) > limit)",
+                        "body_contains": "return True, limit - len(recent)",
+                        "returns": "True, limit - len(recent)",
+                        "early_exit": false
+                    }
+                ]
+            ],
+            "returns": "True, limit - len(recent)"
+        }
+    ]
+}

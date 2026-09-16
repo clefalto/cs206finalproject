@@ -1,0 +1,72 @@
+[
+  {
+    "scope": "branch",
+    "function": "shift_trust",
+    "condition": "len(current) != len(target)",
+    "property": "shape_mismatch_error",
+    "formal": "len(current) != len(target) => raise ValueError(\"shape mismatch\")"
+  },
+  {
+    "scope": "branch",
+    "function": "shift_trust",
+    "condition": "not current",
+    "property": "empty_allocation_error",
+    "formal": "not current => raise ValueError(\"empty allocation\")"
+  },
+  {
+    "scope": "function",
+    "function": "shift_trust",
+    "property": "shape_consistency",
+    "precondition": "len(current) == len(target)",
+    "formal": "len(shift_trust(current, target)) == len(current)"
+  },
+  {
+    "scope": "function",
+    "function": "shift_trust",
+    "property": "non_empty_input",
+    "precondition": "current",
+    "formal": "shift_trust(current, target) is not None"
+  },
+  {
+    "scope": "function",
+    "function": "shift_trust",
+    "property": "linear_interpolation",
+    "precondition": "len(current) == len(target) and current",
+    "formal": "shift_trust(current, target)[i] == current[i] + (target[i] - current[i]) * damping for all i"
+  },
+  {
+    "scope": "function",
+    "function": "shift_trust",
+    "property": "damping_factor_effect",
+    "precondition": "len(current) == len(target) and current",
+    "formal": "damping == 0 => shift_trust(current, target) == current and damping == 1 => shift_trust(current, target) == target"
+  },
+  {
+    "scope": "function",
+    "function": "shift_trust",
+    "property": "monotonicity_preservation",
+    "precondition": "len(current) == len(target) and current and all(current[i] <= current[i+1] for i in range(len(current)-1)) and all(target[i] <= target[i+1] for i in range(len(target)-1))",
+    "formal": "all(shift_trust(current, target)[i] <= shift_trust(current, target)[i+1] for i in range(len(shift_trust(current, target))-1))"
+  },
+  {
+    "scope": "function",
+    "function": "shift_trust",
+    "property": "boundedness",
+    "precondition": "len(current) == len(target) and current and all(0 <= current[i] <= 1 for i in range(len(current))) and all(0 <= target[i] <= 1 for i in range(len(target)))",
+    "formal": "all(0 <= shift_trust(current, target)[i] <= 1 for i in range(len(shift_trust(current, target))))"
+  },
+  {
+    "scope": "function",
+    "function": "shift_trust",
+    "property": "identity_on_same",
+    "precondition": "len(current) == len(target) and current and current == target",
+    "formal": "shift_trust(current, current) == current"
+  },
+  {
+    "scope": "function",
+    "function": "shift_trust",
+    "property": "commutativity_with_scaling",
+    "precondition": "len(current) == len(target) and current and scalar != 0",
+    "formal": "shift_trust([c * scalar for c in current], [t * scalar for t in target]) == [s * scalar for s in shift_trust(current, target)]"
+  }
+]

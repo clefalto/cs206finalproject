@@ -1,0 +1,72 @@
+[
+  {
+    "scope": "branch",
+    "function": "price_cache",
+    "condition": "item is None",
+    "property": "cache_miss_on_none",
+    "formal": "price_cache(cache, key, now) == None"
+  },
+  {
+    "scope": "branch",
+    "function": "price_cache",
+    "condition": "now > ttl",
+    "property": "cache_miss_on_expired",
+    "formal": "price_cache(cache, key, now) == None"
+  },
+  {
+    "scope": "branch",
+    "function": "price_cache",
+    "condition": "not (item is None) and not (now > ttl)",
+    "property": "cache_hit_return_payload",
+    "formal": "price_cache(cache, key, now) == payload"
+  },
+  {
+    "scope": "function",
+    "function": "price_cache",
+    "property": "cache_miss_when_none",
+    "precondition": "cache.get(key) is None",
+    "formal": "price_cache(cache, key, now) == None"
+  },
+  {
+    "scope": "function",
+    "function": "price_cache",
+    "property": "cache_miss_when_expired",
+    "precondition": "cache.get(key) is not None and now > cache.get(key)[1]",
+    "formal": "price_cache(cache, key, now) == None"
+  },
+  {
+    "scope": "function",
+    "function": "price_cache",
+    "property": "cache_hit_return_payload",
+    "precondition": "cache.get(key) is not None and now <= cache.get(key)[1]",
+    "formal": "price_cache(cache, key, now) == cache.get(key)[0]"
+  },
+  {
+    "scope": "function",
+    "function": "price_cache",
+    "property": "non_negative_ttl",
+    "precondition": "cache.get(key) is not None",
+    "formal": "cache.get(key)[1] >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "price_cache",
+    "property": "monotonic_expiry",
+    "precondition": "cache.get(key) is not None and now1 <= now2",
+    "formal": "price_cache(cache, key, now1) is not None implies price_cache(cache, key, now2) is not None"
+  },
+  {
+    "scope": "function",
+    "function": "price_cache",
+    "property": "idempotent_lookup",
+    "precondition": "cache.get(key) is not None and now <= cache.get(key)[1]",
+    "formal": "price_cache(cache, key, now) == price_cache(cache, key, now)"
+  },
+  {
+    "scope": "function",
+    "function": "price_cache",
+    "property": "buggy_expiry_condition",
+    "precondition": "cache.get(key) is not None and now == cache.get(key)[1]",
+    "formal": "price_cache(cache, key, now) == cache.get(key)[0]  # Should return None"
+  }
+]

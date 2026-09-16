@@ -1,0 +1,86 @@
+[
+  {
+    "scope": "branch",
+    "function": "lr_warmup_schedule",
+    "condition": "warmup_steps <= 0",
+    "property": "invalid_warmup_steps",
+    "formal": "raise ValueError(\"warmup_steps must be positive\")"
+  },
+  {
+    "scope": "branch",
+    "function": "lr_warmup_schedule",
+    "condition": "step < 0",
+    "property": "invalid_step",
+    "formal": "raise ValueError(\"step must be non-negative\")"
+  },
+  {
+    "scope": "branch",
+    "function": "lr_warmup_schedule",
+    "condition": "step >= warmup_steps",
+    "property": "full_learning_rate",
+    "formal": "return base_lr"
+  },
+  {
+    "scope": "branch",
+    "function": "lr_warmup_schedule",
+    "condition": "0 <= step < warmup_steps",
+    "property": "linear_warmup",
+    "formal": "return base_lr * (step / warmup_steps)"
+  },
+  {
+    "scope": "function",
+    "function": "lr_warmup_schedule",
+    "property": "monotonic_increasing",
+    "precondition": "warmup_steps > 0 and step >= 0",
+    "formal": "for all step1, step2 where 0 <= step1 < step2 < warmup_steps: lr_warmup_schedule(step1) <= lr_warmup_schedule(step2)"
+  },
+  {
+    "scope": "function",
+    "function": "lr_warmup_schedule",
+    "property": "bounded_output",
+    "precondition": "warmup_steps > 0 and step >= 0",
+    "formal": "0 <= lr_warmup_schedule(step) <= base_lr"
+  },
+  {
+    "scope": "function",
+    "function": "lr_warmup_schedule",
+    "property": "initial_value_zero",
+    "precondition": "warmup_steps > 0",
+    "formal": "lr_warmup_schedule(0) == 0"
+  },
+  {
+    "scope": "function",
+    "function": "lr_warmup_schedule",
+    "property": "boundary_bug",
+    "precondition": "warmup_steps > 0",
+    "formal": "lr_warmup_schedule(warmup_steps - 1) < base_lr and lr_warmup_schedule(warmup_steps) == base_lr"
+  },
+  {
+    "scope": "function",
+    "function": "lr_warmup_schedule",
+    "property": "linear_interpolation",
+    "precondition": "warmup_steps > 0 and 0 <= step < warmup_steps",
+    "formal": "lr_warmup_schedule(step) == base_lr * (step / warmup_steps)"
+  },
+  {
+    "scope": "function",
+    "function": "lr_warmup_schedule",
+    "property": "constant_after_warmup",
+    "precondition": "warmup_steps > 0 and step >= warmup_steps",
+    "formal": "lr_warmup_schedule(step) == base_lr"
+  },
+  {
+    "scope": "function",
+    "function": "lr_warmup_schedule",
+    "property": "error_on_negative_warmup",
+    "precondition": "warmup_steps <= 0",
+    "formal": "ValueError is raised with message \"warmup_steps must be positive\""
+  },
+  {
+    "scope": "function",
+    "function": "lr_warmup_schedule",
+    "property": "error_on_negative_step",
+    "precondition": "step < 0",
+    "formal": "ValueError is raised with message \"step must be non-negative\""
+  }
+]

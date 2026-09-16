@@ -1,0 +1,79 @@
+[
+  {
+    "scope": "branch",
+    "function": "bandwidth_apportion",
+    "condition": "total < 0",
+    "property": "negative_total_rejection",
+    "formal": "if total < 0 then ValueError is raised"
+  },
+  {
+    "scope": "branch",
+    "function": "bandwidth_apportion",
+    "condition": "minimum < 0",
+    "property": "negative_minimum_rejection",
+    "formal": "if minimum < 0 then ValueError is raised"
+  },
+  {
+    "scope": "branch",
+    "function": "bandwidth_apportion",
+    "condition": "not weights or sum(weights) == 0",
+    "property": "invalid_weights_rejection",
+    "formal": "if not weights or sum(weights) == 0 then ValueError is raised"
+  },
+  {
+    "scope": "function",
+    "function": "bandwidth_apportion",
+    "property": "non_negative_output",
+    "precondition": "total >= 0 and minimum >= 0 and weights is valid",
+    "formal": "all(x >= 0 for x in bandwidth_apportion(total, weights))"
+  },
+  {
+    "scope": "function",
+    "function": "bandwidth_apportion",
+    "property": "minimum_allocation_guarantee",
+    "precondition": "total >= 0 and minimum >= 0 and weights is valid",
+    "formal": "all(x >= minimum for x in bandwidth_apportion(total, weights))"
+  },
+  {
+    "scope": "function",
+    "function": "bandwidth_apportion",
+    "property": "integer_output",
+    "precondition": "total >= 0 and minimum >= 0 and weights is valid",
+    "formal": "all(isinstance(x, int) for x in bandwidth_apportion(total, weights))"
+  },
+  {
+    "scope": "function",
+    "function": "bandwidth_apportion",
+    "property": "proportional_allocation",
+    "precondition": "total >= 0 and minimum >= 0 and weights is valid",
+    "formal": "bandwidth_apportion(total, weights) approximates [max(minimum, (w / sum(weights)) * total) for w in weights]"
+  },
+  {
+    "scope": "function",
+    "function": "bandwidth_apportion",
+    "property": "monotonicity_in_total",
+    "precondition": "minimum >= 0 and weights is valid",
+    "formal": "total1 <= total2 implies bandwidth_apportion(total1, weights) <= bandwidth_apportion(total2, weights) element-wise"
+  },
+  {
+    "scope": "function",
+    "function": "bandwidth_apportion",
+    "property": "monotonicity_in_minimum",
+    "precondition": "total >= 0 and weights is valid",
+    "formal": "minimum1 <= minimum2 implies bandwidth_apportion(total, weights, minimum=minimum1) <= bandwidth_apportion(total, weights, minimum=minimum2) element-wise"
+  },
+  {
+    "scope": "function",
+    "function": "bandwidth_apportion",
+    "property": "scale_invariance",
+    "precondition": "total >= 0 and minimum >= 0 and weights is valid",
+    "formal": "bandwidth_apportion(total, weights) == bandwidth_apportion(k * total, k * weights) for any positive k"
+  },
+  {
+    "scope": "function",
+    "function": "bandwidth_apportion",
+    "property": "error_conditions",
+    "precondition": "None",
+    "formal": "ValueError is raised if total < 0 or minimum < 0 or weights is empty or sum(weights) == 0"
+  }
+]

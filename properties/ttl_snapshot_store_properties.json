@@ -1,0 +1,72 @@
+[
+  {
+    "scope": "branch",
+    "function": "ttl_snapshot_store",
+    "condition": "key not in entries",
+    "property": "key_not_found",
+    "formal": "ttl_snapshot_store(entries, key, now) == None"
+  },
+  {
+    "scope": "branch",
+    "function": "ttl_snapshot_store",
+    "condition": "now > expires_at",
+    "property": "expired_entry",
+    "formal": "ttl_snapshot_store(entries, key, now) == None"
+  },
+  {
+    "scope": "function",
+    "function": "ttl_snapshot_store",
+    "property": "key_not_found_returns_none",
+    "precondition": "key not in entries",
+    "formal": "ttl_snapshot_store(entries, key, now) == None"
+  },
+  {
+    "scope": "function",
+    "function": "ttl_snapshot_store",
+    "property": "expired_entry_returns_none",
+    "precondition": "now > expires_at",
+    "formal": "ttl_snapshot_store(entries, key, now) == None"
+  },
+  {
+    "scope": "function",
+    "function": "ttl_snapshot_store",
+    "property": "valid_entry_returns_value",
+    "precondition": "key in entries and now <= expires_at",
+    "formal": "ttl_snapshot_store(entries, key, now) == value"
+  },
+  {
+    "scope": "function",
+    "function": "ttl_snapshot_store",
+    "property": "idempotent",
+    "precondition": "key in entries and now <= expires_at",
+    "formal": "ttl_snapshot_store(entries, key, now) == ttl_snapshot_store(entries, key, now)"
+  },
+  {
+    "scope": "function",
+    "function": "ttl_snapshot_store",
+    "property": "deterministic",
+    "precondition": "entries, key, now are unchanged",
+    "formal": "ttl_snapshot_store(entries, key, now) == ttl_snapshot_store(entries, key, now)"
+  },
+  {
+    "scope": "function",
+    "function": "ttl_snapshot_store",
+    "property": "no_side_effects",
+    "precondition": "entries is a dictionary",
+    "formal": "entries == entries"
+  },
+  {
+    "scope": "function",
+    "function": "ttl_snapshot_store",
+    "property": "monotonic_expiry",
+    "precondition": "key in entries and now1 <= now2",
+    "formal": "ttl_snapshot_store(entries, key, now1) == None implies ttl_snapshot_store(entries, key, now2) == None"
+  },
+  {
+    "scope": "function",
+    "function": "ttl_snapshot_store",
+    "property": "bug_expiry_strict",
+    "precondition": "key in entries and now == expires_at",
+    "formal": "ttl_snapshot_store(entries, key, now) == value"
+  }
+]

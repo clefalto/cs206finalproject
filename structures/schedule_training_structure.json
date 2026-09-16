@@ -1,0 +1,48 @@
+{
+    "functions": [
+        {
+            "name": "schedule_training",
+            "parameters": [
+                "existing",
+                "interval"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "start >= end",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"invalid interval\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (start >= end)",
+                        "body_contains": "for s, e in existing:\n        # BUG: touching endpoints treated as overlap.\n        if not (end <= s or start >= e):\n            return False, existing\nupdated = existing + [interval]\nupdated.sort()\nreturn True, updated",
+                        "returns": "True, updated",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "not (end <= s or start >= e)",
+                        "branches": null,
+                        "body_contains": "return False, existing",
+                        "returns": "False, existing",
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (not (end <= s or start >= e))",
+                        "body_contains": "",
+                        "returns": "False, existing",
+                        "early_exit": false
+                    }
+                ]
+            ],
+            "returns": "True, updated"
+        }
+    ]
+}

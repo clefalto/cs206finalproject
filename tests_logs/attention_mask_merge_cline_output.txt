@@ -1,0 +1,20 @@
+I have successfully created a comprehensive test file `tests/attention_mask_merge_test.py` that uses the Hypothesis testing framework to exercise all 11 semantic properties identified for the `attention_mask_merge` function.
+
+The test file includes:
+
+1. **Branch-level properties:**
+   - `test_shape_mismatch_error`: Tests that different length masks raise ValueError
+   - `test_merge_with_or`: Tests that equal length masks are merged with OR operation
+
+2. **Function-level properties:**
+   - `test_length_preservation`: Verifies output length equals input length
+   - `test_boolean_preservation`: Ensures all outputs remain boolean
+   - `test_commutativity`: Tests that order doesn't matter (A OR B = B OR A)
+   - `test_idempotence`: Tests that merging with itself returns original
+   - `test_monotonicity`: Verifies that if A ≤ B, then merged results maintain this relationship
+   - `test_zero_element`: Tests that merging with all-False returns original
+   - `test_one_element`: Tests that merging with all-True returns all-True
+   - `test_associativity`: Tests that grouping doesn't matter ((A OR B) OR C = A OR (B OR C))
+   - `test_bug_leak_masked_tokens`: Tests that False values in inputs produce False values in output
+
+Each test uses Hypothesis strategies to generate random boolean lists and includes appropriate preconditions using `assume()` statements to ensure the test conditions are met. The tests are structured to be comprehensive and will help verify the correctness of the `attention_mask_merge` function implementation.

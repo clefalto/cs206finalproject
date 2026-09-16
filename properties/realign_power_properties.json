@@ -1,0 +1,72 @@
+[
+  {
+    "scope": "branch",
+    "function": "realign_power",
+    "condition": "len(current) != len(target)",
+    "property": "shape_mismatch_error",
+    "formal": "if len(current) != len(target) then raise ValueError(\"shape mismatch\")"
+  },
+  {
+    "scope": "branch",
+    "function": "realign_power",
+    "condition": "not current",
+    "property": "empty_allocation_error",
+    "formal": "if not current then raise ValueError(\"empty allocation\")"
+  },
+  {
+    "scope": "function",
+    "function": "realign_power",
+    "property": "shape_consistency",
+    "precondition": "len(current) == len(target)",
+    "formal": "len(realign_power(current, target)) == len(current)"
+  },
+  {
+    "scope": "function",
+    "function": "realign_power",
+    "property": "linear_interpolation",
+    "precondition": "len(current) == len(target) and current != []",
+    "formal": "realign_power(current, target)[i] == current[i] + (target[i] - current[i]) * damping for all i"
+  },
+  {
+    "scope": "function",
+    "function": "realign_power",
+    "property": "damping_factor_application",
+    "precondition": "len(current) == len(target) and current != []",
+    "formal": "realign_power(current, target)[i] - current[i] == (target[i] - current[i]) * damping for all i"
+  },
+  {
+    "scope": "function",
+    "function": "realign_power",
+    "property": "target_convergence",
+    "precondition": "len(current) == len(target) and current != [] and damping == 1.0",
+    "formal": "realign_power(current, target) == target"
+  },
+  {
+    "scope": "function",
+    "function": "realign_power",
+    "property": "no_change_when_damping_zero",
+    "precondition": "len(current) == len(target) and current != [] and damping == 0.0",
+    "formal": "realign_power(current, target) == current"
+  },
+  {
+    "scope": "function",
+    "function": "realign_power",
+    "property": "monotonic_movement",
+    "precondition": "len(current) == len(target) and current != [] and 0 <= damping <= 1",
+    "formal": "min(current[i], target[i]) <= realign_power(current, target)[i] <= max(current[i], target[i]) for all i"
+  },
+  {
+    "scope": "function",
+    "function": "realign_power",
+    "property": "error_on_empty_input",
+    "precondition": "current == []",
+    "formal": "raise ValueError(\"empty allocation\")"
+  },
+  {
+    "scope": "function",
+    "function": "realign_power",
+    "property": "error_on_shape_mismatch",
+    "precondition": "len(current) != len(target)",
+    "formal": "raise ValueError(\"shape mismatch\")"
+  }
+]

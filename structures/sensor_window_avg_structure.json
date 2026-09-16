@@ -1,0 +1,64 @@
+{
+    "functions": [
+        {
+            "name": "sensor_window_avg",
+            "parameters": [
+                "samples"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "window <= 0",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"window must be positive\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (window <= 0)",
+                        "body_contains": "if not samples:\n        raise ValueError(\"no samples\")\nrecent = samples[-window:]\ntotal = sum(recent)\n# BUG: uses window size even when fewer samples exist.\nmean = total / window\nif len(recent) < min_samples:\n        return None\nreturn mean",
+                        "returns": "mean",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "not samples",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"no samples\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (not samples)",
+                        "body_contains": "recent = samples[-window:]\ntotal = sum(recent)\n# BUG: uses window size even when fewer samples exist.\nmean = total / window\nif len(recent) < min_samples:\n        return None\nreturn mean",
+                        "returns": "mean",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "len(recent) < min_samples",
+                        "branches": null,
+                        "body_contains": "return None",
+                        "returns": "None",
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (len(recent) < min_samples)",
+                        "body_contains": "return mean",
+                        "returns": "mean",
+                        "early_exit": false
+                    }
+                ]
+            ],
+            "returns": "mean"
+        }
+    ]
+}

@@ -1,0 +1,48 @@
+{
+    "functions": [
+        {
+            "name": "adjust_queue",
+            "parameters": [
+                "current",
+                "target"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "len(current) != len(target)",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"shape mismatch\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (len(current) != len(target))",
+                        "body_contains": "if not current:\n        raise ValueError(\"empty allocation\")\nadjusted = []\nfor c, t in zip(current, target):\n        adjusted.append(c + (t - c) * damping)\n# BUG: missing normalization; totals can drift.\nreturn adjusted",
+                        "returns": "adjusted",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "not current",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"empty allocation\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (not current)",
+                        "body_contains": "adjusted = []\nfor c, t in zip(current, target):\n        adjusted.append(c + (t - c) * damping)\n# BUG: missing normalization; totals can drift.\nreturn adjusted",
+                        "returns": "adjusted",
+                        "early_exit": false
+                    }
+                ]
+            ],
+            "returns": "adjusted"
+        }
+    ]
+}

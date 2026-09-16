@@ -1,0 +1,177 @@
+[
+  {
+    "scope": "branch",
+    "function": "votes_apportion",
+    "condition": "len(weights) == 0",
+    "property": "empty_weights_error",
+    "formal": "len(weights) == 0 => raises ValueError(\"weights required\")"
+  },
+  {
+    "scope": "branch",
+    "function": "votes_apportion",
+    "condition": "total < 0",
+    "property": "negative_total_error",
+    "formal": "total < 0 => raises ValueError(\"negative total\")"
+  },
+  {
+    "scope": "branch",
+    "function": "votes_apportion",
+    "condition": "minimum < 0",
+    "property": "negative_minimum_error",
+    "formal": "minimum < 0 => raises ValueError(\"negative minimum\")"
+  },
+  {
+    "scope": "branch",
+    "function": "votes_apportion",
+    "condition": "sum(weights) == 0",
+    "property": "zero_weight_sum_error",
+    "formal": "sum(weights) == 0 => raises ValueError(\"zero total weight\")"
+  },
+  {
+    "scope": "branch",
+    "function": "votes_apportion",
+    "condition": "portion > minimum",
+    "property": "portion_above_minimum",
+    "formal": "portion > minimum => shares[i] == portion"
+  },
+  {
+    "scope": "branch",
+    "function": "votes_apportion",
+    "condition": "portion <= minimum",
+    "property": "portion_below_minimum",
+    "formal": "portion <= minimum => shares[i] == minimum"
+  },
+  {
+    "scope": "branch",
+    "function": "votes_apportion",
+    "condition": "floor_to_int",
+    "property": "integer_flooring",
+    "formal": "floor_to_int => return [int(v) for v in shares]"
+  },
+  {
+    "scope": "branch",
+    "function": "votes_apportion",
+    "condition": "not floor_to_int",
+    "property": "float_preservation",
+    "formal": "not floor_to_int => return shares"
+  },
+  {
+    "scope": "function",
+    "function": "votes_apportion",
+    "property": "non_empty_weights_precondition",
+    "precondition": "len(weights) > 0",
+    "formal": "len(weights) > 0"
+  },
+  {
+    "scope": "function",
+    "function": "votes_apportion",
+    "property": "non_negative_total_precondition",
+    "precondition": "total >= 0",
+    "formal": "total >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "votes_apportion",
+    "property": "non_negative_minimum_precondition",
+    "precondition": "minimum >= 0",
+    "formal": "minimum >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "votes_apportion",
+    "property": "non_zero_weight_sum_precondition",
+    "precondition": "sum(weights) > 0",
+    "formal": "sum(weights) > 0"
+  },
+  {
+    "scope": "function",
+    "function": "votes_apportion",
+    "property": "shares_length_invariant",
+    "precondition": "len(weights) > 0 and total >= 0 and minimum >= 0 and sum(weights) > 0",
+    "formal": "len(shares) == len(weights)"
+  },
+  {
+    "scope": "function",
+    "function": "votes_apportion",
+    "property": "shares_non_negative_invariant",
+    "precondition": "len(weights) > 0 and total >= 0 and minimum >= 0 and sum(weights) > 0",
+    "formal": "all(s >= 0 for s in shares)"
+  },
+  {
+    "scope": "function",
+    "function": "votes_apportion",
+    "property": "shares_minimum_bound_invariant",
+    "precondition": "len(weights) > 0 and total >= 0 and minimum >= 0 and sum(weights) > 0",
+    "formal": "all(s >= minimum for s in shares)"
+  },
+  {
+    "scope": "function",
+    "function": "votes_apportion",
+    "property": "shares_sum_bound_invariant",
+    "precondition": "len(weights) > 0 and total >= 0 and minimum >= 0 and sum(weights) > 0",
+    "formal": "sum(shares) >= total"
+  },
+  {
+    "scope": "function",
+    "function": "votes_apportion",
+    "property": "proportional_allocation_invariant",
+    "precondition": "len(weights) > 0 and total >= 0 and minimum >= 0 and sum(weights) > 0 and all(w/sum(weights)*total >= minimum for w in weights)",
+    "formal": "shares[i] == (weights[i] / sum(weights)) * total for all i"
+  },
+  {
+    "scope": "function",
+    "function": "votes_apportion",
+    "property": "minimum_enforcement_invariant",
+    "precondition": "len(weights) > 0 and total >= 0 and minimum >= 0 and sum(weights) > 0",
+    "formal": "shares[i] >= minimum for all i"
+  },
+  {
+    "scope": "function",
+    "function": "votes_apportion",
+    "property": "integer_output_postcondition",
+    "precondition": "floor_to_int and len(weights) > 0 and total >= 0 and minimum >= 0 and sum(weights) > 0",
+    "formal": "all(isinstance(s, int) for s in shares)"
+  },
+  {
+    "scope": "function",
+    "function": "votes_apportion",
+    "property": "float_output_postcondition",
+    "precondition": "not floor_to_int and len(weights) > 0 and total >= 0 and minimum >= 0 and sum(weights) > 0",
+    "formal": "all(isinstance(s, (int, float)) for s in shares)"
+  },
+  {
+    "scope": "function",
+    "function": "votes_apportion",
+    "property": "monotonicity_invariant",
+    "precondition": "len(weights) > 0 and total >= 0 and minimum >= 0 and sum(weights) > 0",
+    "formal": "weights[i] >= weights[j] => shares[i] >= shares[j]"
+  },
+  {
+    "scope": "function",
+    "function": "votes_apportion",
+    "property": "scale_invariance_invariant",
+    "precondition": "len(weights) > 0 and total >= 0 and minimum >= 0 and sum(weights) > 0 and k > 0",
+    "formal": "votes_apportion(total, [k*w for w in weights], minimum, floor_to_int) == votes_apportion(total, weights, minimum, floor_to_int)"
+  },
+  {
+    "scope": "function",
+    "function": "votes_apportion",
+    "property": "total_preservation_metamorphic",
+    "precondition": "len(weights) > 0 and total >= 0 and minimum >= 0 and sum(weights) > 0 and all(w/sum(weights)*total >= minimum for w in weights)",
+    "formal": "sum(votes_apportion(total, weights, minimum, floor_to_int)) == total"
+  },
+  {
+    "scope": "function",
+    "function": "votes_apportion",
+    "property": "minimum_increase_monotonicity",
+    "precondition": "len(weights) > 0 and total >= 0 and minimum1 >= 0 and minimum2 >= 0 and minimum2 > minimum1 and sum(weights) > 0",
+    "formal": "all(s2 >= s1 for s1, s2 in zip(votes_apportion(total, weights, minimum1, floor_to_int), votes_apportion(total, weights, minimum2, floor_to_int)))"
+  },
+  {
+    "scope": "function",
+    "function": "votes_apportion",
+    "property": "total_increase_monotonicity",
+    "precondition": "len(weights) > 0 and total1 >= 0 and total2 >= 0 and total2 > total1 and minimum >= 0 and sum(weights) > 0",
+    "formal": "all(s2 >= s1 for s1, s2 in zip(votes_apportion(total1, weights, minimum, floor_to_int), votes_apportion(total2, weights, minimum, floor_to_int)))"
+  }
+]

@@ -1,0 +1,58 @@
+[
+  {
+    "scope": "branch",
+    "function": "login_tally",
+    "condition": "cap is not None",
+    "property": "cap_applied",
+    "formal": "if cap is not None then updated <= cap"
+  },
+  {
+    "scope": "branch",
+    "function": "login_tally",
+    "condition": "updated > cap",
+    "property": "cap_enforced",
+    "formal": "if updated > cap then updated == cap"
+  },
+  {
+    "scope": "function",
+    "function": "login_tally",
+    "property": "increment_by_one",
+    "precondition": "True",
+    "formal": "updated == current + 1"
+  },
+  {
+    "scope": "function",
+    "function": "login_tally",
+    "property": "counter_updated",
+    "precondition": "True",
+    "formal": "counters[key] == updated"
+  },
+  {
+    "scope": "function",
+    "function": "login_tally",
+    "property": "non_negative_result",
+    "precondition": "True",
+    "formal": "updated >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "login_tally",
+    "property": "monotonic_increase",
+    "precondition": "True",
+    "formal": "updated >= current"
+  },
+  {
+    "scope": "function",
+    "function": "login_tally",
+    "property": "cap_respected",
+    "precondition": "cap is not None",
+    "formal": "updated <= cap"
+  },
+  {
+    "scope": "function",
+    "function": "login_tally",
+    "property": "default_initialization",
+    "precondition": "key not in counters",
+    "formal": "current == 0"
+  }
+]

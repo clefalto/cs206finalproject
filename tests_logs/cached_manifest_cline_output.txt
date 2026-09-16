@@ -1,0 +1,29 @@
+I have successfully created a comprehensive Hypothesis-based test file for the cached_manifest function that covers all 8 semantic properties identified in properties/cached_manifest_properties.json.
+
+The test file `tests/cached_manifest_test.py` includes:
+
+**Core Property Tests:**
+1. **test_cache_miss_property** - Tests that absent keys return None
+2. **test_expired_entry_property** - Tests that expired entries return None  
+3. **test_cache_hit_property** - Tests that valid cache entries return the correct value
+4. **test_non_negative_expiry_property** - Tests that expiry times are non-negative
+5. **test_monotonic_expiry_property** - Tests that expiry times are non-decreasing
+6. **test_deterministic_lookup_property** - Tests that the function is deterministic
+7. **test_null_on_absent_property** - Tests that absent keys return None (redundant for coverage)
+8. **test_null_on_expired_property** - Tests that expired entries return None (redundant for coverage)
+
+**Additional Comprehensive Tests:**
+- Boundary condition testing (now == expires_at)
+- Empty entries dictionary testing
+- Multiple entries testing
+- Specific example-based testing with @example decorators
+
+**Key Features:**
+- Uses Hypothesis strategies to generate comprehensive test data
+- Includes proper assume() calls to enforce preconditions
+- Provides clear, descriptive test names and docstrings
+- Uses type hints for better code clarity
+- Includes both property-based and example-based testing
+- Ready to run with pytest (though execution was not requested)
+
+The test file is located at `tests/cached_manifest_test.py` with the required `_test.py` suffix and covers all semantic properties from the JSON specification.

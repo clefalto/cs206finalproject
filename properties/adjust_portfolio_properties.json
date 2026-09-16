@@ -1,0 +1,58 @@
+[
+  {
+    "scope": "branch",
+    "function": "adjust_portfolio",
+    "condition": "len(current) != len(target)",
+    "property": "shape_mismatch_error",
+    "formal": "if len(current) != len(target) then raise ValueError(\"shape mismatch\")"
+  },
+  {
+    "scope": "branch",
+    "function": "adjust_portfolio",
+    "condition": "not current",
+    "property": "empty_allocation_error",
+    "formal": "if not current then raise ValueError(\"empty allocation\")"
+  },
+  {
+    "scope": "function",
+    "function": "adjust_portfolio",
+    "property": "shape_consistency",
+    "precondition": "len(current) == len(target)",
+    "formal": "len(adjust_portfolio(current, target)) == len(current)"
+  },
+  {
+    "scope": "function",
+    "function": "adjust_portfolio",
+    "property": "non_empty_input",
+    "precondition": "current != []",
+    "formal": "adjust_portfolio(current, target) is defined"
+  },
+  {
+    "scope": "function",
+    "function": "adjust_portfolio",
+    "property": "damping_adjustment",
+    "precondition": "len(current) == len(target) and current != []",
+    "formal": "for all i, adjusted[i] = current[i] + (target[i] - current[i]) * damping"
+  },
+  {
+    "scope": "function",
+    "function": "adjust_portfolio",
+    "property": "drifting_totals",
+    "precondition": "len(current) == len(target) and current != []",
+    "formal": "sum(adjust_portfolio(current, target)) may not equal sum(current)"
+  },
+  {
+    "scope": "function",
+    "function": "adjust_portfolio",
+    "property": "identity_on_same",
+    "precondition": "len(current) == len(target) and current != [] and current == target",
+    "formal": "if current == target then adjust_portfolio(current, target) == current"
+  },
+  {
+    "scope": "function",
+    "function": "adjust_portfolio",
+    "property": "linear_interpolation",
+    "precondition": "len(current) == len(target) and current != []",
+    "formal": "adjust_portfolio(current, target) = current + damping * (target - current)"
+  }
+]

@@ -1,0 +1,31 @@
+{
+    "functions": [
+        {
+            "name": "kv_snapshot_reader",
+            "parameters": [
+                "snapshot",
+                "key"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "k == key",
+                        "branches": null,
+                        "body_contains": "return v",
+                        "returns": "v",
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (k == key)",
+                        "body_contains": "if k > key:\n            break",
+                        "returns": "v",
+                        "early_exit": false
+                    }
+                ]
+            ],
+            "returns": "default"
+        }
+    ]
+}

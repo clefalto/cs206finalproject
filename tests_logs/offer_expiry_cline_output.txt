@@ -1,0 +1,26 @@
+I have successfully created a comprehensive test file `tests/offer_expiry_test.py` using the Hypothesis testing framework that exercises all 7 semantic properties identified in `properties/offer_expiry_properties.json`.
+
+The test file includes:
+
+**Core Property Tests:**
+1. `test_default_on_missing` - Tests that when record is None, the function returns the default value
+2. `test_default_on_expired` - Tests that when now > deadline, the function returns the default value  
+3. `test_value_on_valid` - Tests that when record exists and now <= deadline, the function returns the stored value
+4. `test_boundary_inclusion` - Tests the boundary case where now == deadline (should return value)
+5. `test_monotonic_expiry` - Tests that if the function returns default at time now1, it also returns default at any later time now2
+6. `test_idempotent` - Tests that calling the function multiple times with the same arguments returns the same result
+7. `test_default_fallback` - Tests that the function always returns either the default or the stored value
+
+**Additional Edge Case Tests:**
+- Tests with None default values
+- Tests with empty stores
+- Tests with boundary integer values
+- Comprehensive data generation strategies for stores, keys, timestamps, and values
+
+The tests use Hypothesis strategies to generate a wide range of test data including:
+- Store dictionaries with various key-value pairs
+- Integer values for timestamps, deadlines, and offer values
+- String keys of varying lengths
+- Different default values
+
+All tests are properly structured with clear documentation explaining each semantic property being tested. The file is ready to be run with pytest but has not been executed as requested.

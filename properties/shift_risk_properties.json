@@ -1,0 +1,72 @@
+[
+  {
+    "scope": "branch",
+    "function": "shift_risk",
+    "condition": "len(current) != len(target)",
+    "property": "shape_mismatch_error",
+    "formal": "len(current) != len(target) => raise ValueError(\"shape mismatch\")"
+  },
+  {
+    "scope": "branch",
+    "function": "shift_risk",
+    "condition": "not current",
+    "property": "empty_allocation_error",
+    "formal": "not current => raise ValueError(\"empty allocation\")"
+  },
+  {
+    "scope": "branch",
+    "function": "shift_risk",
+    "condition": "len(current) == len(target) and current",
+    "property": "linear_interpolation",
+    "formal": "adjusted = [c + (t - c) * damping for c, t in zip(current, target)]"
+  },
+  {
+    "scope": "function",
+    "function": "shift_risk",
+    "property": "length_preservation",
+    "precondition": "len(current) == len(target)",
+    "formal": "len(shift_risk(current, target)) == len(current)"
+  },
+  {
+    "scope": "function",
+    "function": "shift_risk",
+    "property": "element_type_preservation",
+    "precondition": "len(current) == len(target)",
+    "formal": "type(shift_risk(current, target)[i]) == type(current[i]) for all i"
+  },
+  {
+    "scope": "function",
+    "function": "shift_risk",
+    "property": "identity_on_equal_inputs",
+    "precondition": "current == target",
+    "formal": "shift_risk(current, target) == current"
+  },
+  {
+    "scope": "function",
+    "function": "shift_risk",
+    "property": "damping_factor_effect",
+    "precondition": "len(current) == len(target) and damping >= 0",
+    "formal": "shift_risk(current, target) moves current towards target by factor damping"
+  },
+  {
+    "scope": "function",
+    "function": "shift_risk",
+    "property": "no_normalization_bug",
+    "precondition": "sum(current) == 1.0 and sum(target) == 1.0",
+    "formal": "sum(shift_risk(current, target)) != 1.0 (BUG: should normalize)"
+  },
+  {
+    "scope": "function",
+    "function": "shift_risk",
+    "property": "linear_combination_property",
+    "precondition": "len(current) == len(target)",
+    "formal": "shift_risk(current, target)[i] = current[i] + (target[i] - current[i]) * damping"
+  },
+  {
+    "scope": "function",
+    "function": "shift_risk",
+    "property": "boundary_preservation",
+    "precondition": "len(current) == len(target) and 0 <= damping <= 1",
+    "formal": "min(current[i], target[i]) <= shift_risk(current, target)[i] <= max(current[i], target[i])"
+  }
+]

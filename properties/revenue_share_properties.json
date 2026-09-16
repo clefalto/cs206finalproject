@@ -1,0 +1,107 @@
+[
+  {
+    "scope": "branch",
+    "function": "revenue_share",
+    "condition": "not ratios",
+    "property": "empty_ratios_error",
+    "formal": "if not ratios: raise ValueError(\"ratios required\")"
+  },
+  {
+    "scope": "branch",
+    "function": "revenue_share",
+    "condition": "amount < 0",
+    "property": "negative_amount_error",
+    "formal": "if amount < 0: raise ValueError(\"negative amount\")"
+  },
+  {
+    "scope": "branch",
+    "function": "revenue_share",
+    "condition": "total_ratio <= 0",
+    "property": "invalid_ratios_error",
+    "formal": "if total_ratio <= 0: raise ValueError(\"invalid ratios\")"
+  },
+  {
+    "scope": "function",
+    "function": "revenue_share",
+    "property": "non_empty_ratios_required",
+    "precondition": "True",
+    "formal": "len(ratios) > 0"
+  },
+  {
+    "scope": "function",
+    "function": "revenue_share",
+    "property": "non_negative_amount",
+    "precondition": "True",
+    "formal": "amount >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "revenue_share",
+    "property": "positive_total_ratio",
+    "precondition": "True",
+    "formal": "sum(ratios) > 0"
+  },
+  {
+    "scope": "function",
+    "function": "revenue_share",
+    "property": "shares_sum_to_amount_minus_fees",
+    "precondition": "amount >= 0 and sum(ratios) > 0",
+    "formal": "sum([s - fee for s in shares]) == amount - (len(ratios) * fee)"
+  },
+  {
+    "scope": "function",
+    "function": "revenue_share",
+    "property": "proportional_distribution",
+    "precondition": "amount >= 0 and sum(ratios) > 0",
+    "formal": "for i in range(len(ratios)): shares[i] == (ratios[i] / sum(ratios)) * amount"
+  },
+  {
+    "scope": "function",
+    "function": "revenue_share",
+    "property": "same_length_output",
+    "precondition": "amount >= 0 and sum(ratios) > 0",
+    "formal": "len(result) == len(ratios)"
+  },
+  {
+    "scope": "function",
+    "function": "revenue_share",
+    "property": "fee_deduction_bug",
+    "precondition": "amount >= 0 and sum(ratios) > 0",
+    "formal": "result[i] == shares[i] - fee for all i"
+  },
+  {
+    "scope": "function",
+    "function": "revenue_share",
+    "property": "monotonic_ratios",
+    "precondition": "amount >= 0 and sum(ratios) > 0",
+    "formal": "if ratios[i] > ratios[j] then result[i] > result[j]"
+  },
+  {
+    "scope": "function",
+    "function": "revenue_share",
+    "property": "scale_invariance",
+    "precondition": "amount >= 0 and sum(ratios) > 0",
+    "formal": "revenue_share(amount, ratios) == revenue_share(amount * k, ratios * k) for k > 0"
+  },
+  {
+    "scope": "function",
+    "function": "revenue_share",
+    "property": "linear_amount_scaling",
+    "precondition": "amount >= 0 and sum(ratios) > 0",
+    "formal": "revenue_share(amount * k, ratios) == k * revenue_share(amount, ratios) for k >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "revenue_share",
+    "property": "zero_amount_zero_shares",
+    "precondition": "sum(ratios) > 0",
+    "formal": "revenue_share(0, ratios) == [-fee] * len(ratios)"
+  },
+  {
+    "scope": "function",
+    "function": "revenue_share",
+    "property": "error_consistency",
+    "precondition": "True",
+    "formal": "if any precondition fails, raises ValueError with descriptive message"
+  }
+]

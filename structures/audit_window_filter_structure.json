@@ -1,0 +1,13 @@
+{
+    "functions": [
+        {
+            "name": "audit_window_filter",
+            "parameters": [
+                "timestamps",
+                "now"
+            ],
+            "branches": [],
+            "returns": "[t for t in timestamps if t >= cutoff]"
+        }
+    ]
+}

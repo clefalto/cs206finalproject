@@ -1,0 +1,38 @@
+I have successfully created a comprehensive test file `tests/plan_seats_share_test.py` using the Hypothesis testing framework that exercises all 23 semantic properties identified in `properties/plan_seats_share_properties.json`.
+
+The test file includes:
+
+**Branch Properties (Error Conditions) - 7 tests:**
+1. `test_empty_weights_error` - Tests empty weights raise ValueError
+2. `test_negative_total_error` - Tests negative total raises ValueError  
+3. `test_negative_minimum_error` - Tests negative minimum raises ValueError
+4. `test_zero_weight_sum_error` - Tests zero weight sum raises ValueError
+5. `test_integer_flooring` - Tests floor_to_int behavior
+6. `test_proportional_allocation` - Tests portion > minimum logic
+7. `test_minimum_floor` - Tests portion <= minimum logic
+
+**Function Properties (Valid Inputs) - 16 tests:**
+8. `test_non_empty_weights_required` - Tests weights must be non-empty
+9. `test_non_negative_total` - Tests total must be non-negative
+10. `test_non_negative_minimum` - Tests minimum must be non-negative
+11. `test_non_zero_weight_sum` - Tests weight sum must be non-zero
+12. `test_shares_length_equals_weights_length` - Tests output length matches input
+13. `test_shares_sum_approximates_total` - Tests sum approximation property
+14. `test_shares_non_negative` - Tests all shares are non-negative
+15. `test_shares_minimum_bound` - Tests shares meet minimum requirement
+16. `test_proportional_when_no_minimum` - Tests proportional allocation when minimum=0
+17. `test_integer_output_when_floored` - Tests integer output with floor_to_int=True
+18. `test_float_output_when_not_floored` - Tests float output with floor_to_int=False
+19. `test_monotonic_with_total` - Tests monotonic behavior with total
+20. `test_monotonic_with_minimum` - Tests monotonic behavior with minimum
+21. `test_scale_invariant_weights` - Tests scale invariance with weights
+22. `test_scale_invariant_total` - Tests scale invariance with total
+23. `test_remainder_loss_when_floored` - Tests remainder loss property
+
+**Additional Edge Case Tests:**
+- Tests for very small/large weights
+- Tests for single weight scenarios
+- Tests for identical weights
+- Tests for all zero weights handling
+
+The test file uses Hypothesis strategies to generate comprehensive test data and includes proper assumptions and edge case handling. All tests are designed to run without execution as requested, providing thorough coverage of the semantic properties defined in the properties file.

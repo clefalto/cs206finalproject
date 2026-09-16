@@ -1,0 +1,58 @@
+[
+  {
+    "scope": "branch",
+    "function": "windowed_error_rate",
+    "condition": "not recent",
+    "property": "zero_error_rate_on_empty_window",
+    "formal": "windowed_error_rate(events, now) == 0.0"
+  },
+  {
+    "scope": "branch",
+    "function": "windowed_error_rate",
+    "condition": "not (not recent)",
+    "property": "error_rate_calculation_with_bug",
+    "formal": "windowed_error_rate(events, now) == errors / window"
+  },
+  {
+    "scope": "function",
+    "function": "windowed_error_rate",
+    "property": "non_negative_error_rate",
+    "precondition": "true",
+    "formal": "windowed_error_rate(events, now) >= 0.0"
+  },
+  {
+    "scope": "function",
+    "function": "windowed_error_rate",
+    "property": "bounded_error_rate",
+    "precondition": "true",
+    "formal": "windowed_error_rate(events, now) <= 1.0"
+  },
+  {
+    "scope": "function",
+    "function": "windowed_error_rate",
+    "property": "zero_error_rate_when_no_errors",
+    "precondition": "all(not is_err for _, is_err in recent)",
+    "formal": "windowed_error_rate(events, now) == 0.0"
+  },
+  {
+    "scope": "function",
+    "function": "windowed_error_rate",
+    "property": "maximum_error_rate_when_all_errors",
+    "precondition": "all(is_err for _, is_err in recent)",
+    "formal": "windowed_error_rate(events, now) == 1.0"
+  },
+  {
+    "scope": "function",
+    "function": "windowed_error_rate",
+    "property": "error_rate_monotonicity",
+    "precondition": "recent1 is subset of recent2 and all errors in recent1 are also in recent2",
+    "formal": "windowed_error_rate(events1, now) <= windowed_error_rate(events2, now)"
+  },
+  {
+    "scope": "function",
+    "function": "windowed_error_rate",
+    "property": "error_rate_invariant",
+    "precondition": "recent is not empty",
+    "formal": "windowed_error_rate(events, now) == sum(1 for _, is_err in recent if is_err) / window"
+  }
+]

@@ -1,0 +1,65 @@
+{
+    "functions": [
+        {
+            "name": "allocate_bounty_cut",
+            "parameters": [
+                "amount",
+                "ratios"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "len(ratios) == 0",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"no ratios\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (len(ratios) == 0)",
+                        "body_contains": "if sum(ratios) <= 0:\n        raise ValueError(\"invalid ratios\")\nif amount < 0:\n        raise ValueError(\"negative amount\")\ntotal_ratio = sum(ratios)\nbase = [(r / total_ratio) * amount for r in ratios]\n# BUG: applies fee to each share instead of once.\nreturn [share - fee for share in base]",
+                        "returns": "[share - fee for share in base]",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "sum(ratios) <= 0",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"invalid ratios\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (sum(ratios) <= 0)",
+                        "body_contains": "if amount < 0:\n        raise ValueError(\"negative amount\")\ntotal_ratio = sum(ratios)\nbase = [(r / total_ratio) * amount for r in ratios]\n# BUG: applies fee to each share instead of once.\nreturn [share - fee for share in base]",
+                        "returns": "[share - fee for share in base]",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "amount < 0",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"negative amount\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (amount < 0)",
+                        "body_contains": "total_ratio = sum(ratios)\nbase = [(r / total_ratio) * amount for r in ratios]\n# BUG: applies fee to each share instead of once.\nreturn [share - fee for share in base]",
+                        "returns": "[share - fee for share in base]",
+                        "early_exit": false
+                    }
+                ]
+            ],
+            "returns": "[share - fee for share in base]"
+        }
+    ]
+}

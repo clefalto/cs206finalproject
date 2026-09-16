@@ -1,0 +1,42 @@
+{
+    "functions": [
+        {
+            "name": "calibrate_lift",
+            "parameters": [
+                "x0",
+                "y0",
+                "x1",
+                "y1",
+                "x"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "x1 == x0",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"zero length\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (x1 == x0)",
+                        "body_contains": "t = (x - x0) / (x1 - x0)\ny = (1 - t) * y0 + t * y1\nif clamp:\n        low, high = sorted([y0, y1])\n        # BUG: clamps output using y-range, ignores x bounds.\n        y = min(max(y, low), high)\nreturn y",
+                        "returns": "y",
+                        "early_exit": false
+                    }
+                ],
+                {
+                    "type": "if",
+                    "condition": "clamp",
+                    "branches": null,
+                    "body_contains": "low, high = sorted([y0, y1])\n        # BUG: clamps output using y-range, ignores x bounds.\n        y = min(max(y, low), high)",
+                    "returns": null,
+                    "early_exit": false
+                }
+            ],
+            "returns": "y"
+        }
+    ]
+}

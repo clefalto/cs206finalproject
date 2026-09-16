@@ -1,0 +1,64 @@
+{
+    "functions": [
+        {
+            "name": "queue_window_avg",
+            "parameters": [
+                "values"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "window <= 0",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"window must be positive\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (window <= 0)",
+                        "body_contains": "if not values:\n        raise ValueError(\"empty series\")\ntail = values[-window:]\ntotal = sum(tail)\n# BUG: uses window size instead of actual sample count.\nmean = total / window\nif len(tail) < warmup_min:\n        return None\nreturn mean",
+                        "returns": "mean",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "not values",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"empty series\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (not values)",
+                        "body_contains": "tail = values[-window:]\ntotal = sum(tail)\n# BUG: uses window size instead of actual sample count.\nmean = total / window\nif len(tail) < warmup_min:\n        return None\nreturn mean",
+                        "returns": "mean",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "len(tail) < warmup_min",
+                        "branches": null,
+                        "body_contains": "return None",
+                        "returns": "None",
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (len(tail) < warmup_min)",
+                        "body_contains": "return mean",
+                        "returns": "mean",
+                        "early_exit": false
+                    }
+                ]
+            ],
+            "returns": "mean"
+        }
+    ]
+}

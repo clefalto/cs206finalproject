@@ -1,0 +1,27 @@
+I have successfully created a comprehensive test file for the inspection_booking function using the Hypothesis testing framework. The test file `tests/inspection_booking_test.py` includes:
+
+## Main Test Class (TestInspectionBooking):
+1. **test_invalid_interval_raises_value_error** - Tests that invalid intervals (start >= end) raise ValueError
+2. **test_conflict_detection_returns_false** - Tests that overlapping intervals return False with existing list
+3. **test_valid_interval_check_no_exception** - Tests that valid intervals don't raise exceptions
+4. **test_conflict_free_insertion** - Tests that non-overlapping intervals are inserted and list is sorted
+5. **test_sorted_output** - Tests that merged list is sorted by start time
+6. **test_immutability_preservation** - Tests that existing list is not modified
+7. **test_boundary_touch_overlap** - Tests that boundary-touching intervals are considered overlapping
+8. **test_no_duplicate_insertion** - Tests that identical intervals are not inserted
+
+## Additional Edge Case Tests (TestInspectionBookingEdgeCases):
+1. **test_empty_existing_list** - Tests behavior with empty existing list
+2. **test_multiple_overlaps** - Tests behavior when candidate overlaps with multiple existing slots
+3. **test_insertion_at_beginning** - Tests insertion at the beginning of the sorted list
+4. **test_insertion_at_end** - Tests insertion at the end of the sorted list
+
+## Key Features:
+- All tests use the Hypothesis testing framework with appropriate strategies
+- Each test corresponds to a semantic property from the properties/inspection_booking_properties.json file
+- Includes helper method `_overlaps()` that replicates the overlaps function from the implementation
+- Uses proper assume() statements to set up test preconditions
+- Follows the same structure and patterns as other test files in the project
+- Tests both the main semantic properties and additional edge cases
+
+The test file is ready to be executed (though execution was not requested) and comprehensively covers all the semantic properties identified for the inspection_booking function.

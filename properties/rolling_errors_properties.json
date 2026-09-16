@@ -1,0 +1,128 @@
+[
+  {
+    "scope": "branch",
+    "function": "rolling_errors",
+    "condition": "window <= 0",
+    "property": "invalid_window_validation",
+    "formal": "raises ValueError(\"window must be positive\")"
+  },
+  {
+    "scope": "branch",
+    "function": "rolling_errors",
+    "condition": "not values",
+    "property": "empty_values_validation",
+    "formal": "raises ValueError(\"no values\")"
+  },
+  {
+    "scope": "branch",
+    "function": "rolling_errors",
+    "condition": "len(recent) < warmup_min",
+    "property": "warmup_insufficient",
+    "formal": "returns None"
+  },
+  {
+    "scope": "function",
+    "function": "rolling_errors",
+    "property": "window_positive",
+    "precondition": "window <= 0",
+    "formal": "raises ValueError(\"window must be positive\")"
+  },
+  {
+    "scope": "function",
+    "function": "rolling_errors",
+    "property": "values_non_empty",
+    "precondition": "not values",
+    "formal": "raises ValueError(\"no values\")"
+  },
+  {
+    "scope": "function",
+    "function": "rolling_errors",
+    "property": "warmup_min_validation",
+    "precondition": "warmup_min < 0",
+    "formal": "raises ValueError(\"warmup_min must be non-negative\")"
+  },
+  {
+    "scope": "function",
+    "function": "rolling_errors",
+    "property": "rolling_mean_calculation",
+    "precondition": "window > 0 and values and len(recent) >= warmup_min",
+    "formal": "mean = sum(values[-window:]) / window"
+  },
+  {
+    "scope": "function",
+    "function": "rolling_errors",
+    "property": "warmup_behavior",
+    "precondition": "len(values) < warmup_min",
+    "formal": "returns None"
+  },
+  {
+    "scope": "function",
+    "function": "rolling_errors",
+    "property": "window_clamping",
+    "precondition": "len(values) < window",
+    "formal": "uses values[-len(values):] instead of values[-window:]"
+  },
+  {
+    "scope": "function",
+    "function": "rolling_errors",
+    "property": "mean_non_negative",
+    "precondition": "all(x >= 0 for x in values)",
+    "formal": "mean >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "rolling_errors",
+    "property": "mean_bounded",
+    "precondition": "min_val <= all(x) <= max_val for x in values",
+    "formal": "min_val <= mean <= max_val"
+  },
+  {
+    "scope": "function",
+    "function": "rolling_errors",
+    "property": "monotonicity_preservation",
+    "precondition": "values1[i] <= values2[i] for all i",
+    "formal": "rolling_errors(values1) <= rolling_errors(values2)"
+  },
+  {
+    "scope": "function",
+    "function": "rolling_errors",
+    "property": "scale_invariance",
+    "precondition": "c > 0",
+    "formal": "rolling_errors([c*x for x in values]) == c * rolling_errors(values)"
+  },
+  {
+    "scope": "function",
+    "function": "rolling_errors",
+    "property": "additive_independence",
+    "precondition": "c is constant",
+    "formal": "rolling_errors([x + c for x in values]) == rolling_errors(values) + c"
+  },
+  {
+    "scope": "function",
+    "function": "rolling_errors",
+    "property": "window_size_effect",
+    "precondition": "window1 < window2 and len(values) >= window2",
+    "formal": "rolling_errors(values, window=window1) may differ from rolling_errors(values, window=window2)"
+  },
+  {
+    "scope": "function",
+    "function": "rolling_errors",
+    "property": "warmup_min_effect",
+    "precondition": "warmup_min1 < warmup_min2",
+    "formal": "rolling_errors(values, warmup_min=warmup_min1) may return a value when rolling_errors(values, warmup_min=warmup_min2) returns None"
+  },
+  {
+    "scope": "function",
+    "function": "rolling_errors",
+    "property": "recent_values_only",
+    "precondition": "True",
+    "formal": "result depends only on values[-window:]"
+  },
+  {
+    "scope": "function",
+    "function": "rolling_errors",
+    "property": "deterministic",
+    "precondition": "same inputs",
+    "formal": "always returns same output"
+  }
+]

@@ -1,0 +1,49 @@
+{
+    "functions": [
+        {
+            "name": "token_expiry_check",
+            "parameters": [
+                "tokens",
+                "key",
+                "now"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "record is None",
+                        "branches": null,
+                        "body_contains": "return None",
+                        "returns": "None",
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (record is None)",
+                        "body_contains": "value, expires_at = record\n# BUG: uses strict > so token valid at exact expiry time.\nif now > expires_at:\n        return None\nreturn value",
+                        "returns": "value",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "now > expires_at",
+                        "branches": null,
+                        "body_contains": "return None",
+                        "returns": "None",
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (now > expires_at)",
+                        "body_contains": "return value",
+                        "returns": "value",
+                        "early_exit": false
+                    }
+                ]
+            ],
+            "returns": "value"
+        }
+    ]
+}

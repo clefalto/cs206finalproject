@@ -1,0 +1,79 @@
+[
+  {
+    "scope": "branch",
+    "function": "bandwidth_budgeter",
+    "condition": "total < 0",
+    "property": "negative_total_error",
+    "formal": "raises ValueError(\"total must be non-negative\")"
+  },
+  {
+    "scope": "branch",
+    "function": "bandwidth_budgeter",
+    "condition": "minimum < 0",
+    "property": "negative_minimum_error",
+    "formal": "raises ValueError(\"minimum must be non-negative\")"
+  },
+  {
+    "scope": "branch",
+    "function": "bandwidth_budgeter",
+    "condition": "not weights",
+    "property": "empty_weights_error",
+    "formal": "raises ValueError(\"no weights provided\")"
+  },
+  {
+    "scope": "branch",
+    "function": "bandwidth_budgeter",
+    "condition": "not any(weights)",
+    "property": "zero_weights_error",
+    "formal": "raises ValueError(\"all weights are zero\")"
+  },
+  {
+    "scope": "function",
+    "function": "bandwidth_budgeter",
+    "property": "non_negative_allocations",
+    "precondition": "total >= 0 and minimum >= 0 and weights is not empty and any(weights)",
+    "formal": "all(a >= 0 for a in bandwidth_budgeter(total, weights))"
+  },
+  {
+    "scope": "function",
+    "function": "bandwidth_budgeter",
+    "property": "minimum_allocation_guarantee",
+    "precondition": "total >= 0 and minimum >= 0 and weights is not empty and any(weights)",
+    "formal": "all(a >= minimum for a in bandwidth_budgeter(total, weights))"
+  },
+  {
+    "scope": "function",
+    "function": "bandwidth_budgeter",
+    "property": "allocation_length",
+    "precondition": "total >= 0 and minimum >= 0 and weights is not empty and any(weights)",
+    "formal": "len(bandwidth_budgeter(total, weights)) == len(weights)"
+  },
+  {
+    "scope": "function",
+    "function": "bandwidth_budgeter",
+    "property": "integer_allocations",
+    "precondition": "total >= 0 and minimum >= 0 and weights is not empty and any(weights)",
+    "formal": "all(isinstance(a, int) for a in bandwidth_budgeter(total, weights))"
+  },
+  {
+    "scope": "function",
+    "function": "bandwidth_budgeter",
+    "property": "budget_not_exceeded",
+    "precondition": "total >= 0 and minimum >= 0 and weights is not empty and any(weights)",
+    "formal": "sum(bandwidth_budgeter(total, weights)) <= total"
+  },
+  {
+    "scope": "function",
+    "function": "bandwidth_budgeter",
+    "property": "budget_truncation_bug",
+    "precondition": "total >= 0 and minimum >= 0 and weights is not empty and any(weights)",
+    "formal": "sum(bandwidth_budgeter(total, weights)) < total when fractional allocations exist"
+  },
+  {
+    "scope": "function",
+    "function": "bandwidth_budgeter",
+    "property": "proportional_allocation",
+    "precondition": "total >= 0 and minimum >= 0 and weights is not empty and any(weights) and total is large enough",
+    "formal": "bandwidth_budgeter(total, weights)[i] / bandwidth_budgeter(total, weights)[j] ≈ weights[i] / weights[j]"
+  }
+]

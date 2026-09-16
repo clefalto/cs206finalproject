@@ -1,0 +1,72 @@
+[
+  {
+    "scope": "branch",
+    "function": "ledger_balance_rollup",
+    "condition": "amount < 0",
+    "property": "negative_amount_rejection",
+    "formal": "if amount < 0 then ValueError(\"negative amount\") is raised"
+  },
+  {
+    "scope": "branch",
+    "function": "ledger_balance_rollup",
+    "condition": "kind == \"credit\"",
+    "property": "credit_addition",
+    "formal": "if kind == \"credit\" then balance += amount"
+  },
+  {
+    "scope": "branch",
+    "function": "ledger_balance_rollup",
+    "condition": "kind == \"debit\"",
+    "property": "debit_addition_bug",
+    "formal": "if kind == \"debit\" then balance += amount (incorrect behavior - should subtract)"
+  },
+  {
+    "scope": "branch",
+    "function": "ledger_balance_rollup",
+    "condition": "kind not in [\"credit\", \"debit\"]",
+    "property": "unknown_kind_rejection",
+    "formal": "if kind not in [\"credit\", \"debit\"] then ValueError(\"unknown kind\") is raised"
+  },
+  {
+    "scope": "function",
+    "function": "ledger_balance_rollup",
+    "property": "non_negative_balance",
+    "precondition": "all amounts >= 0",
+    "formal": "if all amounts >= 0 then balance >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "ledger_balance_rollup",
+    "property": "monotonic_balance_increase",
+    "precondition": "all amounts >= 0",
+    "formal": "if all amounts >= 0 then balance is non-decreasing with each entry"
+  },
+  {
+    "scope": "function",
+    "function": "ledger_balance_rollup",
+    "property": "zero_balance_empty_entries",
+    "precondition": "entries is empty",
+    "formal": "if entries is empty then balance == 0"
+  },
+  {
+    "scope": "function",
+    "function": "ledger_balance_rollup",
+    "property": "balance_sum_all_entries",
+    "precondition": "all amounts >= 0 and all kinds in [\"credit\", \"debit\"]",
+    "formal": "if all amounts >= 0 and all kinds in [\"credit\", \"debit\"] then balance == sum(amount for amount, kind in entries)"
+  },
+  {
+    "scope": "function",
+    "function": "ledger_balance_rollup",
+    "property": "debit_should_decrease_balance",
+    "precondition": "kind == \"debit\" and amount >= 0",
+    "formal": "if kind == \"debit\" and amount >= 0 then balance should decrease by amount (current implementation is buggy)"
+  },
+  {
+    "scope": "function",
+    "function": "ledger_balance_rollup",
+    "property": "credit_should_increase_balance",
+    "precondition": "kind == \"credit\" and amount >= 0",
+    "formal": "if kind == \"credit\" and amount >= 0 then balance should increase by amount"
+  }
+]

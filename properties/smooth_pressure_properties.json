@@ -1,0 +1,65 @@
+[
+  {
+    "scope": "branch",
+    "function": "smooth_pressure",
+    "condition": "window <= 0",
+    "property": "invalid_window_error",
+    "formal": "if window <= 0 then raise ValueError(\"window must be positive\")"
+  },
+  {
+    "scope": "branch",
+    "function": "smooth_pressure",
+    "condition": "not values",
+    "property": "empty_values_error",
+    "formal": "if not values then raise ValueError(\"no values\")"
+  },
+  {
+    "scope": "branch",
+    "function": "smooth_pressure",
+    "condition": "len(recent) < warmup_min",
+    "property": "insufficient_data_none",
+    "formal": "if len(recent) < warmup_min then return None"
+  },
+  {
+    "scope": "function",
+    "function": "smooth_pressure",
+    "property": "positive_window_precondition",
+    "precondition": "window > 0",
+    "formal": "window must be positive for function to proceed"
+  },
+  {
+    "scope": "function",
+    "function": "smooth_pressure",
+    "property": "non_empty_values_precondition",
+    "precondition": "values is not empty",
+    "formal": "values must contain at least one element for function to proceed"
+  },
+  {
+    "scope": "function",
+    "function": "smooth_pressure",
+    "property": "mean_calculation",
+    "precondition": "len(recent) >= warmup_min",
+    "formal": "return sum(recent) / window"
+  },
+  {
+    "scope": "function",
+    "function": "smooth_pressure",
+    "property": "warmup_behavior",
+    "precondition": "len(recent) < warmup_min",
+    "formal": "return None when insufficient data for warmup"
+  },
+  {
+    "scope": "function",
+    "function": "smooth_pressure",
+    "property": "window_slicing",
+    "precondition": "values is not empty",
+    "formal": "recent = values[-window:] takes last 'window' elements"
+  },
+  {
+    "scope": "function",
+    "function": "smooth_pressure",
+    "property": "bug_division_by_full_window",
+    "precondition": "len(recent) < window",
+    "formal": "mean = total / window divides by full window size even during warmup"
+  }
+]

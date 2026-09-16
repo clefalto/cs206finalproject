@@ -1,0 +1,72 @@
+[
+  {
+    "scope": "branch",
+    "function": "realign_cache",
+    "condition": "len(current) != len(target)",
+    "property": "shape_mismatch_error",
+    "formal": "realign_cache(current, target) raises ValueError(\"shape mismatch\")"
+  },
+  {
+    "scope": "branch",
+    "function": "realign_cache",
+    "condition": "not current",
+    "property": "empty_allocation_error",
+    "formal": "realign_cache(current, target) raises ValueError(\"empty allocation\")"
+  },
+  {
+    "scope": "function",
+    "function": "realign_cache",
+    "property": "shape_consistency",
+    "precondition": "len(current) == len(target)",
+    "formal": "len(realign_cache(current, target)) == len(current)"
+  },
+  {
+    "scope": "function",
+    "function": "realign_cache",
+    "property": "linear_interpolation",
+    "precondition": "len(current) == len(target) and current != []",
+    "formal": "realign_cache(current, target)[i] == current[i] + (target[i] - current[i]) * damping for all i"
+  },
+  {
+    "scope": "function",
+    "function": "realign_cache",
+    "property": "damping_factor_effect",
+    "precondition": "len(current) == len(target) and current != []",
+    "formal": "if damping == 0 then realign_cache(current, target) == current"
+  },
+  {
+    "scope": "function",
+    "function": "realign_cache",
+    "property": "damping_factor_effect",
+    "precondition": "len(current) == len(target) and current != []",
+    "formal": "if damping == 1 then realign_cache(current, target) == target"
+  },
+  {
+    "scope": "function",
+    "function": "realign_cache",
+    "property": "monotonicity_preservation",
+    "precondition": "len(current) == len(target) and current != [] and 0 <= damping <= 1",
+    "formal": "min(current[i], target[i]) <= realign_cache(current, target)[i] <= max(current[i], target[i]) for all i"
+  },
+  {
+    "scope": "function",
+    "function": "realign_cache",
+    "property": "no_renormalization_bug",
+    "precondition": "len(current) == len(target) and current != []",
+    "formal": "sum(realign_cache(current, target)) != 1 (when sum(current) == 1 and sum(target) == 1)"
+  },
+  {
+    "scope": "function",
+    "function": "realign_cache",
+    "property": "identity_on_empty",
+    "precondition": "current == []",
+    "formal": "realign_cache([], []) raises ValueError(\"empty allocation\")"
+  },
+  {
+    "scope": "function",
+    "function": "realign_cache",
+    "property": "metamorphic_relation",
+    "precondition": "len(current) == len(target) and current != []",
+    "formal": "realign_cache(realign_cache(current, target), target) == realign_cache(current, target) when damping == 1"
+  }
+]

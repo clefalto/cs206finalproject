@@ -1,0 +1,58 @@
+[
+  {
+    "scope": "branch",
+    "function": "reservation_overlap_check",
+    "condition": "c_start >= c_end",
+    "property": "invalid_reservation_detection",
+    "formal": "if c_start >= c_end then ValueError is raised"
+  },
+  {
+    "scope": "branch", 
+    "function": "reservation_overlap_check",
+    "condition": "not (c_end <= start or c_start >= end)",
+    "property": "boundary_touch_overlap_detection",
+    "formal": "if not (c_end <= start or c_start >= end) then return True (overlap detected)"
+  },
+  {
+    "scope": "function",
+    "function": "reservation_overlap_check", 
+    "property": "valid_reservation_validation",
+    "precondition": "c_start < c_end",
+    "formal": "if c_start < c_end then no ValueError is raised"
+  },
+  {
+    "scope": "function",
+    "function": "reservation_overlap_check",
+    "property": "no_overlap_return",
+    "precondition": "no reservations overlap with candidate",
+    "formal": "if for all (start, end) in reservations: (c_end <= start or c_start >= end) then return False"
+  },
+  {
+    "scope": "function", 
+    "function": "reservation_overlap_check",
+    "property": "overlap_detection",
+    "precondition": "at least one reservation overlaps with candidate",
+    "formal": "if exists (start, end) in reservations such that not (c_end <= start or c_start >= end) then return True"
+  },
+  {
+    "scope": "function",
+    "function": "reservation_overlap_check",
+    "property": "boundary_touch_considered_overlap",
+    "precondition": "candidate touches boundary of existing reservation",
+    "formal": "if c_end == start or c_start == end for any (start, end) in reservations then return True"
+  },
+  {
+    "scope": "function",
+    "function": "reservation_overlap_check",
+    "property": "empty_reservations_no_overlap",
+    "precondition": "reservations is empty",
+    "formal": "if reservations == [] then return False"
+  },
+  {
+    "scope": "function",
+    "function": "reservation_overlap_check",
+    "property": "deterministic_behavior",
+    "precondition": "none",
+    "formal": "for identical inputs (reservations, candidate), function always returns same result"
+  }
+]

@@ -1,0 +1,86 @@
+[
+  {
+    "scope": "branch",
+    "function": "metric_rolling_avg",
+    "condition": "window <= 0",
+    "property": "invalid_window_error",
+    "formal": "if window <= 0 then raise ValueError(\"window must be positive\")"
+  },
+  {
+    "scope": "branch",
+    "function": "metric_rolling_avg",
+    "condition": "not values",
+    "property": "empty_values_error",
+    "formal": "if not values then raise ValueError(\"no values\")"
+  },
+  {
+    "scope": "branch",
+    "function": "metric_rolling_avg",
+    "condition": "len(tail) < min_samples",
+    "property": "insufficient_samples_none",
+    "formal": "if len(tail) < min_samples then return None"
+  },
+  {
+    "scope": "function",
+    "function": "metric_rolling_avg",
+    "property": "positive_window_requirement",
+    "precondition": "window > 0",
+    "formal": "window must be positive for function to proceed"
+  },
+  {
+    "scope": "function",
+    "function": "metric_rolling_avg",
+    "property": "non_empty_values_requirement",
+    "precondition": "values is not empty",
+    "formal": "values must contain at least one element for function to proceed"
+  },
+  {
+    "scope": "function",
+    "function": "metric_rolling_avg",
+    "property": "rolling_average_calculation",
+    "precondition": "window > 0 and values is not empty",
+    "formal": "avg = sum(values[-window:]) / window"
+  },
+  {
+    "scope": "function",
+    "function": "metric_rolling_avg",
+    "property": "minimum_samples_check",
+    "precondition": "window > 0 and values is not empty",
+    "formal": "if len(values[-window:]) < min_samples then return None else return avg"
+  },
+  {
+    "scope": "function",
+    "function": "metric_rolling_avg",
+    "property": "tail_extraction",
+    "precondition": "window > 0 and values is not empty",
+    "formal": "tail = values[-window:]"
+  },
+  {
+    "scope": "function",
+    "function": "metric_rolling_avg",
+    "property": "sum_calculation",
+    "precondition": "window > 0 and values is not empty",
+    "formal": "total = sum(tail)"
+  },
+  {
+    "scope": "function",
+    "function": "metric_rolling_avg",
+    "property": "division_by_window",
+    "precondition": "window > 0 and values is not empty",
+    "formal": "avg = total / window"
+  },
+  {
+    "scope": "function",
+    "function": "metric_rolling_avg",
+    "property": "potential_none_return",
+    "precondition": "window > 0 and values is not empty",
+    "formal": "function may return None if insufficient samples"
+  },
+  {
+    "scope": "function",
+    "function": "metric_rolling_avg",
+    "property": "numeric_return",
+    "precondition": "window > 0 and values is not empty and sufficient samples",
+    "formal": "function returns numeric average when conditions are met"
+  }
+]

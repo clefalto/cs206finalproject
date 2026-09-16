@@ -1,0 +1,37 @@
+[
+  {
+    "scope": "branch",
+    "function": "bump_click",
+    "condition": "cap is not None and counters[key] > cap",
+    "property": "cap_enforcement",
+    "formal": "counters[key] = cap"
+  },
+  {
+    "scope": "function",
+    "function": "bump_click",
+    "property": "monotonic_increase",
+    "precondition": "counters[key] < cap or cap is None",
+    "formal": "counters[key] >= initial_counters[key]"
+  },
+  {
+    "scope": "function",
+    "function": "bump_click",
+    "property": "cap_respect",
+    "precondition": "cap is not None",
+    "formal": "counters[key] <= cap"
+  },
+  {
+    "scope": "function",
+    "function": "bump_click",
+    "property": "key_preservation",
+    "precondition": "key in counters",
+    "formal": "key in counters"
+  },
+  {
+    "scope": "function",
+    "function": "bump_click",
+    "property": "counter_preservation",
+    "precondition": "other_key != key",
+    "formal": "counters[other_key] == initial_counters[other_key]"
+  }
+]

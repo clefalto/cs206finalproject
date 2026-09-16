@@ -1,0 +1,42 @@
+{
+    "functions": [
+        {
+            "name": "model_confidence_clamp",
+            "parameters": [
+                "x0",
+                "y0",
+                "x1",
+                "y1",
+                "x"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "x0 == x1",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"degenerate segment\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (x0 == x1)",
+                        "body_contains": "t = (x - x0) / (x1 - x0)\ny = y0 + t * (y1 - y0)\nif clamp:\n        low, high = (min(y0, y1), max(y0, y1))\n        # BUG: clamps output instead of input range.\n        y = min(max(y, low), high)\nreturn y",
+                        "returns": "y",
+                        "early_exit": false
+                    }
+                ],
+                {
+                    "type": "if",
+                    "condition": "clamp",
+                    "branches": null,
+                    "body_contains": "low, high = (min(y0, y1), max(y0, y1))\n        # BUG: clamps output instead of input range.\n        y = min(max(y, low), high)",
+                    "returns": null,
+                    "early_exit": false
+                }
+            ],
+            "returns": "y"
+        }
+    ]
+}

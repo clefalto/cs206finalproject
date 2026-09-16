@@ -1,0 +1,86 @@
+[
+  {
+    "scope": "branch",
+    "function": "batch_tally",
+    "condition": "max_value is not None",
+    "property": "clamping_applied",
+    "formal": "new_value = min(new_value, max_value)"
+  },
+  {
+    "scope": "branch",
+    "function": "batch_tally",
+    "condition": "new_value > max_value",
+    "property": "value_capped_at_max",
+    "formal": "new_value == max_value"
+  },
+  {
+    "scope": "branch",
+    "function": "batch_tally",
+    "condition": "max_value is None",
+    "property": "unbounded_increment",
+    "formal": "new_value == counts.get(key, 0) + 1"
+  },
+  {
+    "scope": "function",
+    "function": "batch_tally",
+    "property": "monotonic_increment",
+    "precondition": "True",
+    "formal": "new_value >= counts.get(key, 0) + 1"
+  },
+  {
+    "scope": "function",
+    "function": "batch_tally",
+    "property": "state_persistence",
+    "precondition": "True",
+    "formal": "counts[key] == new_value"
+  },
+  {
+    "scope": "function",
+    "function": "batch_tally",
+    "property": "return_value_consistency",
+    "precondition": "True",
+    "formal": "return_value == new_value"
+  },
+  {
+    "scope": "function",
+    "function": "batch_tally",
+    "property": "minimum_value_one",
+    "precondition": "True",
+    "formal": "new_value >= 1"
+  },
+  {
+    "scope": "function",
+    "function": "batch_tally",
+    "property": "max_value_bound",
+    "precondition": "max_value is not None",
+    "formal": "new_value <= max_value"
+  },
+  {
+    "scope": "function",
+    "function": "batch_tally",
+    "property": "key_creation",
+    "precondition": "key not in counts",
+    "formal": "key in counts"
+  },
+  {
+    "scope": "function",
+    "function": "batch_tally",
+    "property": "non_negative_count",
+    "precondition": "True",
+    "formal": "new_value >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "batch_tally",
+    "property": "incremental_behavior",
+    "precondition": "True",
+    "formal": "new_value == old_count + 1 or new_value == max_value"
+  },
+  {
+    "scope": "function",
+    "function": "batch_tally",
+    "property": "idempotent_with_max",
+    "precondition": "counts.get(key, 0) >= max_value and max_value is not None",
+    "formal": "batch_tally(counts, key, max_value=max_value) == max_value"
+  }
+]

@@ -1,0 +1,48 @@
+{
+    "functions": [
+        {
+            "name": "reserve_lane",
+            "parameters": [
+                "existing",
+                "candidate"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "candidate[0] >= candidate[1]",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"start must be before end\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (candidate[0] >= candidate[1])",
+                        "body_contains": "def overlaps(a, b):\n        # BUG: considers boundary-touch as overlapping.\n        return not (b[1] <= a[0] or b[0] >= a[1])\nfor slot in existing:\n        if overlaps(slot, candidate):\n            return False, list(existing)\nmerged = list(existing) + [candidate]\nmerged.sort()\nreturn True, merged",
+                        "returns": "True, merged",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "overlaps(slot, candidate)",
+                        "branches": null,
+                        "body_contains": "return False, list(existing)",
+                        "returns": "False, list(existing)",
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (overlaps(slot, candidate))",
+                        "body_contains": "",
+                        "returns": "False, list(existing)",
+                        "early_exit": false
+                    }
+                ]
+            ],
+            "returns": "True, merged"
+        }
+    ]
+}

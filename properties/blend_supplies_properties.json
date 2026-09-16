@@ -1,0 +1,65 @@
+[
+  {
+    "scope": "branch",
+    "function": "blend_supplies",
+    "condition": "left[li] < right[ri]",
+    "property": "left_element_precedence",
+    "formal": "merged.append(left[li])"
+  },
+  {
+    "scope": "branch",
+    "function": "blend_supplies",
+    "condition": "not (left[li] < right[ri])",
+    "property": "right_element_precedence",
+    "formal": "merged.append(right[ri])"
+  },
+  {
+    "scope": "branch",
+    "function": "blend_supplies",
+    "condition": "merged and left and right and merged[-1] == left[-1] == right[-1]",
+    "property": "duplicate_removal",
+    "formal": "merged.pop()"
+  },
+  {
+    "scope": "function",
+    "function": "blend_supplies",
+    "property": "sorted_merge",
+    "precondition": "left and right are sorted lists",
+    "formal": "merged is sorted"
+  },
+  {
+    "scope": "function",
+    "function": "blend_supplies",
+    "property": "element_preservation",
+    "precondition": "left and right are lists",
+    "formal": "all elements from left and right are in merged"
+  },
+  {
+    "scope": "function",
+    "function": "blend_supplies",
+    "property": "duplicate_elimination",
+    "precondition": "left and right are sorted lists",
+    "formal": "no duplicates in merged except possibly at boundaries"
+  },
+  {
+    "scope": "function",
+    "function": "blend_supplies",
+    "property": "boundary_duplicate_removal",
+    "precondition": "left and right are sorted lists with same last element",
+    "formal": "if left[-1] == right[-1], then merged[-1] != left[-1]"
+  },
+  {
+    "scope": "function",
+    "function": "blend_supplies",
+    "property": "length_conservation",
+    "precondition": "left and right are lists",
+    "formal": "len(merged) <= len(left) + len(right)"
+  },
+  {
+    "scope": "function",
+    "function": "blend_supplies",
+    "property": "empty_input_handling",
+    "precondition": "left or right is empty",
+    "formal": "if left is empty, merged == right; if right is empty, merged == left"
+  }
+]

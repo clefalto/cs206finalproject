@@ -1,0 +1,46 @@
+{
+    "functions": [
+        {
+            "name": "invoice_merge_stream",
+            "parameters": [
+                "left",
+                "right"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "left[i] < right[j]",
+                        "branches": null,
+                        "body_contains": "merged.append(left[i])\n            i += 1",
+                        "returns": null,
+                        "early_exit": false
+                    },
+                    {
+                        "type": "elif",
+                        "condition": "right[j] < left[i]",
+                        "body_contains": "merged.append(right[j])\n            j += 1",
+                        "returns": null,
+                        "early_exit": false
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (left[i] < right[j] and right[j] < left[i])",
+                        "body_contains": "else:\n            merged.append(left[i])\n            merged.append(right[j])\n            i += 1\n            j += 1",
+                        "returns": null,
+                        "early_exit": false
+                    }
+                ],
+                {
+                    "type": "if",
+                    "condition": "merged and left and right and merged[-1] == left[-1] == right[-1]",
+                    "branches": null,
+                    "body_contains": "merged.pop()",
+                    "returns": null,
+                    "early_exit": false
+                }
+            ],
+            "returns": "merged"
+        }
+    ]
+}

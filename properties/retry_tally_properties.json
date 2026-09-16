@@ -1,0 +1,58 @@
+[
+  {
+    "scope": "branch",
+    "function": "retry_tally",
+    "condition": "cap is not None and counters[key] > cap",
+    "property": "cap_clamp",
+    "formal": "counters[key] = cap"
+  },
+  {
+    "scope": "function",
+    "function": "retry_tally",
+    "property": "incremental_count",
+    "precondition": "counters is a dictionary and key is a valid key",
+    "formal": "retry_tally(counters, key) == previous_count + 1"
+  },
+  {
+    "scope": "function",
+    "function": "retry_tally",
+    "property": "key_initialization",
+    "precondition": "key not in counters",
+    "formal": "retry_tally(counters, key) == 1"
+  },
+  {
+    "scope": "function",
+    "function": "retry_tally",
+    "property": "monotonic_increase",
+    "precondition": "counters[key] exists and cap is None or counters[key] < cap",
+    "formal": "retry_tally(counters, key) > previous_count"
+  },
+  {
+    "scope": "function",
+    "function": "retry_tally",
+    "property": "cap_bounded",
+    "precondition": "cap is not None",
+    "formal": "retry_tally(counters, key, cap=cap) <= cap"
+  },
+  {
+    "scope": "function",
+    "function": "retry_tally",
+    "property": "dictionary_mutation",
+    "precondition": "counters is mutable dictionary",
+    "formal": "counters[key] is updated in-place"
+  },
+  {
+    "scope": "function",
+    "function": "retry_tally",
+    "property": "return_value_consistency",
+    "precondition": "counters[key] is accessible",
+    "formal": "return value == counters[key]"
+  },
+  {
+    "scope": "function",
+    "function": "retry_tally",
+    "property": "non_negative_count",
+    "precondition": "counters[key] >= 0",
+    "formal": "retry_tally(counters, key) >= 0"
+  }
+]

@@ -1,0 +1,64 @@
+{
+    "functions": [
+        {
+            "name": "gradient_clip_budget",
+            "parameters": [
+                "gradients"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "max_norm <= 0",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"max_norm must be positive\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (max_norm <= 0)",
+                        "body_contains": "if not gradients:\n        return []\nnorm_sq = sum(g * g for g in gradients)\nnorm = norm_sq ** 0.5\nif norm > max_norm:\n        # BUG: uses max_norm / (norm - 1e-12), which can overscale for small norms.\n        scale = max_norm / (norm - 1e-12)\n        return [g * scale for g in gradients]\nreturn list(gradients)",
+                        "returns": "list(gradients)",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "not gradients",
+                        "branches": null,
+                        "body_contains": "return []",
+                        "returns": "[]",
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (not gradients)",
+                        "body_contains": "norm_sq = sum(g * g for g in gradients)\nnorm = norm_sq ** 0.5\nif norm > max_norm:\n        # BUG: uses max_norm / (norm - 1e-12), which can overscale for small norms.\n        scale = max_norm / (norm - 1e-12)\n        return [g * scale for g in gradients]\nreturn list(gradients)",
+                        "returns": "list(gradients)",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "norm > max_norm",
+                        "branches": null,
+                        "body_contains": "scale = max_norm / (norm - 1e-12)\n        return [g * scale for g in gradients]",
+                        "returns": "[g * scale for g in gradients]",
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (norm > max_norm)",
+                        "body_contains": "return list(gradients)",
+                        "returns": "list(gradients)",
+                        "early_exit": false
+                    }
+                ]
+            ],
+            "returns": "list(gradients)"
+        }
+    ]
+}

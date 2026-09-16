@@ -1,0 +1,135 @@
+[
+  {
+    "scope": "branch",
+    "function": "quota_allocator_service",
+    "condition": "total < 0",
+    "property": "negative_total_error",
+    "formal": "if total < 0 then raise ValueError(\"total must be non-negative\")"
+  },
+  {
+    "scope": "branch",
+    "function": "quota_allocator_service",
+    "condition": "minimum < 0",
+    "property": "negative_minimum_error",
+    "formal": "if minimum < 0 then raise ValueError(\"minimum must be non-negative\")"
+  },
+  {
+    "scope": "branch",
+    "function": "quota_allocator_service",
+    "condition": "not weights or sum(weights) == 0",
+    "property": "invalid_weights_error",
+    "formal": "if not weights or sum(weights) == 0 then raise ValueError(\"invalid weights\")"
+  },
+  {
+    "scope": "branch",
+    "function": "quota_allocator_service",
+    "condition": "total == 0",
+    "property": "zero_total_allocation",
+    "formal": "if total == 0 then all allocations are minimum values"
+  },
+  {
+    "scope": "branch",
+    "function": "quota_allocator_service",
+    "condition": "len(weights) == 1",
+    "property": "single_weight_allocation",
+    "formal": "if len(weights) == 1 then allocation equals total (subject to minimum constraint)"
+  },
+  {
+    "scope": "branch",
+    "function": "quota_allocator_service",
+    "condition": "any(w / weight_sum * total < minimum for w in weights)",
+    "property": "minimum_enforcement",
+    "formal": "if any proportional allocation would be below minimum, then that allocation is set to minimum"
+  },
+  {
+    "scope": "function",
+    "function": "quota_allocator_service",
+    "property": "length_preservation",
+    "precondition": "weights is non-empty and sum(weights) > 0",
+    "formal": "len(quota_allocator_service(total, weights, minimum)) == len(weights)"
+  },
+  {
+    "scope": "function",
+    "function": "quota_allocator_service",
+    "property": "non_negative_allocations",
+    "precondition": "total >= 0 and minimum >= 0 and weights is non-empty and sum(weights) > 0",
+    "formal": "all(allocation >= 0 for allocation in quota_allocator_service(total, weights, minimum))"
+  },
+  {
+    "scope": "function",
+    "function": "quota_allocator_service",
+    "property": "minimum_constraint",
+    "precondition": "total >= 0 and minimum >= 0 and weights is non-empty and sum(weights) > 0",
+    "formal": "all(allocation >= minimum for allocation in quota_allocator_service(total, weights, minimum))"
+  },
+  {
+    "scope": "function",
+    "function": "quota_allocator_service",
+    "property": "integer_allocations",
+    "precondition": "total >= 0 and minimum >= 0 and weights is non-empty and sum(weights) > 0",
+    "formal": "all(isinstance(allocation, int) for allocation in quota_allocator_service(total, weights, minimum))"
+  },
+  {
+    "scope": "function",
+    "function": "quota_allocator_service",
+    "property": "sum_inequality",
+    "precondition": "total >= 0 and minimum >= 0 and weights is non-empty and sum(weights) > 0",
+    "formal": "sum(quota_allocator_service(total, weights, minimum)) <= total"
+  },
+  {
+    "scope": "function",
+    "function": "quota_allocator_service",
+    "property": "remainder_loss",
+    "precondition": "total >= 0 and minimum >= 0 and weights is non-empty and sum(weights) > 0 and total > sum(minimum for _ in weights)",
+    "formal": "total - sum(quota_allocator_service(total, weights, minimum)) > 0 in general (due to truncation)"
+  },
+  {
+    "scope": "function",
+    "function": "quota_allocator_service",
+    "property": "proportional_tendency",
+    "precondition": "total >= 0 and minimum >= 0 and weights is non-empty and sum(weights) > 0 and total is sufficiently large",
+    "formal": "quotas[i] / quotas[j] approaches weights[i] / weights[j] as total increases"
+  },
+  {
+    "scope": "function",
+    "function": "quota_allocator_service",
+    "property": "monotonicity_in_total",
+    "precondition": "minimum >= 0 and weights is non-empty and sum(weights) > 0",
+    "formal": "if total1 <= total2 then quota_allocator_service(total1, weights, minimum)[i] <= quota_allocator_service(total2, weights, minimum)[i] for all i"
+  },
+  {
+    "scope": "function",
+    "function": "quota_allocator_service",
+    "property": "scale_invariance",
+    "precondition": "total >= 0 and minimum >= 0 and weights is non-empty and sum(weights) > 0 and k > 0",
+    "formal": "quota_allocator_service(k * total, [k * w for w in weights], minimum) preserves relative proportions"
+  },
+  {
+    "scope": "function",
+    "function": "quota_allocator_service",
+    "property": "minimum_identity",
+    "precondition": "total >= 0 and minimum == 0 and weights is non-empty and sum(weights) > 0",
+    "formal": "quota_allocator_service(total, weights, 0) allocates based purely on proportional distribution"
+  },
+  {
+    "scope": "function",
+    "function": "quota_allocator_service",
+    "property": "total_identity",
+    "precondition": "total >= 0 and minimum >= 0 and weights is non-empty and sum(weights) > 0 and minimum * len(weights) == total",
+    "formal": "quota_allocator_service(total, weights, minimum) returns [minimum] * len(weights)"
+  },
+  {
+    "scope": "function",
+    "function": "quota_allocator_service",
+    "property": "error_conditions",
+    "precondition": "None",
+    "formal": "raises ValueError if total < 0 or minimum < 0 or weights is empty or sum(weights) == 0"
+  },
+  {
+    "scope": "function",
+    "function": "quota_allocator_service",
+    "property": "deterministic_output",
+    "precondition": "total >= 0 and minimum >= 0 and weights is non-empty and sum(weights) > 0",
+    "formal": "same inputs always produce same outputs"
+  }
+]

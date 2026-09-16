@@ -1,0 +1,114 @@
+[
+  {
+    "scope": "branch",
+    "function": "quota_for_storage",
+    "condition": "total < 0",
+    "property": "negative_total_error",
+    "formal": "quota_for_storage(total, weights) raises ValueError(\"total must be non-negative\") when total < 0"
+  },
+  {
+    "scope": "branch", 
+    "function": "quota_for_storage",
+    "condition": "minimum < 0",
+    "property": "negative_minimum_error",
+    "formal": "quota_for_storage(total, weights) raises ValueError(\"minimum must be non-negative\") when minimum < 0"
+  },
+  {
+    "scope": "branch",
+    "function": "quota_for_storage", 
+    "condition": "not weights",
+    "property": "empty_weights_error",
+    "formal": "quota_for_storage(total, weights) raises ValueError(\"no weights provided\") when weights is empty"
+  },
+  {
+    "scope": "branch",
+    "function": "quota_for_storage",
+    "condition": "not any(weights)",
+    "property": "zero_weights_error",
+    "formal": "quota_for_storage(total, weights) raises ValueError(\"all weights are zero\") when all weights are zero"
+  },
+  {
+    "scope": "branch",
+    "function": "quota_for_storage",
+    "condition": "planned[i] >= minimum",
+    "property": "proportional_allocation",
+    "formal": "allocation[i] = int(planned[i]) when planned[i] >= minimum"
+  },
+  {
+    "scope": "branch",
+    "function": "quota_for_storage",
+    "condition": "planned[i] < minimum",
+    "property": "minimum_floor",
+    "formal": "allocation[i] = int(minimum) when planned[i] < minimum"
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_storage",
+    "property": "non_negative_allocations",
+    "precondition": "total >= 0 and minimum >= 0 and weights is non-empty and any(weights)",
+    "formal": "all(allocation >= 0 for allocation in quota_for_storage(total, weights))"
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_storage",
+    "property": "allocation_length",
+    "precondition": "weights is non-empty and any(weights)",
+    "formal": "len(quota_for_storage(total, weights)) == len(weights)"
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_storage",
+    "property": "minimum_allocation_bound",
+    "precondition": "total >= 0 and minimum >= 0 and weights is non-empty and any(weights)",
+    "formal": "all(allocation >= int(minimum) for allocation in quota_for_storage(total, weights))"
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_storage",
+    "property": "allocation_sum_bound",
+    "precondition": "total >= 0 and minimum >= 0 and weights is non-empty and any(weights)",
+    "formal": "sum(quota_for_storage(total, weights)) <= total"
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_storage",
+    "property": "monotonic_total",
+    "precondition": "total1 >= total2 and minimum >= 0 and weights is non-empty and any(weights)",
+    "formal": "all(a1 >= a2 for a1, a2 in zip(quota_for_storage(total1, weights), quota_for_storage(total2, weights)))"
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_storage",
+    "property": "monotonic_minimum",
+    "precondition": "minimum1 >= minimum2 and total >= 0 and weights is non-empty and any(weights)",
+    "formal": "all(a1 >= a2 for a1, a2 in zip(quota_for_storage(total, weights, minimum=minimum1), quota_for_storage(total, weights, minimum=minimum2)))"
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_storage",
+    "property": "zero_total_minimum",
+    "precondition": "minimum >= 0 and weights is non-empty and any(weights)",
+    "formal": "quota_for_storage(0, weights) == [int(minimum)] * len(weights)"
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_storage",
+    "property": "error_conditions",
+    "precondition": "true",
+    "formal": "quota_for_storage raises ValueError when total < 0 or minimum < 0 or weights is empty or all weights are zero"
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_storage",
+    "property": "truncation_loss",
+    "precondition": "total >= 0 and minimum >= 0 and weights is non-empty and any(weights)",
+    "formal": "sum(quota_for_storage(total, weights)) < total when fractional parts exist"
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_storage",
+    "property": "proportional_when_sufficient",
+    "precondition": "total >= 0 and minimum >= 0 and weights is non-empty and any(weights) and total >= sum(minimum for _ in weights)",
+    "formal": "quota_for_storage(total, weights) approximates proportional allocation when total is large enough"
+  }
+]

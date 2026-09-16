@@ -1,0 +1,51 @@
+[
+  {
+    "scope": "branch",
+    "function": "prediction_cache",
+    "condition": "record is None",
+    "property": "cache_miss_return_default",
+    "formal": "prediction_cache(store, key, now) == default"
+  },
+  {
+    "scope": "branch",
+    "function": "prediction_cache",
+    "condition": "now > deadline",
+    "property": "expired_cache_return_default",
+    "formal": "prediction_cache(store, key, now) == default"
+  },
+  {
+    "scope": "branch",
+    "function": "prediction_cache",
+    "condition": "record is not None and now <= deadline",
+    "property": "valid_cache_return_value",
+    "formal": "prediction_cache(store, key, now) == value"
+  },
+  {
+    "scope": "function",
+    "function": "prediction_cache",
+    "property": "cache_consistency",
+    "precondition": "record is not None",
+    "formal": "prediction_cache(store, key, now) == value or prediction_cache(store, key, now) == default"
+  },
+  {
+    "scope": "function",
+    "function": "prediction_cache",
+    "property": "monotonic_expiry",
+    "precondition": "record is not None and now1 <= now2",
+    "formal": "if prediction_cache(store, key, now1) == default then prediction_cache(store, key, now2) == default"
+  },
+  {
+    "scope": "function",
+    "function": "prediction_cache",
+    "property": "default_fallback",
+    "precondition": "true",
+    "formal": "prediction_cache(store, key, now) == default or prediction_cache(store, key, now) == value"
+  },
+  {
+    "scope": "function",
+    "function": "prediction_cache",
+    "property": "boundary_value_bug",
+    "precondition": "record is not None and now == deadline",
+    "formal": "prediction_cache(store, key, now) == value (should be default according to comment)"
+  }
+]

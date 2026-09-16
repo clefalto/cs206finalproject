@@ -1,0 +1,72 @@
+[
+  {
+    "scope": "branch",
+    "function": "reservation_booking",
+    "condition": "start >= end",
+    "property": "invalid_interval_error",
+    "formal": "raise ValueError(\"invalid interval\")"
+  },
+  {
+    "scope": "branch",
+    "function": "reservation_booking",
+    "condition": "not (start >= end)",
+    "property": "valid_interval_processing",
+    "formal": "for s, e in existing:\n        # BUG: touching endpoints treated as overlap.\n        if not (end <= s or start >= e):\n            return False, existing\nupdated = existing + [interval]\nupdated.sort()\nreturn True, updated"
+  },
+  {
+    "scope": "branch",
+    "function": "reservation_booking",
+    "condition": "not (end <= s or start >= e)",
+    "property": "overlap_detection",
+    "formal": "return False, existing"
+  },
+  {
+    "scope": "branch",
+    "function": "reservation_booking",
+    "condition": "not (not (end <= s or start >= e))",
+    "property": "no_overlap_processing",
+    "formal": ""
+  },
+  {
+    "scope": "function",
+    "function": "reservation_booking",
+    "property": "interval_validation",
+    "precondition": "start < end",
+    "formal": "interval is valid"
+  },
+  {
+    "scope": "function",
+    "function": "reservation_booking",
+    "property": "overlap_detection",
+    "precondition": "interval is valid",
+    "formal": "if interval overlaps with any existing interval, return False, existing"
+  },
+  {
+    "scope": "function",
+    "function": "reservation_booking",
+    "property": "interval_insertion",
+    "precondition": "interval is valid and does not overlap with any existing interval",
+    "formal": "return True, updated where updated = existing + [interval] and updated is sorted"
+  },
+  {
+    "scope": "function",
+    "function": "reservation_booking",
+    "property": "sorted_output",
+    "precondition": "interval is valid and does not overlap with any existing interval",
+    "formal": "updated is sorted"
+  },
+  {
+    "scope": "function",
+    "function": "reservation_booking",
+    "property": "no_modification_on_overlap",
+    "precondition": "interval overlaps with any existing interval",
+    "formal": "existing remains unchanged"
+  },
+  {
+    "scope": "function",
+    "function": "reservation_booking",
+    "property": "touching_endpoints_overlap",
+    "precondition": "interval is valid",
+    "formal": "touching endpoints are treated as overlap"
+  }
+]

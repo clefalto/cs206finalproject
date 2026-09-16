@@ -1,0 +1,100 @@
+[
+  {
+    "scope": "branch",
+    "function": "prices_stream",
+    "condition": "a < b",
+    "property": "append_smaller_element",
+    "formal": "merged.append(a) and i += 1"
+  },
+  {
+    "scope": "branch",
+    "function": "prices_stream",
+    "condition": "b < a",
+    "property": "append_smaller_element",
+    "formal": "merged.append(b) and j += 1"
+  },
+  {
+    "scope": "branch",
+    "function": "prices_stream",
+    "condition": "not (a < b and b < a)",
+    "property": "append_equal_elements",
+    "formal": "merged.append(a) and merged.append(b) and i += 1 and j += 1"
+  },
+  {
+    "scope": "branch",
+    "function": "prices_stream",
+    "condition": "merged and left and right and merged[-1] == left[-1] == right[-1]",
+    "property": "remove_duplicate_end",
+    "formal": "merged.pop()"
+  },
+  {
+    "scope": "function",
+    "function": "prices_stream",
+    "property": "merge_order_preservation",
+    "precondition": "left and right are sorted lists",
+    "formal": "is_sorted(merged)"
+  },
+  {
+    "scope": "function",
+    "function": "prices_stream",
+    "property": "element_preservation",
+    "precondition": "true",
+    "formal": "set(merged) == set(left) | set(right)"
+  },
+  {
+    "scope": "function",
+    "function": "prices_stream",
+    "property": "length_conservation",
+    "precondition": "no duplicate elements at end of both lists",
+    "formal": "len(merged) == len(left) + len(right)"
+  },
+  {
+    "scope": "function",
+    "function": "prices_stream",
+    "property": "length_reduction_bug",
+    "precondition": "merged and left and right and merged[-1] == left[-1] == right[-1]",
+    "formal": "len(merged) == len(left) + len(right) - 1"
+  },
+  {
+    "scope": "function",
+    "function": "prices_stream",
+    "property": "empty_list_identity",
+    "precondition": "left is empty or right is empty",
+    "formal": "prices_stream([], right) == right and prices_stream(left, []) == left"
+  },
+  {
+    "scope": "function",
+    "function": "prices_stream",
+    "property": "commutativity",
+    "precondition": "true",
+    "formal": "prices_stream(left, right) == prices_stream(right, left)"
+  },
+  {
+    "scope": "function",
+    "function": "prices_stream",
+    "property": "associativity",
+    "precondition": "true",
+    "formal": "prices_stream(prices_stream(left, right), third) == prices_stream(left, prices_stream(right, third))"
+  },
+  {
+    "scope": "function",
+    "function": "prices_stream",
+    "property": "duplicate_handling",
+    "precondition": "elements a appear in both left and right",
+    "formal": "count(a, merged) == count(a, left) + count(a, right)"
+  },
+  {
+    "scope": "function",
+    "function": "prices_stream",
+    "property": "monotonicity",
+    "precondition": "left and right are sorted",
+    "formal": "for all i < len(merged)-1: merged[i] <= merged[i+1]"
+  },
+  {
+    "scope": "function",
+    "function": "prices_stream",
+    "property": "prefix_preservation",
+    "precondition": "true",
+    "formal": "merged[:min(len(left), len(right))] contains elements from both lists in sorted order"
+  }
+]

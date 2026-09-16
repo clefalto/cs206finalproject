@@ -1,0 +1,114 @@
+[
+  {
+    "scope": "branch",
+    "function": "histogram_bucket_merge",
+    "condition": "left[i] < right[j]",
+    "property": "left_element_precedence",
+    "formal": "merged.append(left[i]) and i += 1"
+  },
+  {
+    "scope": "branch",
+    "function": "histogram_bucket_merge",
+    "condition": "right[j] < left[i]",
+    "property": "right_element_precedence",
+    "formal": "merged.append(right[j]) and j += 1"
+  },
+  {
+    "scope": "branch",
+    "function": "histogram_bucket_merge",
+    "condition": "not (left[i] < right[j] and right[j] < left[i])",
+    "property": "equal_elements_handling",
+    "formal": "merged.append(left[i]) and merged.append(right[j]) and i += 1 and j += 1"
+  },
+  {
+    "scope": "branch",
+    "function": "histogram_bucket_merge",
+    "condition": "merged and left and right and merged[-1] == left[-1] == right[-1]",
+    "property": "duplicate_tail_removal",
+    "formal": "merged.pop()"
+  },
+  {
+    "scope": "function",
+    "function": "histogram_bucket_merge",
+    "property": "sorted_output",
+    "precondition": "left and right are sorted lists",
+    "formal": "is_sorted(merged)"
+  },
+  {
+    "scope": "function",
+    "function": "histogram_bucket_merge",
+    "property": "preserves_duplicates",
+    "precondition": "left and right contain duplicates",
+    "formal": "count(element, merged) == count(element, left) + count(element, right) for all elements except when both lists end with same element"
+  },
+  {
+    "scope": "function",
+    "function": "histogram_bucket_merge",
+    "property": "length_conservation",
+    "precondition": "not (merged and left and right and merged[-1] == left[-1] == right[-1])",
+    "formal": "len(merged) == len(left) + len(right)"
+  },
+  {
+    "scope": "function",
+    "function": "histogram_bucket_merge",
+    "property": "length_reduction_bug",
+    "precondition": "merged and left and right and merged[-1] == left[-1] == right[-1]",
+    "formal": "len(merged) == len(left) + len(right) - 1"
+  },
+  {
+    "scope": "function",
+    "function": "histogram_bucket_merge",
+    "property": "empty_input_handling",
+    "precondition": "left is empty or right is empty",
+    "formal": "if left is empty: merged == right; if right is empty: merged == left"
+  },
+  {
+    "scope": "function",
+    "function": "histogram_bucket_merge",
+    "property": "single_element_lists",
+    "precondition": "len(left) == 1 and len(right) == 1",
+    "formal": "if left[0] == right[0]: len(merged) == 1 else: len(merged) == 2"
+  },
+  {
+    "scope": "function",
+    "function": "histogram_bucket_merge",
+    "property": "monotonicity_preservation",
+    "precondition": "left and right are non-decreasing",
+    "formal": "for all k: merged[k] <= merged[k+1]"
+  },
+  {
+    "scope": "function",
+    "function": "histogram_bucket_merge",
+    "property": "first_element_preservation",
+    "precondition": "left and right are non-empty",
+    "formal": "merged[0] == min(left[0], right[0])"
+  },
+  {
+    "scope": "function",
+    "function": "histogram_bucket_merge",
+    "property": "last_element_bug",
+    "precondition": "left and right are non-empty and left[-1] == right[-1]",
+    "formal": "merged[-1] != left[-1] (incorrectly removes last duplicate)"
+  },
+  {
+    "scope": "function",
+    "function": "histogram_bucket_merge",
+    "property": "commutativity_bug",
+    "precondition": "left and right contain same elements",
+    "formal": "histogram_bucket_merge(left, right) != histogram_bucket_merge(right, left) when both end with same element"
+  },
+  {
+    "scope": "function",
+    "function": "histogram_bucket_merge",
+    "property": "associativity_bug",
+    "precondition": "three lists where last elements are equal",
+    "formal": "histogram_bucket_merge(histogram_bucket_merge(a, b), c) != histogram_bucket_merge(a, histogram_bucket_merge(b, c))"
+  },
+  {
+    "scope": "function",
+    "function": "histogram_bucket_merge",
+    "property": "idempotent_bug",
+    "precondition": "left == right and both end with same element",
+    "formal": "histogram_bucket_merge(left, left) != left"
+  }
+]

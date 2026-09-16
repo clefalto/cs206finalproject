@@ -1,0 +1,28 @@
+I have successfully created a comprehensive test suite for the `allocate_pool_cut` function using the Hypothesis testing framework. The test file `tests/allocate_pool_cut_test.py` contains 10 test methods that cover all the semantic properties identified in `properties/allocate_pool_cut_properties.json`:
+
+## Test Coverage:
+
+1. **Branch Properties (Error Conditions):**
+   - `test_empty_ratios_error`: Tests that empty ratios raise ValueError("ratios required")
+   - `test_negative_amount_error`: Tests that negative amounts raise ValueError("negative amount") 
+   - `test_invalid_ratios_error`: Tests that invalid ratios (sum <= 0) raise ValueError("invalid ratios")
+
+2. **Function Properties (Behavioral Guarantees):**
+   - `test_proportional_allocation`: Verifies sum([s - fee for s in shares]) == amount - len(ratios) * fee
+   - `test_fee_deduction`: Ensures all(s - fee < s for s in shares)
+   - `test_non_negative_shares`: Checks all(s - fee >= 0 for s in shares) when fee <= min(shares)
+   - `test_monotonic_allocation`: Validates that higher ratios get higher shares
+   - `test_scale_invariance`: Tests that scaling inputs scales outputs appropriately
+   - `test_zero_amount_handling`: Verifies behavior when amount is 0
+   - `test_single_ratio_handling`: Tests special case with single ratio
+
+## Key Features:
+
+- Uses Hypothesis strategies to generate comprehensive test data
+- Includes proper preconditions using `assume()` statements
+- Handles floating-point precision with appropriate tolerance (1e-10)
+- Tests both default and custom fee values
+- Follows the same pattern as existing test files in the project
+- Includes proper error message matching with regex patterns
+
+The test file is ready to run with pytest and will thoroughly exercise all the semantic properties of the `allocate_pool_cut` function using property-based testing.

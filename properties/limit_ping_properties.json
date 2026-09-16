@@ -1,0 +1,107 @@
+[
+  {
+    "scope": "branch",
+    "function": "limit_ping",
+    "condition": "len(recent) > limit",
+    "property": "rate_limit_exceeded",
+    "formal": "limit_ping(timestamps, now, window=window, limit=limit) == (False, 0)"
+  },
+  {
+    "scope": "branch",
+    "function": "limit_ping",
+    "condition": "len(recent) <= limit",
+    "property": "rate_limit_allowed",
+    "formal": "limit_ping(timestamps, now, window=window, limit=limit) == (True, limit - len(recent))"
+  },
+  {
+    "scope": "function",
+    "function": "limit_ping",
+    "property": "rate_limiting",
+    "precondition": "window > 0 and limit >= 0",
+    "formal": "if len([t for t in timestamps if t >= now - window]) > limit then limit_ping(timestamps, now, window=window, limit=limit) == (False, 0)"
+  },
+  {
+    "scope": "function",
+    "function": "limit_ping",
+    "property": "remaining_quota",
+    "precondition": "window > 0 and limit >= 0",
+    "formal": "limit_ping(timestamps, now, window=window, limit=limit)[1] == max(0, limit - len([t for t in timestamps if t >= now - window]))"
+  },
+  {
+    "scope": "function",
+    "function": "limit_ping",
+    "property": "boolean_result",
+    "precondition": "window > 0 and limit >= 0",
+    "formal": "limit_ping(timestamps, now, window=window, limit=limit)[0] in {True, False}"
+  },
+  {
+    "scope": "function",
+    "function": "limit_ping",
+    "property": "non_negative_quota",
+    "precondition": "window > 0 and limit >= 0",
+    "formal": "limit_ping(timestamps, now, window=window, limit=limit)[1] >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "limit_ping",
+    "property": "bounded_quota",
+    "precondition": "window > 0 and limit >= 0",
+    "formal": "limit_ping(timestamps, now, window=window, limit=limit)[1] <= limit"
+  },
+  {
+    "scope": "function",
+    "function": "limit_ping",
+    "property": "monotonic_quota",
+    "precondition": "window > 0 and limit >= 0",
+    "formal": "if timestamps1 is subset of timestamps2 then limit_ping(timestamps1, now, window=window, limit=limit)[1] >= limit_ping(timestamps2, now, window=window, limit=limit)[1]"
+  },
+  {
+    "scope": "function",
+    "function": "limit_ping",
+    "property": "window_independence",
+    "precondition": "window > 0 and limit >= 0",
+    "formal": "limit_ping(timestamps, now, window=window, limit=limit) depends only on timestamps within [now-window, now]"
+  },
+  {
+    "scope": "function",
+    "function": "limit_ping",
+    "property": "time_monotonicity",
+    "precondition": "window > 0 and limit >= 0",
+    "formal": "if now1 < now2 then limit_ping(timestamps, now1, window=window, limit=limit)[1] <= limit_ping(timestamps, now2, window=window, limit=limit)[1]"
+  },
+  {
+    "scope": "function",
+    "function": "limit_ping",
+    "property": "empty_timestamps_identity",
+    "precondition": "window > 0 and limit >= 0",
+    "formal": "limit_ping([], now, window=window, limit=limit) == (True, limit)"
+  },
+  {
+    "scope": "function",
+    "function": "limit_ping",
+    "property": "limit_zero_allows_none",
+    "precondition": "window > 0",
+    "formal": "limit_ping(timestamps, now, window=window, limit=0) == (False, 0)"
+  },
+  {
+    "scope": "function",
+    "function": "limit_ping",
+    "property": "window_zero_allows_none",
+    "precondition": "limit >= 0",
+    "formal": "limit_ping(timestamps, now, window=0, limit=limit) == (False, 0) if timestamps else (True, limit)"
+  },
+  {
+    "scope": "function",
+    "function": "limit_ping",
+    "property": "metamorphic_window_increase",
+    "precondition": "window1 < window2 and limit >= 0",
+    "formal": "limit_ping(timestamps, now, window=window1, limit=limit)[1] <= limit_ping(timestamps, now, window=window2, limit=limit)[1]"
+  },
+  {
+    "scope": "function",
+    "function": "limit_ping",
+    "property": "metamorphic_limit_increase",
+    "precondition": "limit1 < limit2 and window > 0",
+    "formal": "limit_ping(timestamps, now, window=window, limit=limit1)[1] <= limit_ping(timestamps, now, window=window, limit=limit2)[1]"
+  }
+]

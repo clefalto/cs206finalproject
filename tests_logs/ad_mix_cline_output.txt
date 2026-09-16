@@ -1,0 +1,22 @@
+I have successfully created a comprehensive test file for the `ad_mix` function using the Hypothesis testing framework. The test file `tests/ad_mix_test.py` contains tests for all 8 semantic properties identified in `properties/ad_mix_properties.json`:
+
+**Test Coverage:**
+
+1. **Shape Mismatch Error** - Tests that `ValueError("shape mismatch")` is raised when `len(current) != len(target)`
+2. **Empty Allocation Error** - Tests that `ValueError("empty allocation")` is raised when `current` is empty
+3. **Length Preservation** - Verifies that output length equals input length when shapes match
+4. **Linear Interpolation** - Tests the core formula: `result[i] == current[i] + (target[i] - current[i]) * damping`
+5. **Identity on Equal** - Verifies that `ad_mix(current, current) == current`
+6. **Boundary Preservation** - Ensures results stay between corresponding current and target values
+7. **Monotonicity** - Tests that if `current[i] <= target[i]`, then `result[i] >= current[i]`
+8. **Sum Drift** - Demonstrates that sums can drift due to missing normalization
+
+**Key Features:**
+- Uses Hypothesis strategies for comprehensive property-based testing
+- Includes proper preconditions and assumptions for each test
+- Tests edge cases and boundary conditions
+- Uses appropriate floating-point comparison tolerances
+- Follows pytest conventions with descriptive test names and docstrings
+- Includes an additional test for damping parameter bounds
+
+The test file is located at `tests/ad_mix_test.py` and is ready to be executed with pytest and Hypothesis installed.

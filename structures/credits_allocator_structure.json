@@ -1,0 +1,82 @@
+{
+    "functions": [
+        {
+            "name": "credits_allocator",
+            "parameters": [
+                "total",
+                "weights"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "total < 0",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"total must be non-negative\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (total < 0)",
+                        "body_contains": "if minimum < 0:\n        raise ValueError(\"minimum must be non-negative\")\nif not weights:\n        raise ValueError(\"no weights provided\")\nif not any(weights):\n        raise ValueError(\"all weights are zero\")\ntotal_weight = sum(weights)\nplanned = [max(minimum, (w / total_weight) * total) for w in weights]\n# BUG: truncation loses leftover units instead of redistributing.\nallocations = [int(x) for x in planned]\nreturn allocations",
+                        "returns": "allocations",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "minimum < 0",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"minimum must be non-negative\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (minimum < 0)",
+                        "body_contains": "if not weights:\n        raise ValueError(\"no weights provided\")\nif not any(weights):\n        raise ValueError(\"all weights are zero\")\ntotal_weight = sum(weights)\nplanned = [max(minimum, (w / total_weight) * total) for w in weights]\n# BUG: truncation loses leftover units instead of redistributing.\nallocations = [int(x) for x in planned]\nreturn allocations",
+                        "returns": "allocations",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "not weights",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"no weights provided\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (not weights)",
+                        "body_contains": "if not any(weights):\n        raise ValueError(\"all weights are zero\")\ntotal_weight = sum(weights)\nplanned = [max(minimum, (w / total_weight) * total) for w in weights]\n# BUG: truncation loses leftover units instead of redistributing.\nallocations = [int(x) for x in planned]\nreturn allocations",
+                        "returns": "allocations",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "not any(weights)",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"all weights are zero\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (not any(weights))",
+                        "body_contains": "total_weight = sum(weights)\nplanned = [max(minimum, (w / total_weight) * total) for w in weights]\n# BUG: truncation loses leftover units instead of redistributing.\nallocations = [int(x) for x in planned]\nreturn allocations",
+                        "returns": "allocations",
+                        "early_exit": false
+                    }
+                ]
+            ],
+            "returns": "allocations"
+        }
+    ]
+}

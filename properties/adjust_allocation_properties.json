@@ -1,0 +1,58 @@
+[
+  {
+    "scope": "branch",
+    "function": "adjust_allocation",
+    "condition": "len(current) != len(target)",
+    "property": "shape_mismatch_error",
+    "formal": "adjust_allocation(current, target) raises ValueError(\"shape mismatch\")"
+  },
+  {
+    "scope": "branch",
+    "function": "adjust_allocation",
+    "condition": "not current",
+    "property": "empty_allocation_error",
+    "formal": "adjust_allocation(current, target) raises ValueError(\"empty allocation\")"
+  },
+  {
+    "scope": "function",
+    "function": "adjust_allocation",
+    "property": "shape_consistency",
+    "precondition": "len(current) == len(target)",
+    "formal": "len(adjust_allocation(current, target)) == len(current)"
+  },
+  {
+    "scope": "function",
+    "function": "adjust_allocation",
+    "property": "linear_interpolation",
+    "precondition": "len(current) == len(target) and current != []",
+    "formal": "adjust_allocation(current, target)[i] == current[i] + (target[i] - current[i]) * damping for all i"
+  },
+  {
+    "scope": "function",
+    "function": "adjust_allocation",
+    "property": "damping_factor_effect",
+    "precondition": "len(current) == len(target) and current != []",
+    "formal": "if damping == 0 then adjust_allocation(current, target) == current"
+  },
+  {
+    "scope": "function",
+    "function": "adjust_allocation",
+    "property": "damping_factor_effect",
+    "precondition": "len(current) == len(target) and current != []",
+    "formal": "if damping == 1 then adjust_allocation(current, target) == target"
+  },
+  {
+    "scope": "function",
+    "function": "adjust_allocation",
+    "property": "monotonicity_preservation",
+    "precondition": "len(current) == len(target) and current != [] and 0 <= damping <= 1",
+    "formal": "min(current[i], target[i]) <= adjust_allocation(current, target)[i] <= max(current[i], target[i]) for all i"
+  },
+  {
+    "scope": "function",
+    "function": "adjust_allocation",
+    "property": "no_renormalization_bug",
+    "precondition": "len(current) == len(target) and current != []",
+    "formal": "sum(adjust_allocation(current, target)) != 1 (when sum(current) == 1 and sum(target) == 1)"
+  }
+]

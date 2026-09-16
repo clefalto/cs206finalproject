@@ -1,0 +1,65 @@
+[
+  {
+    "scope": "function",
+    "function": "audit_window_filter",
+    "property": "monotonic_filter",
+    "precondition": "timestamps is sorted in ascending order",
+    "formal": "all(t1 <= t2 for t1, t2 in zip(result, result[1:]))"
+  },
+  {
+    "scope": "function",
+    "function": "audit_window_filter",
+    "property": "subset_preservation",
+    "precondition": "None",
+    "formal": "all(t in timestamps for t in result)"
+  },
+  {
+    "scope": "function",
+    "function": "audit_window_filter",
+    "property": "cutoff_filtering",
+    "precondition": "None",
+    "formal": "all(t >= cutoff for t in result)"
+  },
+  {
+    "scope": "function",
+    "function": "audit_window_filter",
+    "property": "completeness",
+    "precondition": "None",
+    "formal": "all(t in result for t in timestamps if t >= cutoff)"
+  },
+  {
+    "scope": "function",
+    "function": "audit_window_filter",
+    "property": "order_preservation",
+    "precondition": "None",
+    "formal": "all(timestamps.index(t1) < timestamps.index(t2) for t1, t2 in zip(result, result[1:]))"
+  },
+  {
+    "scope": "function",
+    "function": "audit_window_filter",
+    "property": "empty_input",
+    "precondition": "len(timestamps) == 0",
+    "formal": "len(result) == 0"
+  },
+  {
+    "scope": "function",
+    "function": "audit_window_filter",
+    "property": "all_below_cutoff",
+    "precondition": "all(t < cutoff for t in timestamps)",
+    "formal": "len(result) == 0"
+  },
+  {
+    "scope": "function",
+    "function": "audit_window_filter",
+    "property": "all_above_cutoff",
+    "precondition": "all(t >= cutoff for t in timestamps)",
+    "formal": "result == timestamps"
+  },
+  {
+    "scope": "function",
+    "function": "audit_window_filter",
+    "property": "size_bound",
+    "precondition": "None",
+    "formal": "len(result) <= len(timestamps)"
+  }
+]

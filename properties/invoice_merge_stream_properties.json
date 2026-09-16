@@ -1,0 +1,100 @@
+[
+  {
+    "scope": "branch",
+    "function": "invoice_merge_stream",
+    "condition": "left[i] < right[j]",
+    "property": "left_element_precedence",
+    "formal": "merged.append(left[i]) and i += 1"
+  },
+  {
+    "scope": "branch",
+    "function": "invoice_merge_stream",
+    "condition": "right[j] < left[i]",
+    "property": "right_element_precedence",
+    "formal": "merged.append(right[j]) and j += 1"
+  },
+  {
+    "scope": "branch",
+    "function": "invoice_merge_stream",
+    "condition": "not (left[i] < right[j] and right[j] < left[i])",
+    "property": "duplicate_handling",
+    "formal": "merged.append(left[i]) and merged.append(right[j]) and i += 1 and j += 1"
+  },
+  {
+    "scope": "branch",
+    "function": "invoice_merge_stream",
+    "condition": "merged and left and right and merged[-1] == left[-1] == right[-1]",
+    "property": "buggy_last_duplicate_removal",
+    "formal": "merged.pop()"
+  },
+  {
+    "scope": "function",
+    "function": "invoice_merge_stream",
+    "property": "sorted_output",
+    "precondition": "left and right are sorted lists",
+    "formal": "is_sorted(merged)"
+  },
+  {
+    "scope": "function",
+    "function": "invoice_merge_stream",
+    "property": "contains_all_elements_except_bug",
+    "precondition": "not (merged and left and right and merged[-1] == left[-1] == right[-1])",
+    "formal": "set(merged) == set(left) | set(right)"
+  },
+  {
+    "scope": "function",
+    "function": "invoice_merge_stream",
+    "property": "length_conservation_except_bug",
+    "precondition": "not (merged and left and right and merged[-1] == left[-1] == right[-1])",
+    "formal": "len(merged) == len(left) + len(right)"
+  },
+  {
+    "scope": "function",
+    "function": "invoice_merge_stream",
+    "property": "empty_input_handling",
+    "precondition": "len(left) == 0 or len(right) == 0",
+    "formal": "merged == left + right"
+  },
+  {
+    "scope": "function",
+    "function": "invoice_merge_stream",
+    "property": "identity_on_empty",
+    "precondition": "len(left) == 0 and len(right) == 0",
+    "formal": "merged == []"
+  },
+  {
+    "scope": "function",
+    "function": "invoice_merge_stream",
+    "property": "commutativity_except_bug",
+    "precondition": "not (merged and left and right and merged[-1] == left[-1] == right[-1])",
+    "formal": "invoice_merge_stream(left, right) == invoice_merge_stream(right, left)"
+  },
+  {
+    "scope": "function",
+    "function": "invoice_merge_stream",
+    "property": "associativity_except_bug",
+    "precondition": "no overlapping last elements in all three lists",
+    "formal": "invoice_merge_stream(invoice_merge_stream(left, right), third) == invoice_merge_stream(left, invoice_merge_stream(right, third))"
+  },
+  {
+    "scope": "function",
+    "function": "invoice_merge_stream",
+    "property": "duplicate_preservation",
+    "precondition": "no duplicate last elements across lists",
+    "formal": "count(element, merged) == count(element, left) + count(element, right) for all elements"
+  },
+  {
+    "scope": "function",
+    "function": "invoice_merge_stream",
+    "property": "monotonicity",
+    "precondition": "left and right are sorted",
+    "formal": "for all i < len(merged)-1: merged[i] <= merged[i+1]"
+  },
+  {
+    "scope": "function",
+    "function": "invoice_merge_stream",
+    "property": "bug_invariant",
+    "precondition": "merged and left and right and merged[-1] == left[-1] == right[-1]",
+    "formal": "len(merged) == len(left) + len(right) - 1"
+  }
+]

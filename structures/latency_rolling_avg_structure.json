@@ -1,0 +1,64 @@
+{
+    "functions": [
+        {
+            "name": "latency_rolling_avg",
+            "parameters": [
+                "series"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "window <= 0",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"invalid window\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (window <= 0)",
+                        "body_contains": "if not series:\n        raise ValueError(\"no samples\")\ntail = series[-window:]\ntotal = sum(tail)\n# BUG: ignores actual count during warmup.\navg = total / window\nif len(tail) < warmup_min:\n        return None\nreturn avg",
+                        "returns": "avg",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "not series",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"no samples\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (not series)",
+                        "body_contains": "tail = series[-window:]\ntotal = sum(tail)\n# BUG: ignores actual count during warmup.\navg = total / window\nif len(tail) < warmup_min:\n        return None\nreturn avg",
+                        "returns": "avg",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "len(tail) < warmup_min",
+                        "branches": null,
+                        "body_contains": "return None",
+                        "returns": "None",
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (len(tail) < warmup_min)",
+                        "body_contains": "return avg",
+                        "returns": "avg",
+                        "early_exit": false
+                    }
+                ]
+            ],
+            "returns": "avg"
+        }
+    ]
+}

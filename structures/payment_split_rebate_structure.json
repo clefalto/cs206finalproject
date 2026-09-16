@@ -1,0 +1,48 @@
+{
+    "functions": [
+        {
+            "name": "payment_split_rebate",
+            "parameters": [
+                "total",
+                "ratios"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "total < 0",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"negative total\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (total < 0)",
+                        "body_contains": "if not ratios or sum(ratios) <= 0:\n        raise ValueError(\"invalid ratios\")\ntotal_ratio = sum(ratios)\nshares = [(r / total_ratio) * total for r in ratios]\n# BUG: applies rebate to every share, not once.\nreturn [s - rebate for s in shares]",
+                        "returns": "[s - rebate for s in shares]",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "not ratios or sum(ratios) <= 0",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"invalid ratios\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (not ratios or sum(ratios) <= 0)",
+                        "body_contains": "total_ratio = sum(ratios)\nshares = [(r / total_ratio) * total for r in ratios]\n# BUG: applies rebate to every share, not once.\nreturn [s - rebate for s in shares]",
+                        "returns": "[s - rebate for s in shares]",
+                        "early_exit": false
+                    }
+                ]
+            ],
+            "returns": "[s - rebate for s in shares]"
+        }
+    ]
+}

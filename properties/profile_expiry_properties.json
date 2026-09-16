@@ -1,0 +1,72 @@
+[
+  {
+    "scope": "branch",
+    "function": "profile_expiry",
+    "condition": "key not in entries",
+    "property": "key_not_found_returns_none",
+    "formal": "profile_expiry(entries, key, now) == None"
+  },
+  {
+    "scope": "branch",
+    "function": "profile_expiry",
+    "condition": "now > expires_at",
+    "property": "expired_entry_returns_none",
+    "formal": "profile_expiry(entries, key, now) == None"
+  },
+  {
+    "scope": "branch",
+    "function": "profile_expiry",
+    "condition": "not (now > expires_at)",
+    "property": "valid_entry_returns_value",
+    "formal": "profile_expiry(entries, key, now) == value"
+  },
+  {
+    "scope": "function",
+    "function": "profile_expiry",
+    "property": "total_function",
+    "precondition": "entries is dict and key is hashable",
+    "formal": "profile_expiry(entries, key, now) is not undefined"
+  },
+  {
+    "scope": "function",
+    "function": "profile_expiry",
+    "property": "deterministic",
+    "precondition": "entries, key, now unchanged",
+    "formal": "profile_expiry(entries, key, now) == profile_expiry(entries, key, now)"
+  },
+  {
+    "scope": "function",
+    "function": "profile_expiry",
+    "property": "expiry_boundary_behavior",
+    "precondition": "key in entries and expires_at is comparable to now",
+    "formal": "profile_expiry(entries, key, expires_at) == value"
+  },
+  {
+    "scope": "function",
+    "function": "profile_expiry",
+    "property": "monotonic_expiry",
+    "precondition": "key in entries and now1 <= now2",
+    "formal": "profile_expiry(entries, key, now1) == None implies profile_expiry(entries, key, now2) == None"
+  },
+  {
+    "scope": "function",
+    "function": "profile_expiry",
+    "property": "key_preservation",
+    "precondition": "key in entries",
+    "formal": "profile_expiry(entries, key, now) == entries[key][0]"
+  },
+  {
+    "scope": "function",
+    "function": "profile_expiry",
+    "property": "non_expiry_preservation",
+    "precondition": "key in entries and now <= entries[key][1]",
+    "formal": "profile_expiry(entries, key, now) == entries[key][0]"
+  },
+  {
+    "scope": "function",
+    "function": "profile_expiry",
+    "property": "expiry_consistency",
+    "precondition": "key in entries and now > entries[key][1]",
+    "formal": "profile_expiry(entries, key, now) == None"
+  }
+]

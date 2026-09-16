@@ -1,0 +1,121 @@
+[
+  {
+    "scope": "branch",
+    "function": "calibrate_quality",
+    "condition": "x1 == x0",
+    "property": "degenerate_segment_error",
+    "formal": "raises ValueError(\"degenerate segment\")"
+  },
+  {
+    "scope": "branch",
+    "function": "calibrate_quality",
+    "condition": "clamp",
+    "property": "y_range_clamping",
+    "formal": "y = min(max(y, min(y0, y1)), max(y0, y1))"
+  },
+  {
+    "scope": "branch",
+    "function": "calibrate_quality",
+    "condition": "y < lo",
+    "property": "lower_bound_clamp",
+    "formal": "y = lo where lo = min(y0, y1)"
+  },
+  {
+    "scope": "branch",
+    "function": "calibrate_quality",
+    "condition": "y > hi",
+    "property": "upper_bound_clamp",
+    "formal": "y = hi where hi = max(y0, y1)"
+  },
+  {
+    "scope": "function",
+    "function": "calibrate_quality",
+    "property": "linear_interpolation",
+    "precondition": "x1 != x0",
+    "formal": "y = y0 + t * (y1 - y0) where t = (x - x0) / (x1 - x0)"
+  },
+  {
+    "scope": "function",
+    "function": "calibrate_quality",
+    "property": "endpoint_preservation",
+    "precondition": "x1 != x0",
+    "formal": "calibrate_quality(x0, y0, x1, y1, x0) == y0 and calibrate_quality(x0, y0, x1, y1, x1) == y1"
+  },
+  {
+    "scope": "function",
+    "function": "calibrate_quality",
+    "property": "monotonicity_preservation",
+    "precondition": "x1 != x0 and clamp",
+    "formal": "if y0 <= y1 then min(y0, y1) <= y <= max(y0, y1)"
+  },
+  {
+    "scope": "function",
+    "function": "calibrate_quality",
+    "property": "range_clamping",
+    "precondition": "x1 != x0 and clamp",
+    "formal": "min(y0, y1) <= y <= max(y0, y1)"
+  },
+  {
+    "scope": "function",
+    "function": "calibrate_quality",
+    "property": "scale_invariance",
+    "precondition": "x1 != x0",
+    "formal": "calibrate_quality(k*x0, k*y0, k*x1, k*y1, k*x) == k*calibrate_quality(x0, y0, x1, y1, x) for any scalar k"
+  },
+  {
+    "scope": "function",
+    "function": "calibrate_quality",
+    "property": "translation_invariance",
+    "precondition": "x1 != x0",
+    "formal": "calibrate_quality(x0+c, y0+d, x1+c, y1+d, x+c) == calibrate_quality(x0, y0, x1, y1, x) + d for any constants c, d"
+  },
+  {
+    "scope": "function",
+    "function": "calibrate_quality",
+    "property": "convex_combination",
+    "precondition": "x1 != x0",
+    "formal": "y is a convex combination of y0 and y1 when t in [0, 1]"
+  },
+  {
+    "scope": "function",
+    "function": "calibrate_quality",
+    "property": "parameter_symmetry",
+    "precondition": "x1 != x0",
+    "formal": "calibrate_quality(x1, y1, x0, y0, x) == calibrate_quality(x0, y0, x1, y1, x)"
+  },
+  {
+    "scope": "function",
+    "function": "calibrate_quality",
+    "property": "clamp_idempotence",
+    "precondition": "x1 != x0 and clamp",
+    "formal": "if y is already in [min(y0,y1), max(y0,y1)] then clamping has no effect"
+  },
+  {
+    "scope": "function",
+    "function": "calibrate_quality",
+    "property": "degenerate_segment_detection",
+    "precondition": "x1 == x0",
+    "formal": "calibrate_quality(x0, y0, x0, y1, x) raises ValueError('degenerate segment')"
+  },
+  {
+    "scope": "function",
+    "function": "calibrate_quality",
+    "property": "proportional_interpolation",
+    "precondition": "x1 != x0",
+    "formal": "y - y0 = (x - x0) * (y1 - y0) / (x1 - x0)"
+  },
+  {
+    "scope": "function",
+    "function": "calibrate_quality",
+    "property": "continuity",
+    "precondition": "x1 != x0",
+    "formal": "calibrate_quality is continuous in x for x in [x0, x1]"
+  },
+  {
+    "scope": "function",
+    "function": "calibrate_quality",
+    "property": "linear_scaling",
+    "precondition": "x1 != x0",
+    "formal": "calibrate_quality(x0, y0, x1, y1, x) = y0 + (y1 - y0) * (x - x0) / (x1 - x0)"
+  }
+]

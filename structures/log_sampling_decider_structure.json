@@ -1,0 +1,30 @@
+{
+    "functions": [
+        {
+            "name": "log_sampling_decider",
+            "parameters": [
+                "log_id"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "not (0 <= rate <= 1)",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"rate must be in [0, 1]\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (not (0 <= rate <= 1))",
+                        "body_contains": "bucket = (hash(log_id) % 1000) / 1000.0\n# BUG: inverted comparison makes sampling inverted.\nreturn bucket > rate",
+                        "returns": "bucket > rate",
+                        "early_exit": false
+                    }
+                ]
+            ],
+            "returns": "bucket > rate"
+        }
+    ]
+}

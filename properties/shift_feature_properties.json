@@ -1,0 +1,107 @@
+[
+  {
+    "scope": "branch",
+    "function": "shift_feature",
+    "condition": "len(current) != len(target)",
+    "property": "shape_mismatch_error",
+    "formal": "if len(current) != len(target) then raise ValueError(\"shape mismatch\")"
+  },
+  {
+    "scope": "branch",
+    "function": "shift_feature",
+    "condition": "not current",
+    "property": "empty_allocation_error",
+    "formal": "if not current then raise ValueError(\"empty allocation\")"
+  },
+  {
+    "scope": "branch",
+    "function": "shift_feature",
+    "condition": "len(current) == len(target) and current",
+    "property": "damping_adjustment",
+    "formal": "adjusted = [c + (t - c) * damping for c, t in zip(current, target)]"
+  },
+  {
+    "scope": "function",
+    "function": "shift_feature",
+    "property": "shape_consistency",
+    "precondition": "len(current) == len(target)",
+    "formal": "len(shift_feature(current, target)) == len(current)"
+  },
+  {
+    "scope": "function",
+    "function": "shift_feature",
+    "property": "non_empty_input",
+    "precondition": "current",
+    "formal": "shift_feature(current, target) is not None"
+  },
+  {
+    "scope": "function",
+    "function": "shift_feature",
+    "property": "damping_interpolation",
+    "precondition": "len(current) == len(target) and current",
+    "formal": "for all i, adjusted[i] = current[i] + (target[i] - current[i]) * damping"
+  },
+  {
+    "scope": "function",
+    "function": "shift_feature",
+    "property": "identity_when_damping_zero",
+    "precondition": "damping == 0 and len(current) == len(target) and current",
+    "formal": "shift_feature(current, target) == current"
+  },
+  {
+    "scope": "function",
+    "function": "shift_feature",
+    "property": "target_when_damping_one",
+    "precondition": "damping == 1 and len(current) == len(target) and current",
+    "formal": "shift_feature(current, target) == target"
+  },
+  {
+    "scope": "function",
+    "function": "shift_feature",
+    "property": "linear_interpolation",
+    "precondition": "len(current) == len(target) and current",
+    "formal": "shift_feature(current, target) = current + damping * (target - current)"
+  },
+  {
+    "scope": "function",
+    "function": "shift_feature",
+    "property": "preserves_non_negativity",
+    "precondition": "len(current) == len(target) and current and all(c >= 0 for c in current) and all(t >= 0 for t in target) and 0 <= damping <= 1",
+    "formal": "all(adjusted[i] >= 0 for i in range(len(adjusted)))"
+  },
+  {
+    "scope": "function",
+    "function": "shift_feature",
+    "property": "bounded_adjustment",
+    "precondition": "len(current) == len(target) and current and 0 <= damping <= 1",
+    "formal": "min(current[i], target[i]) <= adjusted[i] <= max(current[i], target[i]) for all i"
+  },
+  {
+    "scope": "function",
+    "function": "shift_feature",
+    "property": "sum_preservation_bug",
+    "precondition": "len(current) == len(target) and current and sum(current) == sum(target)",
+    "formal": "sum(shift_feature(current, target)) != sum(current) (BUG: should preserve sum)"
+  },
+  {
+    "scope": "function",
+    "function": "shift_feature",
+    "property": "monotonicity_preservation",
+    "precondition": "len(current) == len(target) and current and 0 <= damping <= 1",
+    "formal": "if current[i] <= current[j] and target[i] <= target[j] then adjusted[i] <= adjusted[j]"
+  },
+  {
+    "scope": "function",
+    "function": "shift_feature",
+    "property": "commutativity_bug",
+    "precondition": "len(current) == len(target) and current",
+    "formal": "shift_feature(current, target) != shift_feature(target, current) when damping != 0.5 (BUG: should be commutative)"
+  },
+  {
+    "scope": "function",
+    "function": "shift_feature",
+    "property": "associativity_violation",
+    "precondition": "len(current) == len(target) == len(intermediate) and current",
+    "formal": "shift_feature(shift_feature(current, intermediate), target) != shift_feature(current, target) (BUG: violates associativity)"
+  }
+]

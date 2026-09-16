@@ -1,0 +1,114 @@
+[
+  {
+    "scope": "branch",
+    "function": "queue_window_avg",
+    "condition": "window <= 0",
+    "property": "invalid_window_size",
+    "formal": "queue_window_avg(values, window=window) raises ValueError(\"window must be positive\")"
+  },
+  {
+    "scope": "branch",
+    "function": "queue_window_avg",
+    "condition": "not values",
+    "property": "empty_series_error",
+    "formal": "queue_window_avg([], window=window) raises ValueError(\"empty series\")"
+  },
+  {
+    "scope": "branch",
+    "function": "queue_window_avg",
+    "condition": "len(tail) < warmup_min",
+    "property": "insufficient_warmup",
+    "formal": "queue_window_avg(values, window=window, warmup_min=warmup_min) returns None when len(values[-window:]) < warmup_min"
+  },
+  {
+    "scope": "function",
+    "function": "queue_window_avg",
+    "property": "positive_window_requirement",
+    "precondition": "window <= 0",
+    "formal": "queue_window_avg(values, window=window) raises ValueError(\"window must be positive\")"
+  },
+  {
+    "scope": "function",
+    "function": "queue_window_avg",
+    "property": "non_empty_values_requirement",
+    "precondition": "not values",
+    "formal": "queue_window_avg([], window=window) raises ValueError(\"empty series\")"
+  },
+  {
+    "scope": "function",
+    "function": "queue_window_avg",
+    "property": "window_size_computation_bug",
+    "precondition": "window > 0 and values is not empty",
+    "formal": "queue_window_avg(values, window=window) computes mean as sum(values[-window:]) / window instead of sum(values[-window:]) / len(values[-window:])"
+  },
+  {
+    "scope": "function",
+    "function": "queue_window_avg",
+    "property": "tail_extraction",
+    "precondition": "window > 0 and values is not empty",
+    "formal": "queue_window_avg uses tail = values[-window:] to extract the last window elements"
+  },
+  {
+    "scope": "function",
+    "function": "queue_window_avg",
+    "property": "sum_computation",
+    "precondition": "window > 0 and values is not empty",
+    "formal": "queue_window_avg computes total = sum(tail) where tail = values[-window:]"
+  },
+  {
+    "scope": "function",
+    "function": "queue_window_avg",
+    "property": "warmup_threshold_check",
+    "precondition": "window > 0 and values is not empty",
+    "formal": "queue_window_avg returns None when len(values[-window:]) < warmup_min, otherwise returns computed mean"
+  },
+  {
+    "scope": "function",
+    "function": "queue_window_avg",
+    "property": "return_type_consistency",
+    "precondition": "window > 0 and values is not empty and len(values[-window:]) >= warmup_min",
+    "formal": "queue_window_avg returns a numeric value (float) representing the computed mean"
+  },
+  {
+    "scope": "function",
+    "function": "queue_window_avg",
+    "property": "parameter_validation_order",
+    "precondition": "None",
+    "formal": "queue_window_avg validates window parameter before validating values parameter"
+  },
+  {
+    "scope": "function",
+    "function": "queue_window_avg",
+    "property": "default_parameters",
+    "precondition": "None",
+    "formal": "queue_window_avg has default window=3 and warmup_min=1 when not specified"
+  },
+  {
+    "scope": "function",
+    "function": "queue_window_avg",
+    "property": "metamorphic_relation_window_increase",
+    "precondition": "window1 < window2 and values has sufficient length",
+    "formal": "When window increases, the tail slice values[-window:] includes more elements, potentially changing the computed mean"
+  },
+  {
+    "scope": "function",
+    "function": "queue_window_avg",
+    "property": "metamorphic_relation_warmup_increase",
+    "precondition": "warmup_min1 < warmup_min2",
+    "formal": "When warmup_min increases, more executions will return None instead of a computed mean"
+  },
+  {
+    "scope": "function",
+    "function": "queue_window_avg",
+    "property": "invariant_sum_division",
+    "precondition": "window > 0 and values is not empty and len(values[-window:]) >= warmup_min",
+    "formal": "The function always computes mean as total / window where total = sum(values[-window:])"
+  },
+  {
+    "scope": "function",
+    "function": "queue_window_avg",
+    "property": "invariant_tail_length",
+    "precondition": "window > 0 and values is not empty",
+    "formal": "The tail length is min(window, len(values)) due to Python's slice behavior"
+  }
+]

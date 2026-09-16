@@ -1,0 +1,44 @@
+[
+  {
+    "scope": "branch",
+    "function": "task_throttle",
+    "condition": "len(recent) > limit",
+    "property": "throttle_when_limit_exceeded",
+    "formal": "task_throttle(timestamps, now) == (False, 0)"
+  },
+  {
+    "scope": "branch",
+    "function": "task_throttle",
+    "condition": "not (len(recent) > limit)",
+    "property": "allow_when_within_limit",
+    "formal": "task_throttle(timestamps, now) == (True, limit - len(recent))"
+  },
+  {
+    "scope": "function",
+    "function": "task_throttle",
+    "property": "returns_boolean_and_count",
+    "precondition": "timestamps is a list of timestamps, now is a timestamp, limit is a positive integer",
+    "formal": "isinstance(task_throttle(timestamps, now), tuple) and len(task_throttle(timestamps, now)) == 2 and isinstance(task_throttle(timestamps, now)[0], bool) and isinstance(task_throttle(timestamps, now)[1], int)"
+  },
+  {
+    "scope": "function",
+    "function": "task_throttle",
+    "property": "non_negative_remaining",
+    "precondition": "timestamps is a list of timestamps, now is a timestamp, limit is a positive integer",
+    "formal": "task_throttle(timestamps, now)[1] >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "task_throttle",
+    "property": "remaining_within_limit",
+    "precondition": "timestamps is a list of timestamps, now is a timestamp, limit is a positive integer",
+    "formal": "task_throttle(timestamps, now)[1] <= limit"
+  },
+  {
+    "scope": "function",
+    "function": "task_throttle",
+    "property": "monotonic_remaining",
+    "precondition": "timestamps is a list of timestamps, now is a timestamp, limit is a positive integer",
+    "formal": "For any two timestamps lists ts1 and ts2 where ts1 is a subset of ts2, task_throttle(ts1, now)[1] >= task_throttle(ts2, now)[1]"
+  }
+]

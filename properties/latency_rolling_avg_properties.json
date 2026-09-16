@@ -1,0 +1,100 @@
+[
+  {
+    "scope": "branch",
+    "function": "latency_rolling_avg",
+    "condition": "window <= 0",
+    "property": "invalid_window_error",
+    "formal": "latency_rolling_avg(series, window=window) raises ValueError('invalid window')"
+  },
+  {
+    "scope": "branch",
+    "function": "latency_rolling_avg",
+    "condition": "not series",
+    "property": "empty_series_error",
+    "formal": "latency_rolling_avg([], window=window) raises ValueError('no samples')"
+  },
+  {
+    "scope": "branch",
+    "function": "latency_rolling_avg",
+    "condition": "len(tail) < warmup_min",
+    "property": "insufficient_samples_return_none",
+    "formal": "latency_rolling_avg(series, window=window, warmup_min=warmup_min) returns None when len(series[-window:]) < warmup_min"
+  },
+  {
+    "scope": "function",
+    "function": "latency_rolling_avg",
+    "property": "valid_window_precondition",
+    "precondition": "window > 0",
+    "formal": "latency_rolling_avg(series, window=window) requires window > 0"
+  },
+  {
+    "scope": "function",
+    "function": "latency_rolling_avg",
+    "property": "non_empty_series_precondition",
+    "precondition": "series is not empty",
+    "formal": "latency_rolling_avg(series, window=window) requires len(series) > 0"
+  },
+  {
+    "scope": "function",
+    "function": "latency_rolling_avg",
+    "property": "moving_average_computation",
+    "precondition": "window > 0 and series is not empty and len(series[-window:]) >= warmup_min",
+    "formal": "latency_rolling_avg(series, window=window) returns sum(series[-window:]) / window"
+  },
+  {
+    "scope": "function",
+    "function": "latency_rolling_avg",
+    "property": "window_size_invariant",
+    "precondition": "window > 0 and series is not empty and len(series[-window:]) >= warmup_min",
+    "formal": "latency_rolling_avg(series, window=window) only considers the last 'window' elements of series"
+  },
+  {
+    "scope": "function",
+    "function": "latency_rolling_avg",
+    "property": "warmup_min_threshold",
+    "precondition": "window > 0 and series is not empty",
+    "formal": "latency_rolling_avg(series, window=window, warmup_min=warmup_min) returns None when len(series[-window:]) < warmup_min, otherwise returns the computed average"
+  },
+  {
+    "scope": "function",
+    "function": "latency_rolling_avg",
+    "property": "monotonicity_preservation",
+    "precondition": "window > 0 and series is not empty and len(series[-window:]) >= warmup_min",
+    "formal": "If all elements in series[-window:] are >= 0, then latency_rolling_avg(series, window=window) >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "latency_rolling_avg",
+    "property": "scale_invariance",
+    "precondition": "window > 0 and series is not empty and len(series[-window:]) >= warmup_min",
+    "formal": "latency_rolling_avg([k*x for x in series], window=window) == k * latency_rolling_avg(series, window=window) for any scalar k"
+  },
+  {
+    "scope": "function",
+    "function": "latency_rolling_avg",
+    "property": "additive_property",
+    "precondition": "window > 0 and series1, series2 are not empty and len(series1[-window:]) >= warmup_min and len(series2[-window:]) >= warmup_min",
+    "formal": "latency_rolling_avg([x+y for x,y in zip(series1, series2)], window=window) == latency_rolling_avg(series1, window=window) + latency_rolling_avg(series2, window=window)"
+  },
+  {
+    "scope": "function",
+    "function": "latency_rolling_avg",
+    "property": "window_parameter_dependency",
+    "precondition": "window > 0 and series is not empty and len(series[-window:]) >= warmup_min",
+    "formal": "latency_rolling_avg(series, window=window) depends only on the 'window' parameter value, not on its position in the argument list"
+  },
+  {
+    "scope": "function",
+    "function": "latency_rolling_avg",
+    "property": "warmup_min_parameter_dependency",
+    "precondition": "window > 0 and series is not empty",
+    "formal": "latency_rolling_avg(series, window=window, warmup_min=warmup_min) depends only on the 'warmup_min' parameter value for the threshold check"
+  },
+  {
+    "scope": "function",
+    "function": "latency_rolling_avg",
+    "property": "bug_in_warmup_calculation",
+    "precondition": "window > 0 and series is not empty and len(series[-window:]) >= warmup_min",
+    "formal": "latency_rolling_avg(series, window=window) uses 'window' instead of 'len(tail)' in division, ignoring actual count during warmup"
+  }
+]

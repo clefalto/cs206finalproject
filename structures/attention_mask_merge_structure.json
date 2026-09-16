@@ -1,0 +1,31 @@
+{
+    "functions": [
+        {
+            "name": "attention_mask_merge",
+            "parameters": [
+                "mask_a",
+                "mask_b"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "len(mask_a) != len(mask_b)",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"shape mismatch\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (len(mask_a) != len(mask_b))",
+                        "body_contains": "merged = []\nfor a, b in zip(mask_a, mask_b):\n        # BUG: should use and; using or leaks masked tokens.\n        merged.append(a or b)\nreturn merged",
+                        "returns": "merged",
+                        "early_exit": false
+                    }
+                ]
+            ],
+            "returns": "merged"
+        }
+    ]
+}

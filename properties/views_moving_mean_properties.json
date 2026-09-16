@@ -1,0 +1,58 @@
+[
+  {
+    "scope": "branch",
+    "function": "views_moving_mean",
+    "condition": "window <= 0",
+    "property": "invalid_window_error",
+    "formal": "if window <= 0 then ValueError(\"window must be positive\") is raised"
+  },
+  {
+    "scope": "branch",
+    "function": "views_moving_mean",
+    "condition": "not values",
+    "property": "empty_values_error",
+    "formal": "if not values then ValueError(\"no values\") is raised"
+  },
+  {
+    "scope": "branch",
+    "function": "views_moving_mean",
+    "condition": "len(recent) < warmup_min",
+    "property": "insufficient_data",
+    "formal": "if len(recent) < warmup_min then None is returned"
+  },
+  {
+    "scope": "function",
+    "function": "views_moving_mean",
+    "property": "positive_window_requirement",
+    "precondition": "window > 0",
+    "formal": "window must be positive for valid computation"
+  },
+  {
+    "scope": "function",
+    "function": "views_moving_mean",
+    "property": "non_empty_values_requirement",
+    "precondition": "values is not empty",
+    "formal": "values must contain at least one element for valid computation"
+  },
+  {
+    "scope": "function",
+    "function": "views_moving_mean",
+    "property": "moving_average_computation",
+    "precondition": "window > 0 and values is not empty and len(recent) >= warmup_min",
+    "formal": "mean = sum(values[-window:]) / window"
+  },
+  {
+    "scope": "function",
+    "function": "views_moving_mean",
+    "property": "warmup_period_handling",
+    "precondition": "window > 0 and values is not empty",
+    "formal": "if len(values[-window:]) < warmup_min then None is returned, otherwise moving average is computed"
+  },
+  {
+    "scope": "function",
+    "function": "views_moving_mean",
+    "property": "bug_division_by_full_window",
+    "precondition": "window > 0 and values is not empty and len(recent) < window",
+    "formal": "mean = sum(recent) / window (divides by full window even during warmup period)"
+  }
+]

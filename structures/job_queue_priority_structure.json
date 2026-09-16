@@ -1,0 +1,47 @@
+{
+    "functions": [
+        {
+            "name": "job_queue_priority",
+            "parameters": [
+                "jobs"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "max_jobs < 0",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"max_jobs must be non-negative\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (max_jobs < 0)",
+                        "body_contains": "# BUG: allows one extra job when at capacity.\nif len(jobs) > max_jobs:\n        return False\nreturn True",
+                        "returns": "True",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "len(jobs) > max_jobs",
+                        "branches": null,
+                        "body_contains": "return False",
+                        "returns": "False",
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (len(jobs) > max_jobs)",
+                        "body_contains": "return True",
+                        "returns": "True",
+                        "early_exit": false
+                    }
+                ]
+            ],
+            "returns": "True"
+        }
+    ]
+}

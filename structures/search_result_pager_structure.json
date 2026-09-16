@@ -1,0 +1,48 @@
+{
+    "functions": [
+        {
+            "name": "search_result_pager",
+            "parameters": [
+                "results",
+                "page"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "page < 1",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"page must be >= 1\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (page < 1)",
+                        "body_contains": "if page_size <= 0:\n        raise ValueError(\"page_size must be positive\")\nstart = (page - 1) * page_size\nend = start + page_size\n# BUG: end is inclusive; should be exclusive.\nreturn results[start:end + 1]",
+                        "returns": "results[start:end + 1]",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "page_size <= 0",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"page_size must be positive\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (page_size <= 0)",
+                        "body_contains": "start = (page - 1) * page_size\nend = start + page_size\n# BUG: end is inclusive; should be exclusive.\nreturn results[start:end + 1]",
+                        "returns": "results[start:end + 1]",
+                        "early_exit": false
+                    }
+                ]
+            ],
+            "returns": "results[start:end + 1]"
+        }
+    ]
+}

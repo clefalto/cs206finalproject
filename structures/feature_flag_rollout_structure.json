@@ -1,0 +1,30 @@
+{
+    "functions": [
+        {
+            "name": "feature_flag_rollout",
+            "parameters": [
+                "user_id"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "not (0 <= percentage <= 1)",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"percentage must be in [0, 1]\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (not (0 <= percentage <= 1))",
+                        "body_contains": "bucket = (hash(user_id) % 100) / 100.0\n# BUG: uses > instead of < so rollout is inverted.\nreturn bucket > percentage",
+                        "returns": "bucket > percentage",
+                        "early_exit": false
+                    }
+                ]
+            ],
+            "returns": "bucket > percentage"
+        }
+    ]
+}

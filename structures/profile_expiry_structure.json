@@ -1,0 +1,49 @@
+{
+    "functions": [
+        {
+            "name": "profile_expiry",
+            "parameters": [
+                "entries",
+                "key",
+                "now"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "key not in entries",
+                        "branches": null,
+                        "body_contains": "return None",
+                        "returns": "None",
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (key not in entries)",
+                        "body_contains": "value, expires_at = entries[key]\n# BUG: expiry uses strict >, keeping entries expiring at now.\nif now > expires_at:\n        return None\nreturn value",
+                        "returns": "value",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "now > expires_at",
+                        "branches": null,
+                        "body_contains": "return None",
+                        "returns": "None",
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (now > expires_at)",
+                        "body_contains": "return value",
+                        "returns": "value",
+                        "early_exit": false
+                    }
+                ]
+            ],
+            "returns": "value"
+        }
+    ]
+}

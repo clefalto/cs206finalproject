@@ -1,0 +1,28 @@
+I have successfully created a comprehensive test file `tests/calibrate_quality_test.py` using the Hypothesis testing framework that exercises all 17 semantic properties identified in `properties/calibrate_quality_properties.json`.
+
+The test file includes:
+
+**Branch-level tests:**
+- `test_degenerate_segment_error` - Tests ValueError for x1 == x0
+- `test_y_range_clamping` - Tests y clamping to [min(y0,y1), max(y0,y1)]
+- `test_lower_bound_clamp` - Tests clamping when y < lo
+- `test_upper_bound_clamp` - Tests clamping when y > hi
+
+**Function-level tests:**
+- `test_linear_interpolation` - Tests interpolation formula y = y0 + t*(y1-y0)
+- `test_endpoint_preservation` - Tests that endpoints are preserved
+- `test_monotonicity_preservation` - Tests monotonicity with clamping
+- `test_range_clamping` - Tests range clamping behavior
+- `test_scale_invariance` - Tests scale invariance property
+- `test_translation_invariance` - Tests translation invariance
+- `test_convex_combination` - Tests convex combination when t in [0,1]
+- `test_parameter_symmetry` - Tests parameter symmetry
+- `test_clamp_idempotence` - Tests clamping idempotence
+- `test_degenerate_segment_detection` - Tests degenerate segment detection
+- `test_proportional_interpolation` - Tests proportional interpolation
+- `test_continuity` - Tests function continuity
+- `test_linear_scaling` - Tests linear scaling formula
+
+Each test uses Hypothesis strategies to generate random test data and includes appropriate assumptions to avoid degenerate cases. The tests cover all branches and functions as specified in the semantic properties, with proper error handling and floating-point precision considerations.
+
+The test file is ready to be executed with pytest and follows Hypothesis best practices for property-based testing.

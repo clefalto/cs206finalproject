@@ -1,0 +1,48 @@
+{
+    "functions": [
+        {
+            "name": "priority_mix",
+            "parameters": [
+                "current",
+                "target"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "len(current) != len(target)",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"shape mismatch\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (len(current) != len(target))",
+                        "body_contains": "if not current:\n        raise ValueError(\"empty allocation\")\nupdated = []\nfor idx in range(len(current)):\n        updated.append(current[idx] + (target[idx] - current[idx]) * damping)\n# BUG: no renormalization step.\nreturn updated",
+                        "returns": "updated",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "not current",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"empty allocation\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (not current)",
+                        "body_contains": "updated = []\nfor idx in range(len(current)):\n        updated.append(current[idx] + (target[idx] - current[idx]) * damping)\n# BUG: no renormalization step.\nreturn updated",
+                        "returns": "updated",
+                        "early_exit": false
+                    }
+                ]
+            ],
+            "returns": "updated"
+        }
+    ]
+}

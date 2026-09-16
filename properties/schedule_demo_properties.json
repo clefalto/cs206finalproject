@@ -1,0 +1,86 @@
+[
+  {
+    "scope": "branch",
+    "function": "schedule_demo",
+    "condition": "start >= end",
+    "property": "invalid_interval_rejection",
+    "formal": "if start >= end then raise ValueError(\"invalid interval\")"
+  },
+  {
+    "scope": "branch",
+    "function": "schedule_demo",
+    "condition": "not (end <= s or start >= e)",
+    "property": "overlap_detection",
+    "formal": "if not (end <= s or start >= e) then return False, existing"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_demo",
+    "property": "valid_interval_requirement",
+    "precondition": "start < end",
+    "formal": "if start >= end then raise ValueError(\"invalid interval\")"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_demo",
+    "property": "overlap_detection",
+    "precondition": "start < end",
+    "formal": "if any not (end <= s or start >= e) for (s, e) in existing then return False, existing"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_demo",
+    "property": "successful_merge",
+    "precondition": "start < end and not any not (end <= s or start >= e) for (s, e) in existing",
+    "formal": "return True, sorted(existing + [interval])"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_demo",
+    "property": "sorted_output",
+    "precondition": "start < end and no overlaps",
+    "formal": "return True, merged where merged is sorted(existing + [interval])"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_demo",
+    "property": "no_modification_on_failure",
+    "precondition": "start >= end or any overlaps",
+    "formal": "return False, existing where existing is unchanged"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_demo",
+    "property": "boundary_touch_overlap_bug",
+    "precondition": "start < end",
+    "formal": "not (end <= s or start >= e) returns True when end == s or start == e (boundary-touch considered overlapping)"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_demo",
+    "property": "monotonicity",
+    "precondition": "start < end and no overlaps",
+    "formal": "if existing is sorted then merged is also sorted"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_demo",
+    "property": "idempotence",
+    "precondition": "start < end and no overlaps",
+    "formal": "schedule_demo(existing, interval) == schedule_demo(sorted(existing), interval)"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_demo",
+    "property": "interval_inclusion",
+    "precondition": "start < end and no overlaps",
+    "formal": "interval is included in result when scheduling succeeds"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_demo",
+    "property": "return_type_consistency",
+    "precondition": "valid inputs",
+    "formal": "always returns tuple of (bool, list) where bool indicates success"
+  }
+]

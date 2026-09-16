@@ -1,0 +1,30 @@
+[
+    {
+        "scope": "branch",
+        "function": "blend_margins",
+        "condition": "a < b",
+        "property": "append_smaller_first",
+        "formal": "merged.append(a) and i += 1"
+    },
+    {
+        "scope": "branch",
+        "function": "blend_margins",
+        "condition": "b < a",
+        "property": "append_smaller_first",
+        "formal": "merged.append(b) and j += 1"
+    },
+    {
+        "scope": "branch",
+        "function": "blend_margins",
+        "condition": "not (a < b and b < a)",
+        "property": "append_equal_elements",
+        "formal": "merged.append(a) and merged.append(b) and i += 1 and j += 1"
+    },
+    {
+        "scope": "branch",
+        "function": "blend_margins",
+        "condition": "merged and left and right and merged[-1] == left[-1] == right[-1]",
+        "property": "remove_duplicate_tail",
+        "formal": "merged.pop()"
+    }
+]

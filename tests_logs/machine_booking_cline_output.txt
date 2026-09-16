@@ -1,0 +1,17 @@
+Created comprehensive Hypothesis-based tests for the machine_booking function in tests/machine_booking_test.py. The test suite covers all 10 semantic properties identified in properties/machine_booking_properties.json:
+
+**Branch-level properties tested:**
+- Empty window validation (a >= b raises ValueError)
+- Conflict detection (overlapping intervals return False, original timeline)
+- Successful booking (non-overlapping intervals return True, sorted extended timeline)
+
+**Function-level properties tested:**
+- Timeline always sorted regardless of success/failure
+- Conflict-free booking returns True with extended timeline
+- Conflict detection returns False with original timeline
+- Empty window validation raises ValueError for invalid windows
+- Timeline unchanged on conflict (preserved original state)
+- Timeline extended on success (length increases by 1)
+- Timeline preserved on conflict (exact same object)
+
+The tests use Hypothesis strategies to generate random test cases with integers for time values and lists of tuples for timelines, with appropriate assumptions to ensure valid test conditions. All tests follow Hypothesis best practices with proper edge case handling and comprehensive property verification.

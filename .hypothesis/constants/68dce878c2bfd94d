@@ -1,0 +1,4 @@
+# file: /home/clef/hw/cs206/project/errorfultests/../dataset/python_programs/load_rolling_avg.py
+# hypothesis_version: 6.151.9
+
+['invalid window', 'no samples']

@@ -1,0 +1,93 @@
+[
+  {
+    "scope": "branch",
+    "function": "smooth_throughput",
+    "condition": "window <= 0",
+    "property": "invalid_window_error",
+    "formal": "if window <= 0 then raise ValueError(\"invalid window\")"
+  },
+  {
+    "scope": "branch",
+    "function": "smooth_throughput",
+    "condition": "not series",
+    "property": "empty_series_error",
+    "formal": "if not series then raise ValueError(\"no samples\")"
+  },
+  {
+    "scope": "branch",
+    "function": "smooth_throughput",
+    "condition": "len(tail) < warmup_min",
+    "property": "insufficient_warmup",
+    "formal": "if len(tail) < warmup_min then return None"
+  },
+  {
+    "scope": "function",
+    "function": "smooth_throughput",
+    "property": "valid_window_precondition",
+    "precondition": "window > 0",
+    "formal": "window must be positive for function to proceed"
+  },
+  {
+    "scope": "function",
+    "function": "smooth_throughput",
+    "property": "non_empty_series_precondition",
+    "precondition": "series is not empty",
+    "formal": "series must contain at least one element for function to proceed"
+  },
+  {
+    "scope": "function",
+    "function": "smooth_throughput",
+    "property": "window_average_calculation",
+    "precondition": "window > 0 and series is not empty",
+    "formal": "avg = sum(series[-window:]) / window"
+  },
+  {
+    "scope": "function",
+    "function": "smooth_throughput",
+    "property": "warmup_min_postcondition",
+    "precondition": "len(series) >= warmup_min",
+    "formal": "if len(series) >= warmup_min then return avg else return None"
+  },
+  {
+    "scope": "function",
+    "function": "smooth_throughput",
+    "property": "monotonic_window_property",
+    "precondition": "window1 <= window2",
+    "formal": "for same series, larger window includes more elements in average calculation"
+  },
+  {
+    "scope": "function",
+    "function": "smooth_throughput",
+    "property": "linear_scaling_invariant",
+    "precondition": "c > 0",
+    "formal": "smooth_throughput([c*x for x in series], window) == c * smooth_throughput(series, window)"
+  },
+  {
+    "scope": "function",
+    "function": "smooth_throughput",
+    "property": "additive_invariant",
+    "precondition": "series1 and series2 have same length",
+    "formal": "smooth_throughput([x+y for x,y in zip(series1, series2)], window) == smooth_throughput(series1, window) + smooth_throughput(series2, window)"
+  },
+  {
+    "scope": "function",
+    "function": "smooth_throughput",
+    "property": "window_bounds_check",
+    "precondition": "window > 0 and series is not empty",
+    "formal": "len(tail) = min(window, len(series))"
+  },
+  {
+    "scope": "function",
+    "function": "smooth_throughput",
+    "property": "non_negative_result",
+    "precondition": "all elements in series are non-negative",
+    "formal": "if all(x >= 0 for x in series) then avg >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "smooth_throughput",
+    "property": "bounded_result",
+    "precondition": "series contains finite values",
+    "formal": "min(series[-window:]) <= avg <= max(series[-window:])"
+  }
+]

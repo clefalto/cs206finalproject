@@ -1,0 +1,86 @@
+[
+  {
+    "scope": "branch",
+    "function": "load_rolling_avg",
+    "condition": "window <= 0",
+    "property": "invalid_window_error",
+    "formal": "if window <= 0 then raise ValueError(\"invalid window\")"
+  },
+  {
+    "scope": "branch",
+    "function": "load_rolling_avg",
+    "condition": "not series",
+    "property": "empty_series_error",
+    "formal": "if not series then raise ValueError(\"no samples\")"
+  },
+  {
+    "scope": "branch",
+    "function": "load_rolling_avg",
+    "condition": "len(tail) < warmup_min",
+    "property": "insufficient_warmup",
+    "formal": "if len(tail) < warmup_min then return None"
+  },
+  {
+    "scope": "function",
+    "function": "load_rolling_avg",
+    "property": "valid_window_precondition",
+    "precondition": "window > 0",
+    "formal": "window must be positive for function to proceed"
+  },
+  {
+    "scope": "function",
+    "function": "load_rolling_avg",
+    "property": "non_empty_series_precondition",
+    "precondition": "series is not empty",
+    "formal": "series must contain at least one element for function to proceed"
+  },
+  {
+    "scope": "function",
+    "function": "load_rolling_avg",
+    "property": "rolling_average_computation",
+    "precondition": "window > 0 and series is not empty",
+    "formal": "avg = sum(series[-window:]) / window"
+  },
+  {
+    "scope": "function",
+    "function": "load_rolling_avg",
+    "property": "warmup_check",
+    "precondition": "window > 0 and series is not empty",
+    "formal": "if len(series[-window:]) < warmup_min then return None else return avg"
+  },
+  {
+    "scope": "function",
+    "function": "load_rolling_avg",
+    "property": "bug_ignores_actual_count",
+    "precondition": "window > 0 and series is not empty",
+    "formal": "avg = total / window (ignores actual count during warmup)"
+  },
+  {
+    "scope": "function",
+    "function": "load_rolling_avg",
+    "property": "postcondition_valid_or_none",
+    "precondition": "window > 0 and series is not empty",
+    "formal": "return value is either None or a valid rolling average"
+  },
+  {
+    "scope": "function",
+    "function": "load_rolling_avg",
+    "property": "metamorphic_monotonicity",
+    "precondition": "window > 0 and series is not empty and len(series) >= warmup_min",
+    "formal": "if series1 is prefix of series2 then load_rolling_avg(series1) <= load_rolling_avg(series2) (for non-negative values)"
+  },
+  {
+    "scope": "function",
+    "function": "load_rolling_avg",
+    "property": "metamorphic_scaling",
+    "precondition": "window > 0 and series is not empty and len(series) >= warmup_min",
+    "formal": "load_rolling_avg([c*x for x in series]) == c * load_rolling_avg(series) for any constant c"
+  },
+  {
+    "scope": "function",
+    "function": "load_rolling_avg",
+    "property": "invariant_window_size",
+    "precondition": "window > 0 and series is not empty and len(series) >= warmup_min",
+    "formal": "the average is always computed over exactly min(window, len(series)) elements"
+  }
+]

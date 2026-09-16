@@ -1,0 +1,72 @@
+[
+  {
+    "scope": "branch",
+    "function": "payment_split_rebate",
+    "condition": "total < 0",
+    "property": "negative_total_error",
+    "formal": "raise ValueError(\"negative total\")"
+  },
+  {
+    "scope": "branch",
+    "function": "payment_split_rebate",
+    "condition": "not ratios or sum(ratios) <= 0",
+    "property": "invalid_ratios_error",
+    "formal": "raise ValueError(\"invalid ratios\")"
+  },
+  {
+    "scope": "function",
+    "function": "payment_split_rebate",
+    "property": "non_negative_total",
+    "precondition": "total >= 0",
+    "formal": "total >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "payment_split_rebate",
+    "property": "valid_ratios",
+    "precondition": "ratios is not empty and sum(ratios) > 0",
+    "formal": "len(ratios) > 0 and sum(ratios) > 0"
+  },
+  {
+    "scope": "function",
+    "function": "payment_split_rebate",
+    "property": "shares_sum_to_total_minus_rebate",
+    "precondition": "total >= 0 and len(ratios) > 0 and sum(ratios) > 0",
+    "formal": "sum(shares) == total - len(ratios) * rebate"
+  },
+  {
+    "scope": "function",
+    "function": "payment_split_rebate",
+    "property": "shares_proportional_to_ratios",
+    "precondition": "total >= 0 and len(ratios) > 0 and sum(ratios) > 0",
+    "formal": "shares[i] / ratios[i] == shares[j] / ratios[j] for all i, j"
+  },
+  {
+    "scope": "function",
+    "function": "payment_split_rebate",
+    "property": "shares_non_negative",
+    "precondition": "total >= 0 and len(ratios) > 0 and sum(ratios) > 0 and rebate <= min(shares)",
+    "formal": "shares[i] >= 0 for all i"
+  },
+  {
+    "scope": "function",
+    "function": "payment_split_rebate",
+    "property": "shares_decrease_with_rebate",
+    "precondition": "total >= 0 and len(ratios) > 0 and sum(ratios) > 0",
+    "formal": "shares[i] == original_shares[i] - rebate for all i"
+  },
+  {
+    "scope": "function",
+    "function": "payment_split_rebate",
+    "property": "shares_increase_with_total",
+    "precondition": "total >= 0 and len(ratios) > 0 and sum(ratios) > 0",
+    "formal": "shares[i] increases as total increases for all i"
+  },
+  {
+    "scope": "function",
+    "function": "payment_split_rebate",
+    "property": "shares_increase_with_ratio",
+    "precondition": "total >= 0 and len(ratios) > 0 and sum(ratios) > 0",
+    "formal": "shares[i] increases as ratios[i] increases for all i"
+  }
+]

@@ -1,0 +1,48 @@
+{
+    "functions": [
+        {
+            "name": "request_token_bucket",
+            "parameters": [
+                "tokens",
+                "now"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "rate <= 0 or capacity <= 0",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"invalid rate/capacity\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (rate <= 0 or capacity <= 0)",
+                        "body_contains": "available = tokens.get(\"available\", capacity)\nlast = tokens.get(\"last\", now)\nrefill = int((now - last) * rate)\navailable = min(capacity, available + refill)\n# BUG: does not update last when no token is consumed.\nif available <= 0:\n        return False\ntokens[\"available\"] = available - 1\ntokens[\"last\"] = now\nreturn True",
+                        "returns": "True",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "available <= 0",
+                        "branches": null,
+                        "body_contains": "return False",
+                        "returns": "False",
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (available <= 0)",
+                        "body_contains": "tokens[\"available\"] = available - 1\ntokens[\"last\"] = now\nreturn True",
+                        "returns": "True",
+                        "early_exit": false
+                    }
+                ]
+            ],
+            "returns": "True"
+        }
+    ]
+}

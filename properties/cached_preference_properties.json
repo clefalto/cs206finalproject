@@ -1,0 +1,72 @@
+[
+  {
+    "scope": "branch",
+    "function": "cached_preference",
+    "condition": "item is None",
+    "property": "cache_miss",
+    "formal": "cached_preference(cache, key, now) == None"
+  },
+  {
+    "scope": "branch",
+    "function": "cached_preference",
+    "condition": "now > ttl",
+    "property": "cache_expired",
+    "formal": "cached_preference(cache, key, now) == None"
+  },
+  {
+    "scope": "branch",
+    "function": "cached_preference",
+    "condition": "now <= ttl",
+    "property": "cache_hit",
+    "formal": "cached_preference(cache, key, now) == payload"
+  },
+  {
+    "scope": "function",
+    "function": "cached_preference",
+    "property": "cache_consistency",
+    "precondition": "cache[key] exists and is valid",
+    "formal": "cached_preference(cache, key, now) == cache[key][0]"
+  },
+  {
+    "scope": "function",
+    "function": "cached_preference",
+    "property": "monotonic_expiry",
+    "precondition": "cache[key] exists with ttl",
+    "formal": "for all now1 <= now2, if cached_preference(cache, key, now1) == None then cached_preference(cache, key, now2) == None"
+  },
+  {
+    "scope": "function",
+    "function": "cached_preference",
+    "property": "deterministic_lookup",
+    "precondition": "cache, key, now are unchanged",
+    "formal": "cached_preference(cache, key, now) == cached_preference(cache, key, now)"
+  },
+  {
+    "scope": "function",
+    "function": "cached_preference",
+    "property": "null_safety",
+    "precondition": "cache is None or key is None",
+    "formal": "cached_preference(cache, key, now) == None"
+  },
+  {
+    "scope": "function",
+    "function": "cached_preference",
+    "property": "bug_invariant",
+    "precondition": "cache[key] exists with ttl",
+    "formal": "cached_preference(cache, key, ttl) == payload  # BUG: should return None"
+  },
+  {
+    "scope": "function",
+    "function": "cached_preference",
+    "property": "payload_preservation",
+    "precondition": "cache[key] exists and now <= ttl",
+    "formal": "cached_preference(cache, key, now) == cache[key][0]"
+  },
+  {
+    "scope": "function",
+    "function": "cached_preference",
+    "property": "ttl_preservation",
+    "precondition": "cache[key] exists",
+    "formal": "cached_preference(cache, key, now) depends only on cache[key][1] for expiry"
+  }
+]

@@ -1,0 +1,72 @@
+[
+  {
+    "scope": "branch",
+    "function": "bandwidth_rebalance",
+    "condition": "len(current) != len(target)",
+    "property": "shape_mismatch_error",
+    "formal": "len(current) != len(target) => raise ValueError(\"shape mismatch\")"
+  },
+  {
+    "scope": "branch",
+    "function": "bandwidth_rebalance",
+    "condition": "not current",
+    "property": "empty_allocation_error",
+    "formal": "not current => raise ValueError(\"empty allocation\")"
+  },
+  {
+    "scope": "function",
+    "function": "bandwidth_rebalance",
+    "property": "shape_consistency",
+    "precondition": "len(current) == len(target)",
+    "formal": "len(bandwidth_rebalance(current, target)) == len(current)"
+  },
+  {
+    "scope": "function",
+    "function": "bandwidth_rebalance",
+    "property": "non_empty_input",
+    "precondition": "current != []",
+    "formal": "current != [] => bandwidth_rebalance(current, target) is not None"
+  },
+  {
+    "scope": "function",
+    "function": "bandwidth_rebalance",
+    "property": "linear_interpolation",
+    "precondition": "len(current) == len(target) and current != []",
+    "formal": "bandwidth_rebalance(current, target)[i] == current[i] + (target[i] - current[i]) * damping for all i"
+  },
+  {
+    "scope": "function",
+    "function": "bandwidth_rebalance",
+    "property": "identity_on_equal",
+    "precondition": "current == target",
+    "formal": "current == target => bandwidth_rebalance(current, target) == current"
+  },
+  {
+    "scope": "function",
+    "function": "bandwidth_rebalance",
+    "property": "monotonicity",
+    "precondition": "len(current) == len(target) and current != [] and 0 <= damping <= 1",
+    "formal": "current[i] <= target[i] => current[i] <= bandwidth_rebalance(current, target)[i] <= target[i] for all i"
+  },
+  {
+    "scope": "function",
+    "function": "bandwidth_rebalance",
+    "property": "bounded_output",
+    "precondition": "len(current) == len(target) and current != [] and 0 <= damping <= 1",
+    "formal": "min(current[i], target[i]) <= bandwidth_rebalance(current, target)[i] <= max(current[i], target[i]) for all i"
+  },
+  {
+    "scope": "function",
+    "function": "bandwidth_rebalance",
+    "property": "damping_sensitivity",
+    "precondition": "len(current) == len(target) and current != []",
+    "formal": "damping == 0 => bandwidth_rebalance(current, target) == current and damping == 1 => bandwidth_rebalance(current, target) == target"
+  },
+  {
+    "scope": "function",
+    "function": "bandwidth_rebalance",
+    "property": "no_renormalization_bug",
+    "precondition": "len(current) == len(target) and current != []",
+    "formal": "sum(bandwidth_rebalance(current, target)) != sum(current) in general (intended behavior)"
+  }
+]

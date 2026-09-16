@@ -1,0 +1,72 @@
+[
+  {
+    "scope": "branch",
+    "function": "shift_weight",
+    "condition": "len(current) != len(target)",
+    "property": "shape_mismatch_error",
+    "formal": "len(current) != len(target) => raise ValueError(\"shape mismatch\")"
+  },
+  {
+    "scope": "branch",
+    "function": "shift_weight",
+    "condition": "not current",
+    "property": "empty_allocation_error",
+    "formal": "not current => raise ValueError(\"empty allocation\")"
+  },
+  {
+    "scope": "function",
+    "function": "shift_weight",
+    "property": "shape_consistency",
+    "precondition": "len(current) == len(target)",
+    "formal": "len(shift_weight(current, target)) == len(current)"
+  },
+  {
+    "scope": "function",
+    "function": "shift_weight",
+    "property": "damping_interpolation",
+    "precondition": "len(current) == len(target) and current != []",
+    "formal": "shift_weight(current, target)[i] = current[i] + (target[i] - current[i]) * damping"
+  },
+  {
+    "scope": "function",
+    "function": "shift_weight",
+    "property": "identity_on_same",
+    "precondition": "current == target",
+    "formal": "shift_weight(current, current) == current"
+  },
+  {
+    "scope": "function",
+    "function": "shift_weight",
+    "property": "linear_interpolation",
+    "precondition": "len(current) == len(target) and current != []",
+    "formal": "shift_weight(current, target) = current + damping * (target - current)"
+  },
+  {
+    "scope": "function",
+    "function": "shift_weight",
+    "property": "bounded_interpolation",
+    "precondition": "len(current) == len(target) and current != [] and 0 <= damping <= 1",
+    "formal": "min(current[i], target[i]) <= shift_weight(current, target)[i] <= max(current[i], target[i])"
+  },
+  {
+    "scope": "function",
+    "function": "shift_weight",
+    "property": "monotonic_interpolation",
+    "precondition": "len(current) == len(target) and current != [] and 0 <= damping <= 1",
+    "formal": "if current[i] <= target[i] then shift_weight(current, target)[i] is monotonically increasing in damping"
+  },
+  {
+    "scope": "function",
+    "function": "shift_weight",
+    "property": "zero_damping_identity",
+    "precondition": "len(current) == len(target) and current != []",
+    "formal": "shift_weight(current, target) with damping=0 == current"
+  },
+  {
+    "scope": "function",
+    "function": "shift_weight",
+    "property": "full_damping_target",
+    "precondition": "len(current) == len(target) and current != []",
+    "formal": "shift_weight(current, target) with damping=1 == target"
+  }
+]

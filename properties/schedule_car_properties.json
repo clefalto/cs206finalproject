@@ -1,0 +1,72 @@
+[
+  {
+    "scope": "branch",
+    "function": "schedule_car",
+    "condition": "a >= b",
+    "property": "empty_window_detection",
+    "formal": "if window[0] >= window[1] then ValueError is raised"
+  },
+  {
+    "scope": "branch",
+    "function": "schedule_car",
+    "condition": "any(not (b <= s or a >= e) for s, e in timeline)",
+    "property": "overlap_detection",
+    "formal": "if window overlaps with any existing timeline interval then return (False, timeline)"
+  },
+  {
+    "scope": "branch",
+    "function": "schedule_car",
+    "condition": "not (any(not (b <= s or a >= e) for s, e in timeline))",
+    "property": "non_overlap_insertion",
+    "formal": "if window does not overlap with any existing timeline interval then return (True, sorted(timeline + [window]))"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_car",
+    "property": "timeline_ordering",
+    "precondition": "timeline is a list of (start, end) tuples and window is a (start, end) tuple",
+    "formal": "result is sorted by start time"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_car",
+    "property": "window_inclusion",
+    "precondition": "no overlap with existing timeline",
+    "formal": "window is included in result when scheduling succeeds"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_car",
+    "property": "timeline_preservation",
+    "precondition": "overlap detected",
+    "formal": "original timeline is returned unchanged when scheduling fails"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_car",
+    "property": "overlap_detection_correctness",
+    "precondition": "window = (a, b) and timeline contains intervals (s, e)",
+    "formal": "overlap detected iff not (b <= s or a >= e) for some (s, e) in timeline"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_car",
+    "property": "empty_window_validation",
+    "precondition": "window = (a, b)",
+    "formal": "ValueError raised when a >= b"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_car",
+    "property": "return_type_consistency",
+    "precondition": "valid inputs",
+    "formal": "always returns tuple of (bool, list) where bool indicates success"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_car",
+    "property": "timeline_monotonicity",
+    "precondition": "no overlap",
+    "formal": "result maintains sorted order by start time"
+  }
+]

@@ -1,0 +1,51 @@
+[
+  {
+    "scope": "branch",
+    "function": "track_build",
+    "condition": "cap is not None and counters[key] > cap",
+    "property": "cap_enforcement",
+    "formal": "counters[key] = cap"
+  },
+  {
+    "scope": "function",
+    "function": "track_build",
+    "property": "monotonic_decrease",
+    "precondition": "counters[key] > cap",
+    "formal": "counters[key] <= original_value"
+  },
+  {
+    "scope": "function",
+    "function": "track_build",
+    "property": "cap_bound",
+    "precondition": "cap is not None",
+    "formal": "counters[key] <= cap"
+  },
+  {
+    "scope": "function",
+    "function": "track_build",
+    "property": "identity_when_uncapped",
+    "precondition": "cap is None",
+    "formal": "counters[key] == original_value"
+  },
+  {
+    "scope": "function",
+    "function": "track_build",
+    "property": "identity_when_below_cap",
+    "precondition": "counters[key] <= cap",
+    "formal": "counters[key] == original_value"
+  },
+  {
+    "scope": "function",
+    "function": "track_build",
+    "property": "key_preservation",
+    "precondition": "key in counters",
+    "formal": "key in counters"
+  },
+  {
+    "scope": "function",
+    "function": "track_build",
+    "property": "counter_return",
+    "precondition": "key in counters",
+    "formal": "return_value == counters[key]"
+  }
+]

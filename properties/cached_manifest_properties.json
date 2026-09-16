@@ -1,0 +1,58 @@
+[
+  {
+    "scope": "branch",
+    "function": "cached_manifest",
+    "condition": "key not in entries",
+    "property": "cache_miss",
+    "formal": "cached_manifest(entries, key, now) == None"
+  },
+  {
+    "scope": "branch",
+    "function": "cached_manifest",
+    "condition": "now > expires_at",
+    "property": "expired_entry",
+    "formal": "cached_manifest(entries, key, now) == None"
+  },
+  {
+    "scope": "function",
+    "function": "cached_manifest",
+    "property": "cache_hit",
+    "precondition": "key in entries and now <= expires_at",
+    "formal": "cached_manifest(entries, key, now) == entries[key][0]"
+  },
+  {
+    "scope": "function",
+    "function": "cached_manifest",
+    "property": "non_negative_expiry",
+    "precondition": "key in entries",
+    "formal": "entries[key][1] >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "cached_manifest",
+    "property": "monotonic_expiry",
+    "precondition": "key in entries",
+    "formal": "entries[key][1] is non-decreasing over time"
+  },
+  {
+    "scope": "function",
+    "function": "cached_manifest",
+    "property": "deterministic_lookup",
+    "precondition": "key in entries and now <= expires_at",
+    "formal": "cached_manifest(entries, key, now) == cached_manifest(entries, key, now)"
+  },
+  {
+    "scope": "function",
+    "function": "cached_manifest",
+    "property": "null_on_absent",
+    "precondition": "key not in entries",
+    "formal": "cached_manifest(entries, key, now) == None"
+  },
+  {
+    "scope": "function",
+    "function": "cached_manifest",
+    "property": "null_on_expired",
+    "precondition": "key in entries and now > expires_at",
+    "formal": "cached_manifest(entries, key, now) == None"
+  }
+]

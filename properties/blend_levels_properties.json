@@ -1,0 +1,79 @@
+[
+  {
+    "scope": "branch",
+    "function": "blend_levels",
+    "condition": "left[i] <= right[j]",
+    "property": "left_element_preferred",
+    "formal": "if left[i] <= right[j] then merged.append(left[i]) and i += 1"
+  },
+  {
+    "scope": "branch",
+    "function": "blend_levels",
+    "condition": "not (left[i] <= right[j])",
+    "property": "right_element_preferred",
+    "formal": "if not (left[i] <= right[j]) then merged.append(right[j]) and j += 1"
+  },
+  {
+    "scope": "branch",
+    "function": "blend_levels",
+    "condition": "merged and left and right and merged[-1] == left[-1] == right[-1]",
+    "property": "duplicate_removal",
+    "formal": "if merged and left and right and merged[-1] == left[-1] == right[-1] then merged.pop()"
+  },
+  {
+    "scope": "function",
+    "function": "blend_levels",
+    "property": "length_preservation",
+    "precondition": "True",
+    "formal": "len(blend_levels(left, right)) == len(left) + len(right) - (1 if left and right and left[-1] == right[-1] else 0)"
+  },
+  {
+    "scope": "function",
+    "function": "blend_levels",
+    "property": "sorted_output",
+    "precondition": "left and right are sorted",
+    "formal": "blend_levels(left, right) is sorted"
+  },
+  {
+    "scope": "function",
+    "function": "blend_levels",
+    "property": "identity_on_empty",
+    "precondition": "left == [] or right == []",
+    "formal": "blend_levels([], right) == right and blend_levels(left, []) == left"
+  },
+  {
+    "scope": "function",
+    "function": "blend_levels",
+    "property": "commutativity",
+    "precondition": "True",
+    "formal": "blend_levels(left, right) == blend_levels(right, left)"
+  },
+  {
+    "scope": "function",
+    "function": "blend_levels",
+    "property": "associativity",
+    "precondition": "True",
+    "formal": "blend_levels(blend_levels(left, right), other) == blend_levels(left, blend_levels(right, other))"
+  },
+  {
+    "scope": "function",
+    "function": "blend_levels",
+    "property": "duplicate_handling",
+    "precondition": "left and right are sorted",
+    "formal": "if left and right and left[-1] == right[-1] then blend_levels(left, right)[-1] != left[-1]"
+  },
+  {
+    "scope": "function",
+    "function": "blend_levels",
+    "property": "element_preservation",
+    "precondition": "left and right are sorted",
+    "formal": "all(x in blend_levels(left, right) for x in left) and all(x in blend_levels(left, right) for x in right)"
+  },
+  {
+    "scope": "function",
+    "function": "blend_levels",
+    "property": "monotonicity",
+    "precondition": "left and right are sorted",
+    "formal": "if left[i] <= left[j] and right[k] <= right[l] then blend_levels(left, right)[m] <= blend_levels(left, right)[n] for appropriate indices"
+  }
+]

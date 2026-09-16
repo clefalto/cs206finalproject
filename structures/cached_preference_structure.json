@@ -1,0 +1,49 @@
+{
+    "functions": [
+        {
+            "name": "cached_preference",
+            "parameters": [
+                "cache",
+                "key",
+                "now"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "item is None",
+                        "branches": null,
+                        "body_contains": "return None",
+                        "returns": "None",
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (item is None)",
+                        "body_contains": "payload, ttl = item\n# BUG: should expire when now == ttl.\nif now > ttl:\n        return None\nreturn payload",
+                        "returns": "payload",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "now > ttl",
+                        "branches": null,
+                        "body_contains": "return None",
+                        "returns": "None",
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (now > ttl)",
+                        "body_contains": "return payload",
+                        "returns": "payload",
+                        "early_exit": false
+                    }
+                ]
+            ],
+            "returns": "payload"
+        }
+    ]
+}

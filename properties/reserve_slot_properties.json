@@ -1,0 +1,86 @@
+[
+  {
+    "scope": "branch",
+    "function": "reserve_slot",
+    "condition": "candidate[0] >= candidate[1]",
+    "property": "invalid_interval_rejection",
+    "formal": "if candidate[0] >= candidate[1] then ValueError is raised"
+  },
+  {
+    "scope": "branch",
+    "function": "reserve_slot",
+    "condition": "overlaps(slot, candidate)",
+    "property": "overlap_prevention",
+    "formal": "if any slot in existing overlaps with candidate then return False, list(existing)"
+  },
+  {
+    "scope": "branch",
+    "function": "reserve_slot",
+    "condition": "not (overlaps(slot, candidate)) for all slot in existing",
+    "property": "successful_reservation",
+    "formal": "if no slot in existing overlaps with candidate then return True, sorted(existing + [candidate])"
+  },
+  {
+    "scope": "function",
+    "function": "reserve_slot",
+    "property": "interval_validity",
+    "precondition": "candidate is a valid interval [start, end] with start < end",
+    "formal": "candidate[0] < candidate[1]"
+  },
+  {
+    "scope": "function",
+    "function": "reserve_slot",
+    "property": "overlap_detection",
+    "precondition": "existing contains valid intervals",
+    "formal": "overlaps(a, b) returns True when intervals a and b share any common points (including boundary touch)"
+  },
+  {
+    "scope": "function",
+    "function": "reserve_slot",
+    "property": "sorted_output",
+    "precondition": "reservation succeeds",
+    "formal": "returned merged list is sorted by start time"
+  },
+  {
+    "scope": "function",
+    "function": "reserve_slot",
+    "property": "immutability_preservation",
+    "precondition": "reservation fails",
+    "formal": "existing list is returned unchanged as list(existing)"
+  },
+  {
+    "scope": "function",
+    "function": "reserve_slot",
+    "property": "candidate_addition",
+    "precondition": "reservation succeeds",
+    "formal": "candidate is added to the merged list"
+  },
+  {
+    "scope": "function",
+    "function": "reserve_slot",
+    "property": "existing_preservation",
+    "precondition": "reservation succeeds",
+    "formal": "all existing intervals are preserved in the merged list"
+  },
+  {
+    "scope": "function",
+    "function": "reserve_slot",
+    "property": "boundary_touch_overlap",
+    "precondition": "overlaps function is used",
+    "formal": "overlaps considers intervals that touch at boundaries as overlapping (BUG comment indicates this behavior)"
+  },
+  {
+    "scope": "function",
+    "function": "reserve_slot",
+    "property": "non_empty_existing",
+    "precondition": "existing is not empty",
+    "formal": "function handles empty existing list correctly"
+  },
+  {
+    "scope": "function",
+    "function": "reserve_slot",
+    "property": "return_type_consistency",
+    "precondition": "function executes",
+    "formal": "always returns a tuple (bool, list) where bool indicates success/failure"
+  }
+]

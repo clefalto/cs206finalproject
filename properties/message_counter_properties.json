@@ -1,0 +1,58 @@
+[
+  {
+    "scope": "branch",
+    "function": "message_counter",
+    "condition": "cap is not None and counters[key] > cap",
+    "property": "cap_clamping",
+    "formal": "counters[key] = cap"
+  },
+  {
+    "scope": "function",
+    "function": "message_counter",
+    "property": "counter_increment",
+    "precondition": "True",
+    "formal": "counters[key] increases by 1"
+  },
+  {
+    "scope": "function",
+    "function": "message_counter",
+    "property": "counter_initialization",
+    "precondition": "key not in counters",
+    "formal": "counters.setdefault(key, 0)"
+  },
+  {
+    "scope": "function",
+    "function": "message_counter",
+    "property": "return_current_count",
+    "precondition": "True",
+    "formal": "return counters[key]"
+  },
+  {
+    "scope": "function",
+    "function": "message_counter",
+    "property": "cap_constraint",
+    "precondition": "cap is not None",
+    "formal": "counters[key] <= cap"
+  },
+  {
+    "scope": "function",
+    "function": "message_counter",
+    "property": "non_negative_count",
+    "precondition": "True",
+    "formal": "counters[key] >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "message_counter",
+    "property": "monotonic_increase",
+    "precondition": "cap is None or counters[key] < cap",
+    "formal": "counters[key] is strictly increasing"
+  },
+  {
+    "scope": "function",
+    "function": "message_counter",
+    "property": "idempotent_cap",
+    "precondition": "counters[key] >= cap and cap is not None",
+    "formal": "subsequent calls return cap"
+  }
+]

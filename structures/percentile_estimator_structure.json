@@ -1,0 +1,47 @@
+{
+    "functions": [
+        {
+            "name": "percentile_estimator",
+            "parameters": [
+                "values"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "not values",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"no values\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (not values)",
+                        "body_contains": "if not (0 <= q <= 1):\n        raise ValueError(\"q must be in [0, 1]\")\nidx = int(len(values) * q)\n# BUG: off-by-one when q=1.0; index equals len(values).\nreturn values[idx]",
+                        "returns": "values[idx]",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "not (0 <= q <= 1)",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"q must be in [0, 1]\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (not (0 <= q <= 1))",
+                        "body_contains": "idx = int(len(values) * q)\n# BUG: off-by-one when q=1.0; index equals len(values).\nreturn values[idx]",
+                        "returns": "values[idx]",
+                        "early_exit": false
+                    }
+                ]
+            ],
+            "returns": "values[idx]"
+        }
+    ]
+}

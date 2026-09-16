@@ -1,0 +1,65 @@
+[
+  {
+    "scope": "branch",
+    "function": "retry_backoff_window",
+    "condition": "attempts < 0",
+    "property": "raises_value_error",
+    "formal": "raises ValueError with message 'attempts must be non-negative'"
+  },
+  {
+    "scope": "branch", 
+    "function": "retry_backoff_window",
+    "condition": "attempts >= 0 and delay > max_delay",
+    "property": "capped_at_max_delay",
+    "formal": "delay == max_delay"
+  },
+  {
+    "scope": "branch",
+    "function": "retry_backoff_window", 
+    "condition": "attempts >= 0 and delay <= max_delay",
+    "property": "exponential_growth",
+    "formal": "delay == base * (2 ** attempts)"
+  },
+  {
+    "scope": "function",
+    "function": "retry_backoff_window",
+    "property": "non_negative_output",
+    "precondition": "attempts >= 0",
+    "formal": "delay >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "retry_backoff_window",
+    "property": "monotonic_increasing",
+    "precondition": "attempts >= 0 and attempts1 < attempts2",
+    "formal": "retry_backoff_window(attempts1) <= retry_backoff_window(attempts2)"
+  },
+  {
+    "scope": "function",
+    "function": "retry_backoff_window",
+    "property": "bounded_by_max_delay",
+    "precondition": "attempts >= 0",
+    "formal": "delay <= max_delay"
+  },
+  {
+    "scope": "function",
+    "function": "retry_backoff_window",
+    "property": "base_case_identity",
+    "precondition": "attempts == 0 and base * (2 ** 0) <= max_delay",
+    "formal": "delay == base"
+  },
+  {
+    "scope": "function",
+    "function": "retry_backoff_window",
+    "property": "exponential_growth_rate",
+    "precondition": "attempts >= 0 and base * (2 ** attempts) <= max_delay",
+    "formal": "delay == base * (2 ** attempts)"
+  },
+  {
+    "scope": "function",
+    "function": "retry_backoff_window",
+    "property": "boundary_bug",
+    "precondition": "attempts >= 0 and base * (2 ** attempts) == max_delay",
+    "formal": "delay == max_delay (should not be capped but is due to > vs >= bug)"
+  }
+]

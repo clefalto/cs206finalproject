@@ -1,0 +1,93 @@
+[
+  {
+    "scope": "branch",
+    "function": "rolling_retries",
+    "condition": "window <= 0",
+    "property": "invalid_window_error",
+    "formal": "if window <= 0 then ValueError(\"window must be positive\") is raised"
+  },
+  {
+    "scope": "branch",
+    "function": "rolling_retries",
+    "condition": "not values",
+    "property": "empty_series_error",
+    "formal": "if not values then ValueError(\"empty series\") is raised"
+  },
+  {
+    "scope": "branch",
+    "function": "rolling_retries",
+    "condition": "len(tail) < warmup_min",
+    "property": "insufficient_warmup",
+    "formal": "if len(tail) < warmup_min then None is returned"
+  },
+  {
+    "scope": "function",
+    "function": "rolling_retries",
+    "property": "window_positive",
+    "precondition": "window > 0",
+    "formal": "window must be positive for function to proceed"
+  },
+  {
+    "scope": "function",
+    "function": "rolling_retries",
+    "property": "non_empty_values",
+    "precondition": "values is not empty",
+    "formal": "values must contain at least one element for function to proceed"
+  },
+  {
+    "scope": "function",
+    "function": "rolling_retries",
+    "property": "window_slice",
+    "precondition": "window > 0 and values is not empty",
+    "formal": "tail = values[-window:] extracts last window elements"
+  },
+  {
+    "scope": "function",
+    "function": "rolling_retries",
+    "property": "buggy_mean_calculation",
+    "precondition": "window > 0 and values is not empty",
+    "formal": "mean = total / window uses window size instead of actual sample count (len(tail))"
+  },
+  {
+    "scope": "function",
+    "function": "rolling_retries",
+    "property": "conditional_return",
+    "precondition": "window > 0 and values is not empty",
+    "formal": "if len(tail) >= warmup_min then mean is returned, else None is returned"
+  },
+  {
+    "scope": "function",
+    "function": "rolling_retries",
+    "property": "return_type",
+    "precondition": "window > 0 and values is not empty and len(tail) >= warmup_min",
+    "formal": "returns float (mean value)"
+  },
+  {
+    "scope": "function",
+    "function": "rolling_retries",
+    "property": "return_none",
+    "precondition": "window > 0 and values is not empty and len(tail) < warmup_min",
+    "formal": "returns None when insufficient warmup samples"
+  },
+  {
+    "scope": "function",
+    "function": "rolling_retries",
+    "property": "error_handling",
+    "precondition": "window <= 0 or values is empty",
+    "formal": "raises ValueError with descriptive message"
+  },
+  {
+    "scope": "function",
+    "function": "rolling_retries",
+    "property": "tail_length_constraint",
+    "precondition": "window > 0 and values is not empty",
+    "formal": "len(tail) <= window (tail length is at most window size)"
+  },
+  {
+    "scope": "function",
+    "function": "rolling_retries",
+    "property": "mean_calculation_bug",
+    "precondition": "window > 0 and values is not empty",
+    "formal": "mean calculation uses window instead of len(tail), causing incorrect results when len(tail) < window"
+  }
+]

@@ -1,0 +1,58 @@
+[
+  {
+    "scope": "branch",
+    "function": "inspection_booking",
+    "condition": "candidate[0] >= candidate[1]",
+    "property": "invalid_interval",
+    "formal": "raise ValueError(\"start must be before end\")"
+  },
+  {
+    "scope": "branch",
+    "function": "inspection_booking",
+    "condition": "overlaps(slot, candidate)",
+    "property": "conflict_detection",
+    "formal": "return False, list(existing)"
+  },
+  {
+    "scope": "function",
+    "function": "inspection_booking",
+    "property": "valid_interval_check",
+    "precondition": "candidate[0] < candidate[1]",
+    "formal": "no exception raised for valid intervals"
+  },
+  {
+    "scope": "function",
+    "function": "inspection_booking",
+    "property": "conflict_free_insertion",
+    "precondition": "candidate does not overlap with any slot in existing",
+    "formal": "return True, sorted(existing + [candidate])"
+  },
+  {
+    "scope": "function",
+    "function": "inspection_booking",
+    "property": "sorted_output",
+    "precondition": "candidate is valid and does not overlap",
+    "formal": "merged list is sorted by start time"
+  },
+  {
+    "scope": "function",
+    "function": "inspection_booking",
+    "property": "immutability_preservation",
+    "precondition": "candidate is valid and does not overlap",
+    "formal": "existing list is not modified"
+  },
+  {
+    "scope": "function",
+    "function": "inspection_booking",
+    "property": "boundary_touch_overlap",
+    "precondition": "candidate touches boundary of existing slot",
+    "formal": "overlaps returns True for boundary-touching intervals"
+  },
+  {
+    "scope": "function",
+    "function": "inspection_booking",
+    "property": "no_duplicate_insertion",
+    "precondition": "candidate is identical to existing slot",
+    "formal": "return False, list(existing)"
+  }
+]

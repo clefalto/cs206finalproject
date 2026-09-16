@@ -1,0 +1,135 @@
+[
+  {
+    "scope": "branch",
+    "function": "quota_for_fuel",
+    "condition": "total < 0",
+    "property": "negative_total_error",
+    "formal": "if total < 0 then raise ValueError(\"total must be non-negative\")"
+  },
+  {
+    "scope": "branch",
+    "function": "quota_for_fuel",
+    "condition": "minimum < 0",
+    "property": "negative_minimum_error",
+    "formal": "if minimum < 0 then raise ValueError(\"minimum must be non-negative\")"
+  },
+  {
+    "scope": "branch",
+    "function": "quota_for_fuel",
+    "condition": "not weights",
+    "property": "empty_weights_error",
+    "formal": "if not weights then raise ValueError(\"no weights provided\")"
+  },
+  {
+    "scope": "branch",
+    "function": "quota_for_fuel",
+    "condition": "not any(weights)",
+    "property": "zero_weights_error",
+    "formal": "if not any(weights) then raise ValueError(\"all weights are zero\")"
+  },
+  {
+    "scope": "branch",
+    "function": "quota_for_fuel",
+    "condition": "total >= 0 and minimum >= 0 and weights and any(weights)",
+    "property": "valid_input_allocation",
+    "formal": "if all conditions satisfied then return allocations where allocations[i] >= minimum for all i"
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_fuel",
+    "property": "minimum_allocation_guarantee",
+    "precondition": "total >= 0 and minimum >= 0 and weights and any(weights)",
+    "formal": "for all i, allocations[i] >= minimum"
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_fuel",
+    "property": "allocation_length_preservation",
+    "precondition": "total >= 0 and minimum >= 0 and weights and any(weights)",
+    "formal": "len(allocations) == len(weights)"
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_fuel",
+    "property": "non_negative_allocations",
+    "precondition": "total >= 0 and minimum >= 0 and weights and any(weights)",
+    "formal": "for all i, allocations[i] >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_fuel",
+    "property": "integer_allocations",
+    "precondition": "total >= 0 and minimum >= 0 and weights and any(weights)",
+    "formal": "for all i, allocations[i] is integer"
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_fuel",
+    "property": "allocation_sum_bound",
+    "precondition": "total >= 0 and minimum >= 0 and weights and any(weights)",
+    "formal": "sum(allocations) <= total"
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_fuel",
+    "property": "minimum_sum_bound",
+    "precondition": "total >= 0 and minimum >= 0 and weights and any(weights)",
+    "formal": "sum(allocations) >= minimum * len(weights)"
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_fuel",
+    "property": "proportional_allocation_tendency",
+    "precondition": "total >= 0 and minimum >= 0 and weights and any(weights) and total is sufficiently large",
+    "formal": "allocations[i] / allocations[j] ≈ weights[i] / weights[j] for large total"
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_fuel",
+    "property": "monotonicity_in_total",
+    "precondition": "minimum >= 0 and weights and any(weights) and total1 <= total2",
+    "formal": "quota_for_fuel(total1, weights, minimum)[i] <= quota_for_fuel(total2, weights, minimum)[i] for all i"
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_fuel",
+    "property": "monotonicity_in_minimum",
+    "precondition": "total >= 0 and weights and any(weights) and minimum1 <= minimum2",
+    "formal": "quota_for_fuel(total, weights, minimum1)[i] <= quota_for_fuel(total, weights, minimum2)[i] for all i"
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_fuel",
+    "property": "error_on_negative_total",
+    "precondition": "total < 0",
+    "formal": "raises ValueError with message \"total must be non-negative\""
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_fuel",
+    "property": "error_on_negative_minimum",
+    "precondition": "minimum < 0",
+    "formal": "raises ValueError with message \"minimum must be non-negative\""
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_fuel",
+    "property": "error_on_empty_weights",
+    "precondition": "not weights",
+    "formal": "raises ValueError with message \"no weights provided\""
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_fuel",
+    "property": "error_on_zero_weights",
+    "precondition": "not any(weights)",
+    "formal": "raises ValueError with message \"all weights are zero\""
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_fuel",
+    "property": "allocation_truncation_bug",
+    "precondition": "total >= 0 and minimum >= 0 and weights and any(weights)",
+    "formal": "sum(allocations) < total when fractional parts exist (bug: leftover units not redistributed)"
+  }
+]

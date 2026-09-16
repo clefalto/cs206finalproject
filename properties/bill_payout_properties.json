@@ -1,0 +1,65 @@
+[
+  {
+    "scope": "branch",
+    "function": "bill_payout",
+    "condition": "not ratios",
+    "property": "empty_ratios_error",
+    "formal": "if not ratios: raise ValueError(\"ratios required\")"
+  },
+  {
+    "scope": "branch",
+    "function": "bill_payout",
+    "condition": "amount < 0",
+    "property": "negative_amount_error",
+    "formal": "if amount < 0: raise ValueError(\"negative amount\")"
+  },
+  {
+    "scope": "branch",
+    "function": "bill_payout",
+    "condition": "total_ratio <= 0",
+    "property": "invalid_ratios_error",
+    "formal": "if total_ratio <= 0: raise ValueError(\"invalid ratios\")"
+  },
+  {
+    "scope": "function",
+    "function": "bill_payout",
+    "property": "ratios_required",
+    "precondition": "True",
+    "formal": "if not ratios: raise ValueError(\"ratios required\")"
+  },
+  {
+    "scope": "function",
+    "function": "bill_payout",
+    "property": "non_negative_amount",
+    "precondition": "True",
+    "formal": "if amount < 0: raise ValueError(\"negative amount\")"
+  },
+  {
+    "scope": "function",
+    "function": "bill_payout",
+    "property": "positive_total_ratio",
+    "precondition": "True",
+    "formal": "if total_ratio <= 0: raise ValueError(\"invalid ratios\")"
+  },
+  {
+    "scope": "function",
+    "function": "bill_payout",
+    "property": "proportional_distribution",
+    "precondition": "ratios and amount >= 0 and sum(ratios) > 0",
+    "formal": "sum(shares) == amount"
+  },
+  {
+    "scope": "function",
+    "function": "bill_payout",
+    "property": "fee_deduction",
+    "precondition": "ratios and amount >= 0 and sum(ratios) > 0",
+    "formal": "all(s == original_share - fee for s, original_share in zip(result, original_shares))"
+  },
+  {
+    "scope": "function",
+    "function": "bill_payout",
+    "property": "shares_length",
+    "precondition": "ratios and amount >= 0 and sum(ratios) > 0",
+    "formal": "len(result) == len(ratios)"
+  }
+]

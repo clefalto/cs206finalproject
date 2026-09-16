@@ -1,0 +1,64 @@
+{
+    "functions": [
+        {
+            "name": "energy_window_avg",
+            "parameters": [
+                "values"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "window <= 0",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"window must be positive\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (window <= 0)",
+                        "body_contains": "if not values:\n        raise ValueError(\"no values\")\nrecent = values[-window:]\ntotal = sum(recent)\n# BUG: divides by full window even during warmup.\nmean = total / window\nif len(recent) < warmup_min:\n        return None\nreturn mean",
+                        "returns": "mean",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "not values",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"no values\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (not values)",
+                        "body_contains": "recent = values[-window:]\ntotal = sum(recent)\n# BUG: divides by full window even during warmup.\nmean = total / window\nif len(recent) < warmup_min:\n        return None\nreturn mean",
+                        "returns": "mean",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "len(recent) < warmup_min",
+                        "branches": null,
+                        "body_contains": "return None",
+                        "returns": "None",
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (len(recent) < warmup_min)",
+                        "body_contains": "return mean",
+                        "returns": "mean",
+                        "early_exit": false
+                    }
+                ]
+            ],
+            "returns": "mean"
+        }
+    ]
+}

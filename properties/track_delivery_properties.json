@@ -1,0 +1,51 @@
+[
+  {
+    "scope": "branch",
+    "function": "track_delivery",
+    "condition": "cap is not None",
+    "property": "cap_applied",
+    "formal": "updated <= cap"
+  },
+  {
+    "scope": "branch",
+    "function": "track_delivery",
+    "condition": "updated > cap",
+    "property": "cap_clamped",
+    "formal": "updated == cap"
+  },
+  {
+    "scope": "function",
+    "function": "track_delivery",
+    "property": "monotonic_increase",
+    "precondition": "counters[key] is not None",
+    "formal": "updated >= counters[key]"
+  },
+  {
+    "scope": "function",
+    "function": "track_delivery",
+    "property": "non_negative",
+    "precondition": "counters[key] is not None and counters[key] >= 0",
+    "formal": "updated >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "track_delivery",
+    "property": "cap_respected",
+    "precondition": "cap is not None",
+    "formal": "updated <= cap"
+  },
+  {
+    "scope": "function",
+    "function": "track_delivery",
+    "property": "key_preservation",
+    "precondition": "counters[key] is not None",
+    "formal": "counters[key] remains unchanged"
+  },
+  {
+    "scope": "function",
+    "function": "track_delivery",
+    "property": "delivery_count_increment",
+    "precondition": "counters[key] is not None",
+    "formal": "updated == counters[key] + 1"
+  }
+]

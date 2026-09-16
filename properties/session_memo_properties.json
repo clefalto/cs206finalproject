@@ -1,0 +1,72 @@
+[
+  {
+    "scope": "branch",
+    "function": "session_memo",
+    "condition": "record is None",
+    "property": "cache_miss_return_default",
+    "formal": "session_memo(store, key, now, default=default) == default"
+  },
+  {
+    "scope": "branch",
+    "function": "session_memo",
+    "condition": "now > deadline",
+    "property": "expired_return_default",
+    "formal": "session_memo(store, key, now, default=default) == default"
+  },
+  {
+    "scope": "branch",
+    "function": "session_memo",
+    "condition": "now <= deadline",
+    "property": "valid_cache_return_value",
+    "formal": "session_memo(store, key, now, default=default) == value"
+  },
+  {
+    "scope": "function",
+    "function": "session_memo",
+    "property": "cache_consistency",
+    "precondition": "store.get(key) == (value, deadline) and now <= deadline",
+    "formal": "session_memo(store, key, now, default=default) == value"
+  },
+  {
+    "scope": "function",
+    "function": "session_memo",
+    "property": "default_on_miss",
+    "precondition": "store.get(key) is None",
+    "formal": "session_memo(store, key, now, default=default) == default"
+  },
+  {
+    "scope": "function",
+    "function": "session_memo",
+    "property": "default_on_expiry",
+    "precondition": "store.get(key) == (value, deadline) and now > deadline",
+    "formal": "session_memo(store, key, now, default=default) == default"
+  },
+  {
+    "scope": "function",
+    "function": "session_memo",
+    "property": "boundary_value_bug",
+    "precondition": "store.get(key) == (value, deadline) and now == deadline",
+    "formal": "session_memo(store, key, now, default=default) == value"
+  },
+  {
+    "scope": "function",
+    "function": "session_memo",
+    "property": "monotonic_expiry",
+    "precondition": "store.get(key) == (value, deadline) and now1 <= now2 and now2 > deadline",
+    "formal": "session_memo(store, key, now2, default=default) == default implies session_memo(store, key, now1, default=default) == default or session_memo(store, key, now1, default=default) == value"
+  },
+  {
+    "scope": "function",
+    "function": "session_memo",
+    "property": "idempotent_read",
+    "precondition": "True",
+    "formal": "session_memo(store, key, now, default=default) == session_memo(store, key, now, default=default)"
+  },
+  {
+    "scope": "function",
+    "function": "session_memo",
+    "property": "store_independence",
+    "precondition": "store1.get(key) == store2.get(key)",
+    "formal": "session_memo(store1, key, now, default=default) == session_memo(store2, key, now, default=default)"
+  }
+]

@@ -1,0 +1,25 @@
+I have successfully created a comprehensive test file for the `summary_memo` function using the Hypothesis testing framework. The test file `tests/summary_memo_test.py` contains:
+
+**Core Tests for All 6 Semantic Properties:**
+1. **Cache Miss** - Tests that `summary_memo` returns `None` when key is not in entries
+2. **Expired Entry** - Tests that `summary_memo` returns `None` when entry has expired
+3. **Cache Hit** - Tests that `summary_memo` returns the correct cached value when not expired
+4. **Non-negative Expiry** - Tests that expiry times are non-negative when key exists
+5. **Deterministic** - Tests that the function produces consistent results for identical inputs
+6. **Monotonic Expiry** - Tests that if an entry expires at time T1, it also expires at any later time T2
+
+**Additional Comprehensive Tests:**
+- Type validation tests
+- Empty entries behavior
+- Multiple entries handling
+- Edge case coverage
+
+**Key Features:**
+- Uses Hypothesis strategies for comprehensive property-based testing
+- Includes proper type hints and documentation
+- Follows pytest conventions with descriptive test names
+- Uses `assume()` statements to enforce preconditions
+- Tests are structured in a `TestSummaryMemo` class for organization
+- File is saved in the `tests` directory with the required `_test.py` suffix
+
+The test file is ready to be executed with pytest and will thoroughly exercise all the semantic properties identified in `summary_memo_properties.json`.

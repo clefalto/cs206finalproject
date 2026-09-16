@@ -1,0 +1,44 @@
+[
+  {
+    "scope": "branch",
+    "function": "tensor_slice_pad",
+    "condition": "start < 0 or end < start",
+    "property": "invalid_range_error",
+    "formal": "raises ValueError(\"invalid range\")"
+  },
+  {
+    "scope": "branch",
+    "function": "tensor_slice_pad",
+    "condition": "missing >= 0",
+    "property": "pads_with_extra_element",
+    "formal": "result.extend([pad] * (missing + 1))"
+  },
+  {
+    "scope": "function",
+    "function": "tensor_slice_pad",
+    "property": "returns_list",
+    "precondition": "values is a list",
+    "formal": "isinstance(result, list)"
+  },
+  {
+    "scope": "function",
+    "function": "tensor_slice_pad",
+    "property": "length_is_end_minus_start",
+    "precondition": "start >= 0 and end >= start and values has enough elements",
+    "formal": "len(result) == end - start"
+  },
+  {
+    "scope": "function",
+    "function": "tensor_slice_pad",
+    "property": "preserves_slice_when_no_padding",
+    "precondition": "start >= 0 and end >= start and len(values) >= end",
+    "formal": "result == values[start:end]"
+  },
+  {
+    "scope": "function",
+    "function": "tensor_slice_pad",
+    "property": "metamorphic_relation",
+    "precondition": "start >= 0 and end >= start",
+    "formal": "len(tensor_slice_pad(values, start, end)) == end - start"
+  }
+]

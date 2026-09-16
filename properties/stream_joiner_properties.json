@@ -1,0 +1,114 @@
+[
+  {
+    "scope": "branch",
+    "function": "stream_joiner",
+    "condition": "left[i] <= right[j]",
+    "property": "left_element_selected",
+    "formal": "out.append(left[i]) and i += 1"
+  },
+  {
+    "scope": "branch",
+    "function": "stream_joiner",
+    "condition": "not (left[i] <= right[j])",
+    "property": "right_element_selected",
+    "formal": "out.append(right[j]) and j += 1"
+  },
+  {
+    "scope": "branch",
+    "function": "stream_joiner",
+    "condition": "out and left and right and out[-1] == left[-1] == right[-1]",
+    "property": "duplicate_tail_removed",
+    "formal": "out.pop()"
+  },
+  {
+    "scope": "function",
+    "function": "stream_joiner",
+    "property": "sorted_merge",
+    "precondition": "left and right are sorted lists",
+    "formal": "out is sorted"
+  },
+  {
+    "scope": "function",
+    "function": "stream_joiner",
+    "property": "contains_all_elements",
+    "precondition": "left and right are lists",
+    "formal": "set(out) == set(left) | set(right)"
+  },
+  {
+    "scope": "function",
+    "function": "stream_joiner",
+    "property": "preserves_order",
+    "precondition": "left and right are sorted lists",
+    "formal": "relative order of elements from left and right is preserved in out"
+  },
+  {
+    "scope": "function",
+    "function": "stream_joiner",
+    "property": "empty_lists_handled",
+    "precondition": "left or right is empty",
+    "formal": "if not left: out == right; if not right: out == left"
+  },
+  {
+    "scope": "function",
+    "function": "stream_joiner",
+    "property": "idempotent_merge",
+    "precondition": "left == right",
+    "formal": "stream_joiner(left, left) == left"
+  },
+  {
+    "scope": "function",
+    "function": "stream_joiner",
+    "property": "commutative_merge",
+    "precondition": "left and right are sorted lists",
+    "formal": "stream_joiner(left, right) == stream_joiner(right, left)"
+  },
+  {
+    "scope": "function",
+    "function": "stream_joiner",
+    "property": "associative_merge",
+    "precondition": "left, right, and third are sorted lists",
+    "formal": "stream_joiner(stream_joiner(left, right), third) == stream_joiner(left, stream_joiner(right, third))"
+  },
+  {
+    "scope": "function",
+    "function": "stream_joiner",
+    "property": "length_bound",
+    "precondition": "left and right are lists",
+    "formal": "len(out) <= len(left) + len(right)"
+  },
+  {
+    "scope": "function",
+    "function": "stream_joiner",
+    "property": "minimum_length",
+    "precondition": "left and right are non-empty lists",
+    "formal": "len(out) >= max(len(left), len(right))"
+  },
+  {
+    "scope": "function",
+    "function": "stream_joiner",
+    "property": "duplicate_tail_removal",
+    "precondition": "left and right are non-empty sorted lists with same last element",
+    "formal": "if left[-1] == right[-1]: out[-1] != left[-1] (duplicate tail removed)"
+  },
+  {
+    "scope": "function",
+    "function": "stream_joiner",
+    "property": "no_internal_duplicates",
+    "precondition": "left and right are sorted lists",
+    "formal": "no consecutive duplicates in out except possibly at the boundary before tail removal"
+  },
+  {
+    "scope": "function",
+    "function": "stream_joiner",
+    "property": "monotonicity_preservation",
+    "precondition": "left and right are sorted lists",
+    "formal": "if left and right are non-decreasing, then out is non-decreasing"
+  },
+  {
+    "scope": "function",
+    "function": "stream_joiner",
+    "property": "boundary_element_handling",
+    "precondition": "left and right are non-empty sorted lists",
+    "formal": "min(left[0], right[0]) == out[0] and max(left[-1], right[-1]) >= out[-1]"
+  }
+]

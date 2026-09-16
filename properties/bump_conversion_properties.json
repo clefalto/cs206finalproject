@@ -1,0 +1,44 @@
+[
+  {
+    "scope": "branch",
+    "function": "bump_conversion",
+    "condition": "cap is not None",
+    "property": "cap_applied",
+    "formal": "updated = min(updated, cap)"
+  },
+  {
+    "scope": "branch",
+    "function": "bump_conversion",
+    "condition": "cap is not None and updated > cap",
+    "property": "cap_enforced",
+    "formal": "updated = cap"
+  },
+  {
+    "scope": "function",
+    "function": "bump_conversion",
+    "property": "monotonic_increase",
+    "precondition": "counters[key] is not None",
+    "formal": "updated >= counters[key]"
+  },
+  {
+    "scope": "function",
+    "function": "bump_conversion",
+    "property": "cap_respected",
+    "precondition": "cap is not None",
+    "formal": "updated <= cap"
+  },
+  {
+    "scope": "function",
+    "function": "bump_conversion",
+    "property": "key_preservation",
+    "precondition": "counters[key] is not None",
+    "formal": "updated >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "bump_conversion",
+    "property": "non_negative_output",
+    "precondition": "counters[key] is not None",
+    "formal": "updated >= 0"
+  }
+]

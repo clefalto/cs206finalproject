@@ -1,0 +1,30 @@
+{
+    "functions": [
+        {
+            "name": "file_chunk_stitch",
+            "parameters": [
+                "chunks"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "not chunks",
+                        "branches": null,
+                        "body_contains": "return b\"\"",
+                        "returns": "b\"\"",
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (not chunks)",
+                        "body_contains": "chunks = sorted(chunks)\ndata = b\"\"\nfor _, part in chunks:\n        data += part\n# BUG: drops last byte of the merged data.\nreturn data[:-1]",
+                        "returns": "data[:-1]",
+                        "early_exit": false
+                    }
+                ]
+            ],
+            "returns": "data[:-1]"
+        }
+    ]
+}

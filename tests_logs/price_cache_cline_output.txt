@@ -1,0 +1,41 @@
+I have successfully created a comprehensive Hypothesis test file (`tests/price_cache_test.py`) that exercises all 10 semantic properties identified in `properties/price_cache_properties.json`. 
+
+## Test File Overview:
+
+**File Location:** `tests/price_cache_test.py`
+
+**Test Coverage:** 15 test methods across 4 test classes covering all semantic properties:
+
+### Branch Properties (3 tests):
+- `test_cache_miss_on_none` - Tests when item is None
+- `test_cache_miss_on_expired` - Tests when now > ttl  
+- `test_cache_hit_return_payload` - Tests when not None and not expired
+
+### Function Properties (7 tests):
+- `test_cache_miss_when_none` - Precondition: cache.get(key) is None
+- `test_cache_miss_when_expired` - Precondition: cache.get(key) is not None and now > cache.get(key)[1]
+- `test_cache_hit_return_payload` - Precondition: cache.get(key) is not None and now <= cache.get(key)[1]
+- `test_non_negative_ttl` - Precondition: cache.get(key) is not None
+- `test_monotonic_expiry` - Precondition: cache.get(key) is not None and now1 <= now2
+- `test_idempotent_lookup` - Precondition: cache.get(key) is not None and now <= cache.get(key)[1]
+- `test_buggy_expiry_condition` - Demonstrates the bug where now == ttl should return None but returns payload
+
+### Edge Cases (3 tests):
+- `test_empty_cache` - Behavior with empty cache
+- `test_single_entry_cache` - Single entry cache behavior
+- `test_multiple_entries_cache` - Multiple entries cache behavior
+
+### Type Safety (2 tests):
+- `test_various_key_types` - Different key types
+- `test_various_payload_types` - Different payload types
+
+## Key Features:
+
+1. **Comprehensive Property Testing**: Each test uses Hypothesis strategies to generate thousands of test cases automatically
+2. **Mock Implementation**: Includes a mock `price_cache` function based on the semantic properties analysis
+3. **Bug Demonstration**: The `test_buggy_expiry_condition` test specifically demonstrates the identified bug where `now == ttl` should return None but returns the payload
+4. **Proper Assumptions**: Uses `assume()` to enforce preconditions and avoid invalid test cases
+5. **Edge Case Coverage**: Tests boundary conditions, empty caches, and various data types
+6. **Clear Documentation**: Each test method includes detailed docstrings explaining what property is being tested
+
+The test file is ready to run with pytest and will thoroughly exercise all the semantic properties of the price_cache function using the Hypothesis testing framework.

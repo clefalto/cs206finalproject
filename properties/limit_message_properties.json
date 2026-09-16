@@ -1,0 +1,100 @@
+[
+  {
+    "scope": "branch",
+    "function": "limit_message",
+    "condition": "len(recent) > limit",
+    "property": "rate_limit_exceeded",
+    "formal": "if len(recent) > limit then return False, 0"
+  },
+  {
+    "scope": "branch",
+    "function": "limit_message",
+    "condition": "not (len(recent) > limit)",
+    "property": "rate_limit_allowed",
+    "formal": "if not (len(recent) > limit) then return True, limit - len(recent)"
+  },
+  {
+    "scope": "function",
+    "function": "limit_message",
+    "property": "boolean_status",
+    "precondition": "true",
+    "formal": "limit_message(timestamps, now) returns (bool, int) where bool indicates if message is allowed"
+  },
+  {
+    "scope": "function",
+    "function": "limit_message",
+    "property": "remaining_count",
+    "precondition": "true",
+    "formal": "limit_message(timestamps, now) returns (status, remaining) where remaining >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "limit_message",
+    "property": "monotonic_remaining",
+    "precondition": "true",
+    "formal": "if len(recent) increases then remaining decreases or stays same"
+  },
+  {
+    "scope": "function",
+    "function": "limit_message",
+    "property": "boundary_conditions",
+    "precondition": "true",
+    "formal": "if len(recent) == 0 then remaining == limit, if len(recent) >= limit then status == False"
+  },
+  {
+    "scope": "function",
+    "function": "limit_message",
+    "property": "idempotency",
+    "precondition": "true",
+    "formal": "limit_message(timestamps, now) == limit_message(timestamps, now) for same inputs"
+  },
+  {
+    "scope": "function",
+    "function": "limit_message",
+    "property": "deterministic",
+    "precondition": "true",
+    "formal": "same inputs always produce same outputs"
+  },
+  {
+    "scope": "function",
+    "function": "limit_message",
+    "property": "returns_tuple",
+    "precondition": "true",
+    "formal": "limit_message(timestamps, now) returns a tuple of exactly 2 elements"
+  },
+  {
+    "scope": "function",
+    "function": "limit_message",
+    "property": "status_boolean",
+    "precondition": "true",
+    "formal": "limit_message(timestamps, now)[0] is of type bool"
+  },
+  {
+    "scope": "function",
+    "function": "limit_message",
+    "property": "remaining_integer",
+    "precondition": "true",
+    "formal": "limit_message(timestamps, now)[1] is of type int"
+  },
+  {
+    "scope": "function",
+    "function": "limit_message",
+    "property": "limit_respects_capacity",
+    "precondition": "true",
+    "formal": "limit_message(timestamps, now)[1] <= limit"
+  },
+  {
+    "scope": "function",
+    "function": "limit_message",
+    "property": "empty_window_allowed",
+    "precondition": "true",
+    "formal": "if len(recent) == 0 then limit_message(timestamps, now) == (True, limit)"
+  },
+  {
+    "scope": "function",
+    "function": "limit_message",
+    "property": "exceeds_limit_blocked",
+    "precondition": "true",
+    "formal": "if len(recent) > limit then limit_message(timestamps, now) == (False, 0)"
+  }
+]

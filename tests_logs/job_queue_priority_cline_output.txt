@@ -1,0 +1,25 @@
+I have successfully created a comprehensive test file for the `job_queue_priority` function using the Hypothesis testing framework. The test file `tests/job_queue_priority_test.py` contains tests for all 9 semantic properties identified in `properties/job_queue_priority_properties.json`:
+
+**Test Coverage:**
+
+1. **invalid_capacity_rejection** - Tests that negative `max_jobs` raises `ValueError` with correct message
+2. **capacity_exceeded_rejection** - Tests that when `len(jobs) > max_jobs`, function returns `False`
+3. **capacity_available_acceptance** - Tests that when queue has capacity, function returns `True`
+4. **non_negative_capacity_requirement** - Tests that function requires non-negative `max_jobs` to proceed
+5. **capacity_check** - Tests the core logic: returns `True` if `len(jobs) <= max_jobs` else `False`
+6. **boolean_return_type** - Tests that function always returns a boolean value
+7. **capacity_invariant** - Tests the acceptance/rejection behavior based on capacity
+8. **buggy_capacity_logic** - Tests the specific bug where one extra job is allowed at capacity
+9. **exception_on_invalid_input** - Tests the exception handling for invalid input
+
+**Additional Tests:**
+- Edge cases (empty jobs list, zero capacity)
+- Consistency across multiple calls
+
+The tests use Hypothesis strategies to generate a wide range of test cases including:
+- Various job list sizes (0 to 1000 jobs)
+- Different max_jobs values (-1000 to 1000)
+- Random text job identifiers
+- Edge case scenarios
+
+All tests follow the Hypothesis testing framework patterns and include proper assumptions to ensure valid test conditions. The test file is ready to be executed with pytest and will thoroughly exercise all the semantic properties of the `job_queue_priority` function.

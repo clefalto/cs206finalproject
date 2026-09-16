@@ -1,0 +1,58 @@
+[
+  {
+    "scope": "branch",
+    "function": "bump_purchase",
+    "condition": "cap is not None",
+    "property": "cap_applied",
+    "formal": "updated <= cap"
+  },
+  {
+    "scope": "branch",
+    "function": "bump_purchase",
+    "condition": "updated > cap",
+    "property": "cap_enforced",
+    "formal": "updated == cap"
+  },
+  {
+    "scope": "function",
+    "function": "bump_purchase",
+    "property": "incremental",
+    "precondition": "counters[key] is not None",
+    "formal": "updated == counters[key] + 1"
+  },
+  {
+    "scope": "function",
+    "function": "bump_purchase",
+    "property": "initialization",
+    "precondition": "counters[key] is None",
+    "formal": "updated == 1"
+  },
+  {
+    "scope": "function",
+    "function": "bump_purchase",
+    "property": "non_negative",
+    "precondition": "counters[key] is not None and counters[key] >= 0",
+    "formal": "updated >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "bump_purchase",
+    "property": "monotonic",
+    "precondition": "counters[key] is not None",
+    "formal": "updated > counters[key]"
+  },
+  {
+    "scope": "function",
+    "function": "bump_purchase",
+    "property": "bounded",
+    "precondition": "cap is not None",
+    "formal": "updated <= cap"
+  },
+  {
+    "scope": "function",
+    "function": "bump_purchase",
+    "property": "identity_on_no_cap",
+    "precondition": "cap is None",
+    "formal": "updated == counters[key] + 1 if counters[key] is not None else 1"
+  }
+]

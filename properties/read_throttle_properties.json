@@ -1,0 +1,86 @@
+[
+  {
+    "scope": "branch",
+    "function": "read_throttle",
+    "condition": "len(active) > limit",
+    "property": "throttle_when_exceeds_limit",
+    "formal": "read_throttle(timestamps, now, window=window, limit=limit) == (False, 0)"
+  },
+  {
+    "scope": "branch",
+    "function": "read_throttle",
+    "condition": "not (len(active) > limit)",
+    "property": "allow_when_within_limit",
+    "formal": "read_throttle(timestamps, now, window=window, limit=limit) == (True, limit - len(active))"
+  },
+  {
+    "scope": "function",
+    "function": "read_throttle",
+    "property": "sliding_window_filter",
+    "precondition": "True",
+    "formal": "active == [t for t in timestamps if t >= (now - window)]"
+  },
+  {
+    "scope": "function",
+    "function": "read_throttle",
+    "property": "non_negative_remaining",
+    "precondition": "True",
+    "formal": "read_throttle(timestamps, now, window=window, limit=limit)[1] >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "read_throttle",
+    "property": "limit_respected",
+    "precondition": "True",
+    "formal": "read_throttle(timestamps, now, window=window, limit=limit)[1] <= limit"
+  },
+  {
+    "scope": "function",
+    "function": "read_throttle",
+    "property": "monotonic_remaining",
+    "precondition": "len(active1) <= len(active2)",
+    "formal": "read_throttle(timestamps1, now, window=window, limit=limit)[1] >= read_throttle(timestamps2, now, window=window, limit=limit)[1]"
+  },
+  {
+    "scope": "function",
+    "function": "read_throttle",
+    "property": "boundary_condition_bug",
+    "precondition": "len(active) == limit",
+    "formal": "read_throttle(timestamps, now, window=window, limit=limit) == (True, 0)"
+  },
+  {
+    "scope": "function",
+    "function": "read_throttle",
+    "property": "empty_timestamps_allow",
+    "precondition": "len(timestamps) == 0",
+    "formal": "read_throttle(timestamps, now, window=window, limit=limit) == (True, limit)"
+  },
+  {
+    "scope": "function",
+    "function": "read_throttle",
+    "property": "all_expired_allow",
+    "precondition": "all(t < (now - window) for t in timestamps)",
+    "formal": "read_throttle(timestamps, now, window=window, limit=limit) == (True, limit)"
+  },
+  {
+    "scope": "function",
+    "function": "read_throttle",
+    "property": "all_active_throttle",
+    "precondition": "len(timestamps) > limit and all(t >= (now - window) for t in timestamps)",
+    "formal": "read_throttle(timestamps, now, window=window, limit=limit) == (False, 0)"
+  },
+  {
+    "scope": "function",
+    "function": "read_throttle",
+    "property": "window_independence",
+    "precondition": "True",
+    "formal": "read_throttle(timestamps, now, window=window, limit=limit) depends only on timestamps within [now-window, now]"
+  },
+  {
+    "scope": "function",
+    "function": "read_throttle",
+    "property": "deterministic",
+    "precondition": "True",
+    "formal": "read_throttle(timestamps, now, window=window, limit=limit) is deterministic for same inputs"
+  }
+]

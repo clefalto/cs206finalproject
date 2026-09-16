@@ -1,0 +1,31 @@
+{
+    "functions": [
+        {
+            "name": "windowed_error_rate",
+            "parameters": [
+                "events",
+                "now"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "not recent",
+                        "branches": null,
+                        "body_contains": "return 0.0",
+                        "returns": "0.0",
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (not recent)",
+                        "body_contains": "errors = sum(1 for _, is_err in recent if is_err)\n# BUG: divides by full window length instead of event count.\nreturn errors / window",
+                        "returns": "errors / window",
+                        "early_exit": false
+                    }
+                ]
+            ],
+            "returns": "errors / window"
+        }
+    ]
+}

@@ -1,0 +1,27 @@
+I have successfully created a comprehensive test file for the maintenance_booking function using the Hypothesis testing framework. The test file `tests/maintenance_booking_test.py` contains:
+
+1. **8 individual test methods** covering all semantic properties from the properties file:
+   - `test_empty_window_error` - Tests that empty windows (a >= b) raise ValueError
+   - `test_conflict_detection` - Tests conflict detection and returns False with original timeline
+   - `test_window_validity` - Tests that valid windows (a < b) are processed correctly
+   - `test_timeline_sorted` - Tests that result timeline is sorted by start time
+   - `test_window_inclusion` - Tests that window is included in result when no conflicts
+   - `test_conflict_preservation` - Tests that original timeline is preserved when conflicts detected
+   - `test_non_conflict_insertion` - Tests that window is inserted when no conflicts
+   - `test_timeline_structure` - Tests that result contains list of (start, end) tuples
+
+2. **1 comprehensive test method** (`test_comprehensive_property_coverage`) that covers multiple properties with bounded integers for better test performance
+
+3. **Proper Hypothesis strategies** using:
+   - `st.integers()` for time values
+   - `st.lists(st.tuples(st.integers(), st.integers()))` for timeline generation
+   - `assume()` clauses to filter test cases appropriately
+   - Bounded strategies in the comprehensive test for performance
+
+4. **Complete test structure** with:
+   - Proper imports (pytest, hypothesis)
+   - Test class organization
+   - Clear docstrings explaining each test's purpose
+   - Appropriate assertions for each semantic property
+
+The test file follows Hypothesis best practices and thoroughly exercises all 8 semantic properties identified in the properties/maintenance_booking_properties.json file. The tests are ready to be executed (though execution was not requested as per the task requirements).

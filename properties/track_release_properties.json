@@ -1,0 +1,72 @@
+[
+  {
+    "scope": "branch",
+    "function": "track_release",
+    "condition": "cap is not None",
+    "property": "cap_enforcement",
+    "formal": "if cap is not None then updated = min(updated, cap)"
+  },
+  {
+    "scope": "branch",
+    "function": "track_release",
+    "condition": "updated > cap",
+    "property": "cap_clamping",
+    "formal": "if updated > cap then updated = cap"
+  },
+  {
+    "scope": "function",
+    "function": "track_release",
+    "property": "monotonic_increase",
+    "precondition": "counters[key] is defined and numeric",
+    "formal": "track_release(counters, key) >= counters[key]"
+  },
+  {
+    "scope": "function",
+    "function": "track_release",
+    "property": "cap_bounded",
+    "precondition": "cap is not None",
+    "formal": "track_release(counters, key) <= cap"
+  },
+  {
+    "scope": "function",
+    "function": "track_release",
+    "property": "identity_on_no_cap",
+    "precondition": "cap is None",
+    "formal": "track_release(counters, key) == counters[key] + 1"
+  },
+  {
+    "scope": "function",
+    "function": "track_release",
+    "property": "integer_preservation",
+    "precondition": "counters[key] is integer",
+    "formal": "track_release(counters, key) is integer"
+  },
+  {
+    "scope": "function",
+    "function": "track_release",
+    "property": "key_preservation",
+    "precondition": "counters[key] is defined",
+    "formal": "track_release does not modify counters dictionary"
+  },
+  {
+    "scope": "function",
+    "function": "track_release",
+    "property": "incremental_behavior",
+    "precondition": "counters[key] is defined and numeric",
+    "formal": "track_release(counters, key) == counters[key] + 1 when cap is None or counters[key] + 1 <= cap"
+  },
+  {
+    "scope": "function",
+    "function": "track_release",
+    "property": "saturation_behavior",
+    "precondition": "counters[key] + 1 > cap and cap is not None",
+    "formal": "track_release(counters, key) == cap when counters[key] + 1 > cap"
+  },
+  {
+    "scope": "function",
+    "function": "track_release",
+    "property": "non_negative_output",
+    "precondition": "counters[key] >= 0",
+    "formal": "track_release(counters, key) >= 0"
+  }
+]

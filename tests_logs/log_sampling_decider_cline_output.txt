@@ -1,0 +1,27 @@
+I have successfully created a comprehensive test suite using the Hypothesis testing framework for all semantic properties identified in `properties/log_sampling_decider_properties.json`. The test file has been created at `tests/log_sampling_decider_test.py`.
+
+The test suite includes:
+
+**Branch-level property tests:**
+- `test_invalid_rate_validation` - Validates that invalid rates (outside [0,1]) raise ValueError
+- `test_valid_rate_sampling` - Verifies correct sampling logic for valid rates
+- `test_zero_rate_always_sample` - Confirms rate=0 always returns True
+- `test_one_rate_never_sample` - Confirms rate=1 always returns False
+- `test_inverted_sampling_behavior` - Tests the inverted semantics (bucket > rate)
+
+**Function-level property tests:**
+- `test_rate_range_validation` - Validates rate range checking
+- `test_deterministic_sampling` - Ensures same inputs produce same outputs
+- `test_uniform_bucket_distribution` - Verifies bucket values are in [0,1)
+- `test_boolean_return_type` - Confirms return type is always boolean
+- `test_inverted_rate_semantics` - Tests that higher rates reduce sampling probability
+
+**Metamorphic relation tests:**
+- `test_metamorphic_relation_rate_monotonicity` - Verifies rate monotonicity property
+- `test_metamorphic_relation_log_id_independence` - Tests log_id independence
+
+**Additional test classes:**
+- `TestEdgeCases` - Tests boundary conditions and extreme values
+- `TestStatisticalProperties` - Tests sampling probability approximations
+
+The tests use Hypothesis strategies to generate comprehensive test data and include proper assumptions, error handling, and statistical validation. All tests are designed to verify the semantic properties without executing the actual tests, as requested.

@@ -1,0 +1,107 @@
+[
+  {
+    "scope": "branch",
+    "function": "pages_union",
+    "condition": "a < b",
+    "property": "left_element_first",
+    "formal": "merged.append(a) and i += 1"
+  },
+  {
+    "scope": "branch",
+    "function": "pages_union",
+    "condition": "b < a",
+    "property": "right_element_first",
+    "formal": "merged.append(b) and j += 1"
+  },
+  {
+    "scope": "branch",
+    "function": "pages_union",
+    "condition": "not (a < b and b < a)",
+    "property": "equal_elements_both_added",
+    "formal": "merged.append(a) and merged.append(b) and i += 1 and j += 1"
+  },
+  {
+    "scope": "branch",
+    "function": "pages_union",
+    "condition": "merged and left and right and merged[-1] == left[-1] == right[-1]",
+    "property": "duplicate_removal",
+    "formal": "merged.pop()"
+  },
+  {
+    "scope": "function",
+    "function": "pages_union",
+    "property": "sorted_output",
+    "precondition": "left and right are sorted lists",
+    "formal": "is_sorted(merged)"
+  },
+  {
+    "scope": "function",
+    "function": "pages_union",
+    "property": "union_semantics",
+    "precondition": "left and right are sorted lists",
+    "formal": "set(merged) == set(left) | set(right)"
+  },
+  {
+    "scope": "function",
+    "function": "pages_union",
+    "property": "no_duplicates",
+    "precondition": "left and right are sorted lists",
+    "formal": "len(set(merged)) == len(merged)"
+  },
+  {
+    "scope": "function",
+    "function": "pages_union",
+    "property": "preserves_all_elements",
+    "precondition": "left and right are sorted lists",
+    "formal": "all(x in merged for x in left) and all(x in merged for x in right)"
+  },
+  {
+    "scope": "function",
+    "function": "pages_union",
+    "property": "length_bound",
+    "precondition": "left and right are sorted lists",
+    "formal": "len(merged) <= len(left) + len(right)"
+  },
+  {
+    "scope": "function",
+    "function": "pages_union",
+    "property": "empty_input_handling",
+    "precondition": "left or right is empty",
+    "formal": "if not left: merged == right elif not right: merged == left"
+  },
+  {
+    "scope": "function",
+    "function": "pages_union",
+    "property": "idempotent_union",
+    "precondition": "left == right",
+    "formal": "pages_union(left, left) == left"
+  },
+  {
+    "scope": "function",
+    "function": "pages_union",
+    "property": "commutative",
+    "precondition": "left and right are sorted lists",
+    "formal": "pages_union(left, right) == pages_union(right, left)"
+  },
+  {
+    "scope": "function",
+    "function": "pages_union",
+    "property": "associative",
+    "precondition": "left, right, and third are sorted lists",
+    "formal": "pages_union(pages_union(left, right), third) == pages_union(left, pages_union(right, third))"
+  },
+  {
+    "scope": "function",
+    "function": "pages_union",
+    "property": "monotonic_inclusion",
+    "precondition": "left ⊆ right (as sets)",
+    "formal": "pages_union(left, right) == right"
+  },
+  {
+    "scope": "function",
+    "function": "pages_union",
+    "property": "subset_preservation",
+    "precondition": "left and right are sorted lists",
+    "formal": "set(left) ⊆ set(merged) and set(right) ⊆ set(merged)"
+  }
+]

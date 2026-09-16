@@ -1,0 +1,86 @@
+[
+  {
+    "scope": "branch",
+    "function": "quote_memo",
+    "condition": "item is None",
+    "property": "cache_miss_return",
+    "formal": "quote_memo(cache, key, now) == None"
+  },
+  {
+    "scope": "branch",
+    "function": "quote_memo",
+    "condition": "now > ttl",
+    "property": "expired_entry_return",
+    "formal": "quote_memo(cache, key, now) == None"
+  },
+  {
+    "scope": "branch",
+    "function": "quote_memo",
+    "condition": "not (item is None) and not (now > ttl)",
+    "property": "valid_entry_return",
+    "formal": "quote_memo(cache, key, now) == payload"
+  },
+  {
+    "scope": "function",
+    "function": "quote_memo",
+    "property": "cache_consistency",
+    "precondition": "cache[key] exists and now <= cache[key].ttl",
+    "formal": "quote_memo(cache, key, now) == cache[key].payload"
+  },
+  {
+    "scope": "function",
+    "function": "quote_memo",
+    "property": "monotonic_expiry",
+    "precondition": "cache[key] exists",
+    "formal": "for all now1 <= now2, if quote_memo(cache, key, now1) == None then quote_memo(cache, key, now2) == None"
+  },
+  {
+    "scope": "function",
+    "function": "quote_memo",
+    "property": "deterministic_lookup",
+    "precondition": "cache and key remain unchanged",
+    "formal": "for all now1, now2, if quote_memo(cache, key, now1) != None and quote_memo(cache, key, now2) != None then quote_memo(cache, key, now1) == quote_memo(cache, key, now2)"
+  },
+  {
+    "scope": "function",
+    "function": "quote_memo",
+    "property": "null_safety",
+    "precondition": "cache is None or key is None",
+    "formal": "quote_memo(cache, key, now) == None"
+  },
+  {
+    "scope": "function",
+    "function": "quote_memo",
+    "property": "ttl_boundary_bug",
+    "precondition": "cache[key] exists and now == cache[key].ttl",
+    "formal": "quote_memo(cache, key, now) == cache[key].payload (should return None per comment)"
+  },
+  {
+    "scope": "function",
+    "function": "quote_memo",
+    "property": "payload_preservation",
+    "precondition": "cache[key] exists and now < cache[key].ttl",
+    "formal": "quote_memo(cache, key, now) == cache[key].payload"
+  },
+  {
+    "scope": "function",
+    "function": "quote_memo",
+    "property": "cache_immutability",
+    "precondition": "none",
+    "formal": "cache remains unchanged after quote_memo(cache, key, now)"
+  },
+  {
+    "scope": "function",
+    "function": "quote_memo",
+    "property": "key_independence",
+    "precondition": "key1 != key2",
+    "formal": "quote_memo(cache, key1, now) and quote_memo(cache, key2, now) are independent"
+  },
+  {
+    "scope": "function",
+    "function": "quote_memo",
+    "property": "time_monotonicity",
+    "precondition": "cache[key] exists",
+    "formal": "if quote_memo(cache, key, now) == None then for all future_time > now, quote_memo(cache, key, future_time) == None"
+  }
+]

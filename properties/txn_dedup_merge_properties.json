@@ -1,0 +1,86 @@
+[
+  {
+    "scope": "branch",
+    "function": "txn_dedup_merge",
+    "condition": "left[i] < right[j]",
+    "property": "left_element_precedence",
+    "formal": "merged.append(left[i])"
+  },
+  {
+    "scope": "branch",
+    "function": "txn_dedup_merge",
+    "condition": "right[j] < left[i]",
+    "property": "right_element_precedence",
+    "formal": "merged.append(right[j])"
+  },
+  {
+    "scope": "branch",
+    "function": "txn_dedup_merge",
+    "condition": "not (left[i] < right[j] and right[j] < left[i])",
+    "property": "duplicate_element_handling",
+    "formal": "merged.append(left[i]) and merged.append(right[j])"
+  },
+  {
+    "scope": "branch",
+    "function": "txn_dedup_merge",
+    "condition": "merged and left and right and merged[-1] == left[-1] == right[-1]",
+    "property": "final_duplicate_removal",
+    "formal": "merged.pop()"
+  },
+  {
+    "scope": "function",
+    "function": "txn_dedup_merge",
+    "property": "sorted_output",
+    "precondition": "left and right are sorted",
+    "formal": "is_sorted(merged)"
+  },
+  {
+    "scope": "function",
+    "function": "txn_dedup_merge",
+    "property": "element_preservation",
+    "precondition": "left and right contain no duplicates",
+    "formal": "set(merged) == set(left) | set(right)"
+  },
+  {
+    "scope": "function",
+    "function": "txn_dedup_merge",
+    "property": "duplicate_removal",
+    "precondition": "left and right may contain duplicates",
+    "formal": "len(set(merged)) == len(set(left) | set(right))"
+  },
+  {
+    "scope": "function",
+    "function": "txn_dedup_merge",
+    "property": "length_conservation",
+    "precondition": "left and right are sorted",
+    "formal": "len(merged) == len(left) + len(right) - len(set(left) & set(right))"
+  },
+  {
+    "scope": "function",
+    "function": "txn_dedup_merge",
+    "property": "identity_on_empty",
+    "precondition": "left is empty",
+    "formal": "txn_dedup_merge([], right) == right"
+  },
+  {
+    "scope": "function",
+    "function": "txn_dedup_merge",
+    "property": "identity_on_empty",
+    "precondition": "right is empty",
+    "formal": "txn_dedup_merge(left, []) == left"
+  },
+  {
+    "scope": "function",
+    "function": "txn_dedup_merge",
+    "property": "commutativity",
+    "precondition": "left and right are sorted",
+    "formal": "txn_dedup_merge(left, right) == txn_dedup_merge(right, left)"
+  },
+  {
+    "scope": "function",
+    "function": "txn_dedup_merge",
+    "property": "associativity",
+    "precondition": "left, middle, and right are sorted",
+    "formal": "txn_dedup_merge(txn_dedup_merge(left, middle), right) == txn_dedup_merge(left, txn_dedup_merge(middle, right))"
+  }
+]

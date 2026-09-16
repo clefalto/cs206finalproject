@@ -1,0 +1,72 @@
+[
+  {
+    "scope": "branch",
+    "function": "subsidy_payout",
+    "condition": "not ratios",
+    "property": "empty_ratios_error",
+    "formal": "if not ratios: raise ValueError(\"ratios required\")"
+  },
+  {
+    "scope": "branch",
+    "function": "subsidy_payout",
+    "condition": "amount < 0",
+    "property": "negative_amount_error",
+    "formal": "if amount < 0: raise ValueError(\"negative amount\")"
+  },
+  {
+    "scope": "branch",
+    "function": "subsidy_payout",
+    "condition": "total_ratio <= 0",
+    "property": "invalid_ratios_error",
+    "formal": "if total_ratio <= 0: raise ValueError(\"invalid ratios\")"
+  },
+  {
+    "scope": "function",
+    "function": "subsidy_payout",
+    "property": "proportional_distribution",
+    "precondition": "ratios and amount >= 0 and sum(ratios) > 0",
+    "formal": "sum(shares) == amount"
+  },
+  {
+    "scope": "function",
+    "function": "subsidy_payout",
+    "property": "fee_deduction_bug",
+    "precondition": "ratios and amount >= 0 and sum(ratios) > 0",
+    "formal": "all(s - fee == result[i] for i, s in enumerate(shares))"
+  },
+  {
+    "scope": "function",
+    "function": "subsidy_payout",
+    "property": "non_negative_shares",
+    "precondition": "ratios and amount >= 0 and sum(ratios) > 0 and fee <= min(shares)",
+    "formal": "all(s >= 0 for s in result)"
+  },
+  {
+    "scope": "function",
+    "function": "subsidy_payout",
+    "property": "zero_amount_zero_shares",
+    "precondition": "ratios and sum(ratios) > 0",
+    "formal": "if amount == 0: all(s == 0 for s in result)"
+  },
+  {
+    "scope": "function",
+    "function": "subsidy_payout",
+    "property": "single_ratio_full_amount",
+    "precondition": "len(ratios) == 1 and ratios[0] > 0 and amount >= 0",
+    "formal": "result[0] == amount - fee"
+  },
+  {
+    "scope": "function",
+    "function": "subsidy_payout",
+    "property": "monotonic_ratios",
+    "precondition": "ratios and amount >= 0 and sum(ratios) > 0",
+    "formal": "if ratios[i] > ratios[j]: result[i] > result[j]"
+  },
+  {
+    "scope": "function",
+    "function": "subsidy_payout",
+    "property": "scale_invariance",
+    "precondition": "ratios and amount >= 0 and sum(ratios) > 0 and k > 0",
+    "formal": "subsidy_payout(amount, ratios) == subsidy_payout(amount * k, [r * k for r in ratios])"
+  }
+]

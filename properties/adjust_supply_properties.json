@@ -1,0 +1,79 @@
+[
+  {
+    "scope": "branch",
+    "function": "adjust_supply",
+    "condition": "len(current) != len(target)",
+    "property": "shape_mismatch_error",
+    "formal": "adjust_supply(current, target) raises ValueError(\"shape mismatch\")"
+  },
+  {
+    "scope": "branch",
+    "function": "adjust_supply",
+    "condition": "not current",
+    "property": "empty_allocation_error",
+    "formal": "adjust_supply(current, target) raises ValueError(\"empty allocation\")"
+  },
+  {
+    "scope": "function",
+    "function": "adjust_supply",
+    "property": "shape_consistency",
+    "precondition": "len(current) == len(target)",
+    "formal": "len(adjust_supply(current, target)) == len(current)"
+  },
+  {
+    "scope": "function",
+    "function": "adjust_supply",
+    "property": "non_empty_input",
+    "precondition": "current != []",
+    "formal": "adjust_supply(current, target) is not None"
+  },
+  {
+    "scope": "function",
+    "function": "adjust_supply",
+    "property": "linear_interpolation",
+    "precondition": "len(current) == len(target) and current != []",
+    "formal": "adjust_supply(current, target)[i] == current[i] + (target[i] - current[i]) * damping for all i"
+  },
+  {
+    "scope": "function",
+    "function": "adjust_supply",
+    "property": "metamorphic_monotonicity",
+    "precondition": "len(current) == len(target) and current != [] and damping > 0",
+    "formal": "if target[i] > current[i] then adjust_supply(current, target)[i] > current[i] for all i"
+  },
+  {
+    "scope": "function",
+    "function": "adjust_supply",
+    "property": "metamorphic_convergence",
+    "precondition": "len(current) == len(target) and current != [] and 0 < damping < 1",
+    "formal": "abs(adjust_supply(current, target)[i] - target[i]) < abs(current[i] - target[i]) for all i"
+  },
+  {
+    "scope": "function",
+    "function": "adjust_supply",
+    "property": "invariant_length_preservation",
+    "precondition": "len(current) == len(target) and current != []",
+    "formal": "len(adjust_supply(current, target)) == len(current)"
+  },
+  {
+    "scope": "function",
+    "function": "adjust_supply",
+    "property": "precondition_shape_match",
+    "precondition": "len(current) == len(target)",
+    "formal": "adjust_supply(current, target) is defined"
+  },
+  {
+    "scope": "function",
+    "function": "adjust_supply",
+    "property": "precondition_non_empty",
+    "precondition": "current != []",
+    "formal": "adjust_supply(current, target) is defined"
+  },
+  {
+    "scope": "function",
+    "function": "adjust_supply",
+    "property": "postcondition_adjustment",
+    "precondition": "len(current) == len(target) and current != []",
+    "formal": "adjust_supply(current, target) contains adjusted values based on damping factor"
+  }
+]

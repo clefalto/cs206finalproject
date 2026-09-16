@@ -1,0 +1,72 @@
+[
+  {
+    "scope": "branch",
+    "function": "probability_rebalance",
+    "condition": "len(current) != len(target)",
+    "property": "shape_mismatch_error",
+    "formal": "len(current) != len(target) => raise ValueError(\"shape mismatch\")"
+  },
+  {
+    "scope": "branch",
+    "function": "probability_rebalance",
+    "condition": "not current",
+    "property": "empty_allocation_error",
+    "formal": "not current => raise ValueError(\"empty allocation\")"
+  },
+  {
+    "scope": "function",
+    "function": "probability_rebalance",
+    "property": "shape_consistency",
+    "precondition": "len(current) == len(target)",
+    "formal": "len(current) == len(target) => len(adjusted) == len(current)"
+  },
+  {
+    "scope": "function",
+    "function": "probability_rebalance",
+    "property": "non_empty_input",
+    "precondition": "current",
+    "formal": "current => adjusted is not None"
+  },
+  {
+    "scope": "function",
+    "function": "probability_rebalance",
+    "property": "linear_interpolation",
+    "precondition": "len(current) == len(target) and current",
+    "formal": "adjusted[i] = current[i] + (target[i] - current[i]) * damping for all i"
+  },
+  {
+    "scope": "function",
+    "function": "probability_rebalance",
+    "property": "damping_factor_effect",
+    "precondition": "len(current) == len(target) and current",
+    "formal": "damping = 0 => adjusted == current; damping = 1 => adjusted == target"
+  },
+  {
+    "scope": "function",
+    "function": "probability_rebalance",
+    "property": "bounded_interpolation",
+    "precondition": "len(current) == len(target) and current and 0 <= damping <= 1",
+    "formal": "min(current[i], target[i]) <= adjusted[i] <= max(current[i], target[i]) for all i"
+  },
+  {
+    "scope": "function",
+    "function": "probability_rebalance",
+    "property": "sum_preservation_violation",
+    "precondition": "len(current) == len(target) and current and sum(current) == 1.0 and sum(target) == 1.0",
+    "formal": "sum(adjusted) != 1.0 (BUG: does not renormalize to sum to 1.0)"
+  },
+  {
+    "scope": "function",
+    "function": "probability_rebalance",
+    "property": "monotonicity_preservation",
+    "precondition": "len(current) == len(target) and current and 0 <= damping <= 1",
+    "formal": "current[i] <= target[i] => adjusted[i] >= current[i] for all i"
+  },
+  {
+    "scope": "function",
+    "function": "probability_rebalance",
+    "property": "target_convergence",
+    "precondition": "len(current) == len(target) and current",
+    "formal": "damping approaches 1 => adjusted approaches target"
+  }
+]

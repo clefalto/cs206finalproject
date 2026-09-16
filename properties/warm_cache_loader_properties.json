@@ -1,0 +1,51 @@
+[
+  {
+    "scope": "branch",
+    "function": "warm_cache_loader",
+    "condition": "item is None",
+    "property": "cache_miss",
+    "formal": "warm_cache_loader(cache, key, now) == None"
+  },
+  {
+    "scope": "branch",
+    "function": "warm_cache_loader",
+    "condition": "now > expires_at",
+    "property": "expired_entry",
+    "formal": "warm_cache_loader(cache, key, now) == None"
+  },
+  {
+    "scope": "function",
+    "function": "warm_cache_loader",
+    "property": "cache_hit_return",
+    "precondition": "item is not None and now <= expires_at",
+    "formal": "warm_cache_loader(cache, key, now) == value"
+  },
+  {
+    "scope": "function",
+    "function": "warm_cache_loader",
+    "property": "non_negative_expiry",
+    "precondition": "item is not None and now <= expires_at",
+    "formal": "expires_at >= now"
+  },
+  {
+    "scope": "function",
+    "function": "warm_cache_loader",
+    "property": "ttl_extension",
+    "precondition": "item is not None and now <= expires_at",
+    "formal": "expires_at == now + ttl"
+  },
+  {
+    "scope": "function",
+    "function": "warm_cache_loader",
+    "property": "cache_consistency",
+    "precondition": "item is not None and now <= expires_at",
+    "formal": "cache[key] == (value, expires_at)"
+  },
+  {
+    "scope": "function",
+    "function": "warm_cache_loader",
+    "property": "cache_warmup",
+    "precondition": "item is not None and now <= expires_at",
+    "formal": "cache[key] == (value, now + ttl)"
+  }
+]

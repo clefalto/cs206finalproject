@@ -1,0 +1,65 @@
+[
+  {
+    "scope": "branch",
+    "function": "royalty_payout",
+    "condition": "not ratios",
+    "property": "empty_ratios_error",
+    "formal": "royalty_payout(amount, []) raises ValueError('ratios required')"
+  },
+  {
+    "scope": "branch",
+    "function": "royalty_payout",
+    "condition": "amount < 0",
+    "property": "negative_amount_error",
+    "formal": "royalty_payout(negative_amount, ratios) raises ValueError('negative amount')"
+  },
+  {
+    "scope": "branch",
+    "function": "royalty_payout",
+    "condition": "total_ratio <= 0",
+    "property": "invalid_ratios_error",
+    "formal": "royalty_payout(amount, invalid_ratios) raises ValueError('invalid ratios')"
+  },
+  {
+    "scope": "function",
+    "function": "royalty_payout",
+    "property": "sum_preservation",
+    "precondition": "sum(ratios) > 0 and amount >= 0",
+    "formal": "sum(royalty_payout(amount, ratios)) == amount - len(ratios) * fee"
+  },
+  {
+    "scope": "function",
+    "function": "royalty_payout",
+    "property": "proportional_distribution",
+    "precondition": "sum(ratios) > 0 and amount >= 0",
+    "formal": "royalty_payout(amount, ratios)[i] / royalty_payout(amount, ratios)[j] == ratios[i] / ratios[j] for all i, j"
+  },
+  {
+    "scope": "function",
+    "function": "royalty_payout",
+    "property": "non_negative_shares",
+    "precondition": "sum(ratios) > 0 and amount >= 0 and fee <= min(royalty_payout(amount, ratios))",
+    "formal": "all(s >= 0 for s in royalty_payout(amount, ratios))"
+  },
+  {
+    "scope": "function",
+    "function": "royalty_payout",
+    "property": "fee_deduction",
+    "precondition": "sum(ratios) > 0 and amount >= 0",
+    "formal": "royalty_payout(amount, ratios)[i] == (ratios[i] / sum(ratios)) * amount - fee for all i"
+  },
+  {
+    "scope": "function",
+    "function": "royalty_payout",
+    "property": "monotonicity",
+    "precondition": "sum(ratios) > 0 and amount1 >= amount2 >= 0",
+    "formal": "royalty_payout(amount1, ratios)[i] >= royalty_payout(amount2, ratios)[i] for all i"
+  },
+  {
+    "scope": "function",
+    "function": "royalty_payout",
+    "property": "scale_invariance",
+    "precondition": "sum(ratios) > 0 and amount >= 0 and k > 0",
+    "formal": "royalty_payout(amount, [k*r for r in ratios]) == royalty_payout(amount, ratios)"
+  }
+]

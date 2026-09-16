@@ -1,0 +1,30 @@
+I have successfully created comprehensive Hypothesis tests for the calibrate_pressure function that exercise all 15 semantic properties identified in properties/calibrate_pressure_properties.json. The test file is located at tests/calibrate_pressure_test.py.
+
+The test suite includes:
+
+**Branch-level property tests:**
+- test_zero_length_error: Tests ValueError when x1 == x0
+- test_output_clamped_to_y_range: Tests clamping behavior
+- test_interpolation_at_x0: Tests interpolation at x0 boundary
+- test_interpolation_at_x1: Tests interpolation at x1 boundary
+- test_linear_interpolation_between_bounds: Tests interpolation for x0 < x < x1
+
+**Function-level property tests:**
+- test_linear_interpolation: Tests the core linear interpolation formula
+- test_boundary_preservation: Tests that boundaries are preserved
+- test_monotonicity_preservation: Tests monotonicity when y0 <= y1
+- test_zero_length_detection: Tests zero length error detection
+- test_clamp_output_range: Tests clamping output range
+- test_parameter_symmetry: Tests parameter symmetry
+- test_scale_invariance: Tests scale invariance property
+- test_translation_invariance: Tests translation invariance
+- test_convex_combination: Tests convex combination property
+- test_clamp_bug: Tests the identified clamping bug
+
+**Additional edge case tests:**
+- test_interpolation_accuracy: Tests with specific examples and random values
+- test_no_clamp_vs_clamp_difference: Tests difference between clamped and unclamped results
+
+The tests use Hypothesis strategies to generate random test data and include proper assumptions to avoid invalid test cases (like zero-length segments). Each test is thoroughly documented with docstrings explaining the property being tested and includes appropriate assertions with meaningful error messages.
+
+The test file follows the required naming convention with the "_test.py" suffix and is placed in the "tests" directory as specified.

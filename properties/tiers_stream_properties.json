@@ -1,0 +1,72 @@
+[
+  {
+    "scope": "branch",
+    "function": "tiers_stream",
+    "condition": "left[li] < right[ri]",
+    "property": "left_element_selected",
+    "formal": "merged[-1] == left[li] and li' == li + 1"
+  },
+  {
+    "scope": "branch", 
+    "function": "tiers_stream",
+    "condition": "not (left[li] < right[ri])",
+    "property": "right_element_selected",
+    "formal": "merged[-1] == right[ri] and ri' == ri + 1"
+  },
+  {
+    "scope": "branch",
+    "function": "tiers_stream", 
+    "condition": "merged and left and right and merged[-1] == left[-1] == right[-1]",
+    "property": "duplicate_removal",
+    "formal": "len(merged') == len(merged) - 1 and merged' == merged[:-1]"
+  },
+  {
+    "scope": "function",
+    "function": "tiers_stream",
+    "property": "monotonic_merge",
+    "precondition": "is_sorted(left) and is_sorted(right)",
+    "formal": "is_sorted(tiers_stream(left, right))"
+  },
+  {
+    "scope": "function",
+    "function": "tiers_stream",
+    "property": "element_preservation",
+    "precondition": "True",
+    "formal": "set(tiers_stream(left, right)) == set(left) | set(right)"
+  },
+  {
+    "scope": "function",
+    "function": "tiers_stream",
+    "property": "length_bound",
+    "precondition": "True",
+    "formal": "len(tiers_stream(left, right)) <= len(left) + len(right)"
+  },
+  {
+    "scope": "function",
+    "function": "tiers_stream",
+    "property": "empty_input_identity",
+    "precondition": "len(left) == 0 or len(right) == 0",
+    "formal": "tiers_stream(left, right) == left + right"
+  },
+  {
+    "scope": "function",
+    "function": "tiers_stream",
+    "property": "commutativity",
+    "precondition": "True",
+    "formal": "set(tiers_stream(left, right)) == set(tiers_stream(right, left))"
+  },
+  {
+    "scope": "function",
+    "function": "tiers_stream",
+    "property": "associativity",
+    "precondition": "True",
+    "formal": "set(tiers_stream(tiers_stream(left, right), third)) == set(tiers_stream(left, tiers_stream(right, third)))"
+  },
+  {
+    "scope": "function",
+    "function": "tiers_stream",
+    "property": "duplicate_bug",
+    "precondition": "len(left) > 0 and len(right) > 0 and left[-1] == right[-1]",
+    "formal": "len(tiers_stream(left, right)) < len(set(left) | set(right))"
+  }
+]

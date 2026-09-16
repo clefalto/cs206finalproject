@@ -1,0 +1,72 @@
+[
+  {
+    "scope": "branch",
+    "function": "reserve_band",
+    "condition": "candidate[0] >= candidate[1]",
+    "property": "invalid_interval_rejection",
+    "formal": "if candidate[0] >= candidate[1] then ValueError is raised"
+  },
+  {
+    "scope": "branch", 
+    "function": "reserve_band",
+    "condition": "overlaps(slot, candidate)",
+    "property": "overlap_prevention",
+    "formal": "if any existing slot overlaps candidate then return (False, original_existing)"
+  },
+  {
+    "scope": "branch",
+    "function": "reserve_band", 
+    "condition": "not (candidate[0] >= candidate[1]) and not any(overlaps(slot, candidate) for slot in existing)",
+    "property": "successful_reservation",
+    "formal": "if candidate is valid interval and no overlaps then return (True, sorted(existing + [candidate]))"
+  },
+  {
+    "scope": "function",
+    "function": "reserve_band",
+    "property": "interval_validation",
+    "precondition": "candidate is a 2-element sequence",
+    "formal": "candidate[0] < candidate[1] must hold for successful execution"
+  },
+  {
+    "scope": "function", 
+    "function": "reserve_band",
+    "property": "overlap_detection",
+    "precondition": "existing contains 2-element sequences",
+    "formal": "overlaps(a,b) returns True when intervals share any points including boundaries"
+  },
+  {
+    "scope": "function",
+    "function": "reserve_band", 
+    "property": "sorted_output",
+    "precondition": "existing is a list of 2-element sequences",
+    "formal": "if reservation succeeds, returned list is sorted by start time"
+  },
+  {
+    "scope": "function",
+    "function": "reserve_band",
+    "property": "immutability_on_failure",
+    "precondition": "existing is a list",
+    "formal": "if reservation fails, returned list is a copy of original existing"
+  },
+  {
+    "scope": "function",
+    "function": "reserve_band",
+    "property": "monotonicity",
+    "precondition": "existing is sorted by start time",
+    "formal": "if reservation succeeds, result maintains sorted order"
+  },
+  {
+    "scope": "function",
+    "function": "reserve_band",
+    "property": "boundary_touch_overlap",
+    "precondition": "existing contains intervals",
+    "formal": "intervals that touch at boundaries are considered overlapping (bug behavior)"
+  },
+  {
+    "scope": "function",
+    "function": "reserve_band",
+    "property": "idempotence",
+    "precondition": "existing is sorted and contains no overlaps",
+    "formal": "reserve_band(existing, candidate) == reserve_band(reserve_band(existing, candidate)[1], candidate)"
+  }
+]

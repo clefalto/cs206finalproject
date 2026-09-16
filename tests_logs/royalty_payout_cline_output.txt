@@ -1,0 +1,24 @@
+I have successfully created a comprehensive Hypothesis test file for the royalty_payout function located at `tests/royalty_payout_test.py`. The test file includes:
+
+**All 9 Semantic Properties Tested:**
+
+1. **empty_ratios_error** - Tests that empty ratios raises ValueError('ratios required')
+2. **negative_amount_error** - Tests that negative amount raises ValueError('negative amount')  
+3. **invalid_ratios_error** - Tests that ratios with sum <= 0 raises ValueError('invalid ratios')
+4. **sum_preservation** - Tests that sum of shares equals amount - len(ratios) * fee
+5. **proportional_distribution** - Tests that shares maintain ratio proportions when fee is 0
+6. **non_negative_shares** - Tests that all shares are non-negative when fee is small enough
+7. **fee_deduction** - Tests that each share equals proportional amount minus fee
+8. **monotonicity** - Tests that shares increase monotonically with amount
+9. **scale_invariance** - Tests that scaling ratios doesn't change the result
+
+**Key Features:**
+- Uses Hypothesis testing framework with appropriate strategies for floats, lists, and integers
+- Includes proper preconditions using `assume()` statements where needed
+- Follows the project's testing conventions and patterns
+- Tests both error conditions and functional properties
+- Uses appropriate floating-point comparison with tolerance (1e-10)
+- Includes comprehensive docstrings for each test method
+- Can be run with `pytest tests/royalty_payout_test.py -v`
+
+The test file is ready to use and exercises all the semantic properties identified in `properties/royalty_payout_properties.json` without executing the tests as requested.

@@ -1,0 +1,44 @@
+[
+  {
+    "scope": "branch",
+    "function": "bump_refund",
+    "condition": "max_value is not None",
+    "property": "max_value_clamp",
+    "formal": "new_value <= max_value"
+  },
+  {
+    "scope": "branch",
+    "function": "bump_refund",
+    "condition": "new_value > max_value",
+    "property": "value_capped",
+    "formal": "new_value = max_value"
+  },
+  {
+    "scope": "function",
+    "function": "bump_refund",
+    "property": "non_negative",
+    "precondition": "counts[key] >= 0",
+    "formal": "new_value >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "bump_refund",
+    "property": "monotonic_decrease",
+    "precondition": "counts[key] > 0",
+    "formal": "new_value <= counts[key]"
+  },
+  {
+    "scope": "function",
+    "function": "bump_refund",
+    "property": "max_value_bound",
+    "precondition": "max_value is not None",
+    "formal": "new_value <= max_value"
+  },
+  {
+    "scope": "function",
+    "function": "bump_refund",
+    "property": "identity_when_no_max",
+    "precondition": "max_value is None",
+    "formal": "new_value == counts[key]"
+  }
+]

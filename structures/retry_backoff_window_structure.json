@@ -1,0 +1,38 @@
+{
+    "functions": [
+        {
+            "name": "retry_backoff_window",
+            "parameters": [
+                "attempts"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "attempts < 0",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"attempts must be non-negative\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (attempts < 0)",
+                        "body_contains": "delay = base * (2 ** attempts)\n# BUG: caps only when strictly greater, leaving boundary uncapped.\nif delay > max_delay:\n        delay = max_delay\nreturn delay",
+                        "returns": "delay",
+                        "early_exit": false
+                    }
+                ],
+                {
+                    "type": "if",
+                    "condition": "delay > max_delay",
+                    "branches": null,
+                    "body_contains": "delay = max_delay",
+                    "returns": null,
+                    "early_exit": false
+                }
+            ],
+            "returns": "delay"
+        }
+    ]
+}

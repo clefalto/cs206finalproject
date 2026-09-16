@@ -1,0 +1,65 @@
+{
+    "functions": [
+        {
+            "name": "donation_share",
+            "parameters": [
+                "amount",
+                "ratios"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "not ratios",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"empty ratios\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (not ratios)",
+                        "body_contains": "if sum(ratios) <= 0:\n        raise ValueError(\"invalid ratios\")\nif amount < 0:\n        raise ValueError(\"negative amount\")\ntotal_ratio = sum(ratios)\nbase = list(map(lambda r: (r / total_ratio) * amount, ratios))\n# BUG: fee should be applied once, but is applied per share.\nreturn [b - fee for b in base]",
+                        "returns": "[b - fee for b in base]",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "sum(ratios) <= 0",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"invalid ratios\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (sum(ratios) <= 0)",
+                        "body_contains": "if amount < 0:\n        raise ValueError(\"negative amount\")\ntotal_ratio = sum(ratios)\nbase = list(map(lambda r: (r / total_ratio) * amount, ratios))\n# BUG: fee should be applied once, but is applied per share.\nreturn [b - fee for b in base]",
+                        "returns": "[b - fee for b in base]",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "amount < 0",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"negative amount\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (amount < 0)",
+                        "body_contains": "total_ratio = sum(ratios)\nbase = list(map(lambda r: (r / total_ratio) * amount, ratios))\n# BUG: fee should be applied once, but is applied per share.\nreturn [b - fee for b in base]",
+                        "returns": "[b - fee for b in base]",
+                        "early_exit": false
+                    }
+                ]
+            ],
+            "returns": "[b - fee for b in base]"
+        }
+    ]
+}

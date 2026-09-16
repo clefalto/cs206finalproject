@@ -1,0 +1,48 @@
+{
+    "functions": [
+        {
+            "name": "reservation_overlap_check",
+            "parameters": [
+                "reservations",
+                "candidate"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "c_start >= c_end",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"invalid reservation\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (c_start >= c_end)",
+                        "body_contains": "for start, end in reservations:\n        # BUG: boundary-touch considered overlap.\n        if not (c_end <= start or c_start >= end):\n            return True\nreturn False",
+                        "returns": "False",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "not (c_end <= start or c_start >= end)",
+                        "branches": null,
+                        "body_contains": "return True",
+                        "returns": "True",
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (not (c_end <= start or c_start >= end))",
+                        "body_contains": "",
+                        "returns": "True",
+                        "early_exit": false
+                    }
+                ]
+            ],
+            "returns": "False"
+        }
+    ]
+}

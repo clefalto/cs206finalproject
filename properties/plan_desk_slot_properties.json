@@ -1,0 +1,58 @@
+[
+  {
+    "scope": "branch",
+    "function": "plan_desk_slot",
+    "condition": "start >= end",
+    "property": "invalid_interval_error",
+    "formal": "if start >= end then ValueError is raised"
+  },
+  {
+    "scope": "branch",
+    "function": "plan_desk_slot",
+    "condition": "not (start >= end) and not (end <= s or start >= e)",
+    "property": "overlap_detection",
+    "formal": "if intervals overlap then return False, existing"
+  },
+  {
+    "scope": "function",
+    "function": "plan_desk_slot",
+    "property": "valid_interval_check",
+    "precondition": "start < end",
+    "formal": "if start >= end then ValueError is raised"
+  },
+  {
+    "scope": "function",
+    "function": "plan_desk_slot",
+    "property": "overlap_detection",
+    "precondition": "start < end",
+    "formal": "if any existing interval overlaps with new interval then return False, existing"
+  },
+  {
+    "scope": "function",
+    "function": "plan_desk_slot",
+    "property": "interval_insertion",
+    "precondition": "start < end and no overlap",
+    "formal": "if no overlap then return True, updated where updated contains new interval"
+  },
+  {
+    "scope": "function",
+    "function": "plan_desk_slot",
+    "property": "list_sorting",
+    "precondition": "start < end and no overlap",
+    "formal": "updated list is sorted after insertion"
+  },
+  {
+    "scope": "function",
+    "function": "plan_desk_slot",
+    "property": "non_destructive_existing",
+    "precondition": "start < end and overlap detected",
+    "formal": "existing list remains unchanged when overlap detected"
+  },
+  {
+    "scope": "function",
+    "function": "plan_desk_slot",
+    "property": "return_format",
+    "precondition": "start < end",
+    "formal": "always returns tuple (bool, list) where bool indicates success"
+  }
+]

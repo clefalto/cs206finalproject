@@ -1,0 +1,100 @@
+[
+  {
+    "scope": "branch",
+    "function": "sales_window_avg",
+    "condition": "window <= 0",
+    "property": "invalid_window_error",
+    "formal": "if window <= 0 then ValueError(\"window must be positive\") is raised"
+  },
+  {
+    "scope": "branch",
+    "function": "sales_window_avg",
+    "condition": "not values",
+    "property": "empty_values_error",
+    "formal": "if not values then ValueError(\"no values\") is raised"
+  },
+  {
+    "scope": "branch",
+    "function": "sales_window_avg",
+    "condition": "len(recent) < warmup_min",
+    "property": "insufficient_data_none",
+    "formal": "if len(recent) < warmup_min then return None"
+  },
+  {
+    "scope": "function",
+    "function": "sales_window_avg",
+    "property": "positive_window_requirement",
+    "precondition": "window > 0",
+    "formal": "window must be positive for function to proceed beyond initial validation"
+  },
+  {
+    "scope": "function",
+    "function": "sales_window_avg",
+    "property": "non_empty_values_requirement",
+    "precondition": "values is not empty",
+    "formal": "values must contain at least one element for function to proceed beyond initial validation"
+  },
+  {
+    "scope": "function",
+    "function": "sales_window_avg",
+    "property": "window_slice_extraction",
+    "precondition": "window > 0 and values is not empty",
+    "formal": "recent = values[-window:] extracts the last 'window' elements from values"
+  },
+  {
+    "scope": "function",
+    "function": "sales_window_avg",
+    "property": "sum_calculation",
+    "precondition": "window > 0 and values is not empty",
+    "formal": "total = sum(recent) calculates the sum of the recent window elements"
+  },
+  {
+    "scope": "function",
+    "function": "sales_window_avg",
+    "property": "mean_calculation_with_bug",
+    "precondition": "window > 0 and values is not empty",
+    "formal": "mean = total / window calculates mean by dividing by full window size (bug: should divide by len(recent) during warmup)"
+  },
+  {
+    "scope": "function",
+    "function": "sales_window_avg",
+    "property": "warmup_min_check",
+    "precondition": "window > 0 and values is not empty",
+    "formal": "if len(recent) < warmup_min then return None, otherwise return mean"
+  },
+  {
+    "scope": "function",
+    "function": "sales_window_avg",
+    "property": "return_type_constraint",
+    "precondition": "window > 0 and values is not empty and len(recent) >= warmup_min",
+    "formal": "return value is a numeric type (float/int) representing the average"
+  },
+  {
+    "scope": "function",
+    "function": "sales_window_avg",
+    "property": "return_none_constraint",
+    "precondition": "window > 0 and values is not empty and len(recent) < warmup_min",
+    "formal": "return value is None when insufficient data for warmup period"
+  },
+  {
+    "scope": "function",
+    "function": "sales_window_avg",
+    "property": "error_handling",
+    "precondition": "None",
+    "formal": "function raises ValueError for invalid window (<= 0) or empty values"
+  },
+  {
+    "scope": "function",
+    "function": "sales_window_avg",
+    "property": "slice_bounds_safety",
+    "precondition": "window > 0 and values is not empty",
+    "formal": "values[-window:] is safe even when len(values) < window (returns all available elements)"
+  },
+  {
+    "scope": "function",
+    "function": "sales_window_avg",
+    "property": "buggy_division_behavior",
+    "precondition": "window > 0 and values is not empty",
+    "formal": "mean calculation uses total / window instead of total / len(recent), causing incorrect averages during warmup period"
+  }
+]

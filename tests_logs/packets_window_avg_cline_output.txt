@@ -1,0 +1,24 @@
+I have successfully created a comprehensive test suite for the `packets_window_avg` function using the Hypothesis testing framework. The test file `tests/packets_window_avg_test.py` contains:
+
+**Branch Property Tests:**
+- `test_invalid_window_size`: Tests that window <= 0 raises ValueError("window must be positive")
+- `test_empty_values_error`: Tests that empty values raises ValueError("no values") 
+- `test_insufficient_warmup`: Tests that insufficient warmup returns None
+
+**Function Property Tests:**
+- `test_positive_window_requirement`: Tests that positive window doesn't raise ValueError for window size
+- `test_non_empty_values_requirement`: Tests that non-empty values doesn't raise ValueError for empty values
+- `test_window_slicing`: Tests that recent = values[-window:] works correctly
+- `test_total_summation`: Tests that total = sum(recent) works correctly
+- `test_mean_calculation`: Tests that mean = sum(recent) / window works correctly
+- `test_warmup_min_check`: Tests that insufficient warmup returns None
+
+**Additional Features:**
+- Includes specific examples using `@example` decorator for edge cases
+- Uses proper Hypothesis strategies with appropriate constraints
+- Handles both integer and float values
+- Includes proper error message matching
+- Uses `assume()` to filter test cases appropriately
+- Comprehensive docstrings for each test method
+
+The test file is ready to be executed with pytest and will thoroughly exercise all the semantic properties identified in the properties file.

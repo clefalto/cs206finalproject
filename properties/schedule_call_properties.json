@@ -1,0 +1,72 @@
+[
+  {
+    "scope": "branch",
+    "function": "schedule_call",
+    "condition": "candidate[0] >= candidate[1]",
+    "property": "invalid_interval_rejection",
+    "formal": "if candidate[0] >= candidate[1] then raise ValueError(\"start must be before end\")"
+  },
+  {
+    "scope": "branch",
+    "function": "schedule_call",
+    "condition": "overlaps(slot, candidate)",
+    "property": "overlap_rejection",
+    "formal": "if overlaps(slot, candidate) then return False, list(existing)"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_call",
+    "property": "valid_interval_requirement",
+    "precondition": "candidate[0] < candidate[1]",
+    "formal": "if candidate[0] >= candidate[1] then raise ValueError(\"start must be before end\")"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_call",
+    "property": "overlap_detection",
+    "precondition": "candidate[0] < candidate[1]",
+    "formal": "if any overlaps(slot, candidate) for slot in existing then return False, list(existing)"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_call",
+    "property": "successful_merge",
+    "precondition": "candidate[0] < candidate[1] and not any overlaps(slot, candidate) for slot in existing",
+    "formal": "return True, sorted(existing + [candidate])"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_call",
+    "property": "sorted_output",
+    "precondition": "candidate[0] < candidate[1] and not any overlaps(slot, candidate) for slot in existing",
+    "formal": "return True, merged where merged is sorted(existing + [candidate])"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_call",
+    "property": "no_modification_on_failure",
+    "precondition": "candidate[0] >= candidate[1] or any overlaps(slot, candidate) for slot in existing",
+    "formal": "return False, list(existing) where list(existing) is a copy of the original existing list"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_call",
+    "property": "boundary_touch_overlap_bug",
+    "precondition": "candidate[0] < candidate[1]",
+    "formal": "overlaps(a, b) returns True when b[1] == a[0] or b[0] == a[1] (boundary-touch considered overlapping)"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_call",
+    "property": "monotonicity",
+    "precondition": "candidate[0] < candidate[1] and not any overlaps(slot, candidate) for slot in existing",
+    "formal": "if existing is sorted then merged is also sorted"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_call",
+    "property": "idempotence",
+    "precondition": "candidate[0] < candidate[1] and not any overlaps(slot, candidate) for slot in existing",
+    "formal": "schedule_call(existing, candidate) == schedule_call(sorted(existing), candidate)"
+  }
+]

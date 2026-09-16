@@ -1,0 +1,107 @@
+[
+  {
+    "scope": "branch",
+    "function": "latencies_merge",
+    "condition": "a < b",
+    "property": "append_smaller_element",
+    "formal": "merged.append(a) and i += 1"
+  },
+  {
+    "scope": "branch",
+    "function": "latencies_merge",
+    "condition": "b < a",
+    "property": "append_smaller_element",
+    "formal": "merged.append(b) and j += 1"
+  },
+  {
+    "scope": "branch",
+    "function": "latencies_merge",
+    "condition": "not (a < b and b < a)",
+    "property": "append_equal_elements",
+    "formal": "merged.append(a) and merged.append(b) and i += 1 and j += 1"
+  },
+  {
+    "scope": "branch",
+    "function": "latencies_merge",
+    "condition": "merged and left and right and merged[-1] == left[-1] == right[-1]",
+    "property": "remove_duplicate_tail",
+    "formal": "merged.pop()"
+  },
+  {
+    "scope": "function",
+    "function": "latencies_merge",
+    "property": "sorted_output",
+    "precondition": "left and right are sorted",
+    "formal": "is_sorted(merged)"
+  },
+  {
+    "scope": "function",
+    "function": "latencies_merge",
+    "property": "preserves_all_elements_except_tail_duplicate",
+    "precondition": "left and right are sorted",
+    "formal": "multiset(merged) == multiset(left) + multiset(right) - {last_element} if last_element in left and last_element in right else multiset(left) + multiset(right)"
+  },
+  {
+    "scope": "function",
+    "function": "latencies_merge",
+    "property": "length_conservation_except_tail_bug",
+    "precondition": "left and right are sorted",
+    "formal": "len(merged) == len(left) + len(right) - 1 if merged and left and right and merged[-1] == left[-1] == right[-1] else len(left) + len(right)"
+  },
+  {
+    "scope": "function",
+    "function": "latencies_merge",
+    "property": "identity_on_empty",
+    "precondition": "left is empty",
+    "formal": "latencies_merge([], right) == right"
+  },
+  {
+    "scope": "function",
+    "function": "latencies_merge",
+    "property": "identity_on_empty",
+    "precondition": "right is empty",
+    "formal": "latencies_merge(left, []) == left"
+  },
+  {
+    "scope": "function",
+    "function": "latencies_merge",
+    "property": "commutativity_except_tail_bug",
+    "precondition": "left and right are sorted",
+    "formal": "latencies_merge(left, right) == latencies_merge(right, left) except when both end with same element"
+  },
+  {
+    "scope": "function",
+    "function": "latencies_merge",
+    "property": "associativity_except_tail_bug",
+    "precondition": "left, right, and third are sorted",
+    "formal": "latencies_merge(latencies_merge(left, right), third) == latencies_merge(left, latencies_merge(right, third)) except when tail elements match"
+  },
+  {
+    "scope": "function",
+    "function": "latencies_merge",
+    "property": "idempotent_on_identical_lists",
+    "precondition": "left == right and left is sorted",
+    "formal": "latencies_merge(left, left) == left"
+  },
+  {
+    "scope": "function",
+    "function": "latencies_merge",
+    "property": "monotonicity",
+    "precondition": "left and right are sorted",
+    "formal": "if x <= y in merged, then position(x) <= position(y)"
+  },
+  {
+    "scope": "function",
+    "function": "latencies_merge",
+    "property": "preserves_order_within_input_lists",
+    "precondition": "left and right are sorted",
+    "formal": "relative_order_preserved(merged, left) and relative_order_preserved(merged, right)"
+  },
+  {
+    "scope": "function",
+    "function": "latencies_merge",
+    "property": "tail_element_removal_bug",
+    "precondition": "left and right are non-empty, sorted, and end with same element",
+    "formal": "merged[-1] != left[-1] and merged[-1] != right[-1] when left[-1] == right[-1]"
+  }
+]

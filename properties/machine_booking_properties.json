@@ -1,0 +1,72 @@
+[
+  {
+    "scope": "branch",
+    "function": "machine_booking",
+    "condition": "a >= b",
+    "property": "empty_window_error",
+    "formal": "raises ValueError(\"empty window\")"
+  },
+  {
+    "scope": "branch",
+    "function": "machine_booking",
+    "condition": "any(not (b <= s or a >= e) for s, e in timeline)",
+    "property": "conflict_detection",
+    "formal": "return False, timeline"
+  },
+  {
+    "scope": "branch",
+    "function": "machine_booking",
+    "condition": "not (any(not (b <= s or a >= e) for s, e in timeline))",
+    "property": "successful_booking",
+    "formal": "result = sorted(timeline + [window]); return True, result"
+  },
+  {
+    "scope": "function",
+    "function": "machine_booking",
+    "property": "timeline_sorted",
+    "precondition": "timeline is a list of (start, end) tuples",
+    "formal": "result == sorted(timeline + [window])"
+  },
+  {
+    "scope": "function",
+    "function": "machine_booking",
+    "property": "conflict_free_booking",
+    "precondition": "window does not overlap with any interval in timeline",
+    "formal": "return True, sorted(timeline + [window])"
+  },
+  {
+    "scope": "function",
+    "function": "machine_booking",
+    "property": "conflict_detection",
+    "precondition": "window overlaps with at least one interval in timeline",
+    "formal": "return False, timeline"
+  },
+  {
+    "scope": "function",
+    "function": "machine_booking",
+    "property": "empty_window_validation",
+    "precondition": "window is empty (a >= b)",
+    "formal": "raises ValueError(\"empty window\")"
+  },
+  {
+    "scope": "function",
+    "function": "machine_booking",
+    "property": "timeline_unchanged_on_conflict",
+    "precondition": "window overlaps with at least one interval in timeline",
+    "formal": "return False, timeline"
+  },
+  {
+    "scope": "function",
+    "function": "machine_booking",
+    "property": "timeline_extended_on_success",
+    "precondition": "window does not overlap with any interval in timeline",
+    "formal": "len(result) == len(timeline) + 1"
+  },
+  {
+    "scope": "function",
+    "function": "machine_booking",
+    "property": "timeline_preserved_on_conflict",
+    "precondition": "window overlaps with at least one interval in timeline",
+    "formal": "result == timeline"
+  }
+]

@@ -1,0 +1,51 @@
+[
+  {
+    "scope": "branch",
+    "function": "track_logout",
+    "condition": "cap is not None",
+    "property": "cap_applied_when_set",
+    "formal": "if cap is not None then updated <= cap"
+  },
+  {
+    "scope": "branch",
+    "function": "track_logout",
+    "condition": "updated > cap",
+    "property": "cap_enforcement",
+    "formal": "if updated > cap then updated = cap"
+  },
+  {
+    "scope": "function",
+    "function": "track_logout",
+    "property": "non_negative_result",
+    "precondition": "counters[key] >= 0",
+    "formal": "updated >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "track_logout",
+    "property": "monotonic_decrease",
+    "precondition": "counters[key] > 0",
+    "formal": "updated <= counters[key]"
+  },
+  {
+    "scope": "function",
+    "function": "track_logout",
+    "property": "cap_respect",
+    "precondition": "cap is not None",
+    "formal": "updated <= cap"
+  },
+  {
+    "scope": "function",
+    "function": "track_logout",
+    "property": "identity_when_no_cap",
+    "precondition": "cap is None",
+    "formal": "updated == counters[key]"
+  },
+  {
+    "scope": "function",
+    "function": "track_logout",
+    "property": "key_preservation",
+    "precondition": "key in counters",
+    "formal": "counters[key] is preserved"
+  }
+]

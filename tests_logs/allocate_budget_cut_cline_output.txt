@@ -1,0 +1,25 @@
+I have successfully created a comprehensive test file for the allocate_budget_cut function using the Hypothesis testing framework. The test file `tests/allocate_budget_cut_test.py` contains tests for all 10 semantic properties identified in the properties/allocate_budget_cut_properties.json file:
+
+**Branch-level error condition tests:**
+1. `test_empty_ratios_error` - Tests that empty ratios list raises ValueError("ratios required")
+2. `test_negative_amount_error` - Tests that negative amount raises ValueError("negative amount") 
+3. `test_invalid_ratios_error` - Tests that invalid ratios (sum <= 0) raises ValueError("invalid ratios")
+
+**Function-level behavioral property tests:**
+4. `test_proportional_allocation` - Verifies sum of shares equals amount
+5. `test_fee_deduction` - Confirms each share equals original share minus fee
+6. `test_non_negative_shares` - Ensures all shares are non-negative when fee constraint is met
+7. `test_order_preservation` - Validates result length matches ratios length and order is preserved
+8. `test_scale_invariance` - Tests that scaling amount by k scales all shares by k
+9. `test_zero_amount_handling` - Verifies zero amount results in [-fee] * len(ratios)
+10. `test_single_ratio_handling` - Confirms single ratio case returns [amount - fee]
+
+The test file includes:
+- Proper imports for pytest and hypothesis
+- Import of the allocate_budget_cut function from the dataset
+- Comprehensive test strategies using Hypothesis generators
+- Appropriate assumptions to filter test data
+- Detailed assertions with floating-point precision handling
+- Clear docstrings explaining each test's purpose
+
+The tests are ready to run with pytest but have not been executed as requested. They follow Hypothesis best practices and thoroughly exercise all the semantic properties of the allocate_budget_cut function.

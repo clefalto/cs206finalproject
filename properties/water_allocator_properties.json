@@ -1,0 +1,128 @@
+[
+  {
+    "scope": "branch",
+    "function": "water_allocator",
+    "condition": "len(weights) == 0",
+    "property": "empty_weights_error",
+    "formal": "raises ValueError(\"weights required\")"
+  },
+  {
+    "scope": "branch",
+    "function": "water_allocator",
+    "condition": "total < 0",
+    "property": "negative_total_error",
+    "formal": "raises ValueError(\"negative total\")"
+  },
+  {
+    "scope": "branch",
+    "function": "water_allocator",
+    "condition": "minimum < 0",
+    "property": "negative_minimum_error",
+    "formal": "raises ValueError(\"negative minimum\")"
+  },
+  {
+    "scope": "branch",
+    "function": "water_allocator",
+    "condition": "sum(weights) == 0",
+    "property": "zero_weight_sum_error",
+    "formal": "raises ValueError(\"zero total weight\")"
+  },
+  {
+    "scope": "branch",
+    "function": "water_allocator",
+    "condition": "portion > minimum",
+    "property": "proportional_allocation",
+    "formal": "shares[i] == (weights[i] / sum(weights)) * total"
+  },
+  {
+    "scope": "branch",
+    "function": "water_allocator",
+    "condition": "portion <= minimum",
+    "property": "minimum_enforcement",
+    "formal": "shares[i] == minimum"
+  },
+  {
+    "scope": "branch",
+    "function": "water_allocator",
+    "condition": "floor_to_int",
+    "property": "integer_flooring",
+    "formal": "return [int(v) for v in shares]"
+  },
+  {
+    "scope": "branch",
+    "function": "water_allocator",
+    "condition": "not floor_to_int",
+    "property": "float_preservation",
+    "formal": "return shares"
+  },
+  {
+    "scope": "function",
+    "function": "water_allocator",
+    "property": "total_preservation",
+    "precondition": "sum(weights) > 0 and total >= 0 and minimum >= 0",
+    "formal": "sum(shares) == total"
+  },
+  {
+    "scope": "function",
+    "function": "water_allocator",
+    "property": "minimum_guarantee",
+    "precondition": "sum(weights) > 0 and total >= 0 and minimum >= 0",
+    "formal": "all(share >= minimum for share in shares)"
+  },
+  {
+    "scope": "function",
+    "function": "water_allocator",
+    "property": "proportional_distribution",
+    "precondition": "sum(weights) > 0 and total >= 0 and minimum >= 0 and total >= len(weights) * minimum",
+    "formal": "shares[i] / shares[j] == weights[i] / weights[j] for all i, j where weights[i] > 0 and weights[j] > 0"
+  },
+  {
+    "scope": "function",
+    "function": "water_allocator",
+    "property": "non_negative_output",
+    "precondition": "sum(weights) > 0 and total >= 0 and minimum >= 0",
+    "formal": "all(share >= 0 for share in shares)"
+  },
+  {
+    "scope": "function",
+    "function": "water_allocator",
+    "property": "output_length_match",
+    "precondition": "sum(weights) > 0 and total >= 0 and minimum >= 0",
+    "formal": "len(shares) == len(weights)"
+  },
+  {
+    "scope": "function",
+    "function": "water_allocator",
+    "property": "monotonicity",
+    "precondition": "sum(weights) > 0 and total >= 0 and minimum >= 0",
+    "formal": "increasing total leads to non-decreasing shares"
+  },
+  {
+    "scope": "function",
+    "function": "water_allocator",
+    "property": "scale_invariance",
+    "precondition": "sum(weights) > 0 and total >= 0 and minimum >= 0",
+    "formal": "water_allocator(k * total, weights, minimum) == k * water_allocator(total, weights, minimum) for k > 0 when minimum == 0"
+  },
+  {
+    "scope": "function",
+    "function": "water_allocator",
+    "property": "weight_scale_invariance",
+    "precondition": "sum(weights) > 0 and total >= 0 and minimum >= 0",
+    "formal": "water_allocator(total, k * weights, minimum) == water_allocator(total, weights, minimum) for k > 0"
+  },
+  {
+    "scope": "function",
+    "function": "water_allocator",
+    "property": "remainder_loss_bug",
+    "precondition": "floor_to_int == True and sum(weights) > 0 and total >= 0 and minimum >= 0",
+    "formal": "sum([int(v) for v in shares]) <= sum(shares) with potential remainder loss"
+  },
+  {
+    "scope": "function",
+    "function": "water_allocator",
+    "property": "error_conditions",
+    "precondition": "any of the validation conditions fail",
+    "formal": "raises ValueError with appropriate message for invalid inputs"
+  }
+]

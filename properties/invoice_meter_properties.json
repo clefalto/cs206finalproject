@@ -1,0 +1,72 @@
+[
+  {
+    "scope": "branch",
+    "function": "invoice_meter",
+    "condition": "max_value is not None",
+    "property": "ceiling_applied",
+    "formal": "new_value <= max_value"
+  },
+  {
+    "scope": "branch",
+    "function": "invoice_meter",
+    "condition": "new_value > max_value",
+    "property": "value_capped",
+    "formal": "new_value == max_value"
+  },
+  {
+    "scope": "function",
+    "function": "invoice_meter",
+    "property": "incremental_counting",
+    "precondition": "True",
+    "formal": "new_value == counts.get(key, 0) + 1"
+  },
+  {
+    "scope": "function",
+    "function": "invoice_meter",
+    "property": "state_persistence",
+    "precondition": "True",
+    "formal": "counts[key] == new_value"
+  },
+  {
+    "scope": "function",
+    "function": "invoice_meter",
+    "property": "monotonic_increase",
+    "precondition": "True",
+    "formal": "new_value >= counts.get(key, 0)"
+  },
+  {
+    "scope": "function",
+    "function": "invoice_meter",
+    "property": "non_negative_count",
+    "precondition": "True",
+    "formal": "new_value >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "invoice_meter",
+    "property": "ceiling_respect",
+    "precondition": "max_value is not None",
+    "formal": "new_value <= max_value"
+  },
+  {
+    "scope": "function",
+    "function": "invoice_meter",
+    "property": "key_preservation",
+    "precondition": "True",
+    "formal": "key in counts"
+  },
+  {
+    "scope": "function",
+    "function": "invoice_meter",
+    "property": "return_value_consistency",
+    "precondition": "True",
+    "formal": "return_value == counts[key]"
+  },
+  {
+    "scope": "function",
+    "function": "invoice_meter",
+    "property": "boundary_bug",
+    "precondition": "max_value is not None and counts.get(key, 0) == max_value",
+    "formal": "new_value == max_value + 1"
+  }
+]

@@ -1,0 +1,33 @@
+I have successfully created a comprehensive test file `tests/bandwidth_apportion_test.py` that exercises all 11 semantic properties identified for the `bandwidth_apportion` function using the Hypothesis testing framework.
+
+The test file includes:
+
+1. **Branch-level property tests** (3 tests):
+   - `test_negative_total_rejection`: Tests that negative total raises ValueError
+   - `test_negative_minimum_rejection`: Tests that negative minimum raises ValueError  
+   - `test_invalid_weights_rejection`: Tests that empty weights or zero-sum weights raise ValueError
+
+2. **Function-level property tests** (8 tests):
+   - `test_non_negative_output`: Ensures all allocations are non-negative
+   - `test_minimum_allocation_guarantee`: Verifies minimum allocation requirement is met
+   - `test_integer_output`: Confirms all results are integers
+   - `test_proportional_allocation`: Tests proportional distribution approximation
+   - `test_monotonicity_in_total`: Verifies increasing total increases allocations
+   - `test_monotonicity_in_minimum`: Verifies increasing minimum increases allocations
+   - `test_scale_invariance`: Tests that scaling inputs produces identical results
+   - `test_error_conditions`: Comprehensive test of all error conditions
+
+3. **Additional edge case tests**:
+   - Includes specific examples and edge cases
+   - Tests with zero total bandwidth
+   - Basic sanity checks for valid inputs
+
+The test file follows Hypothesis best practices with:
+- Proper use of `@given` decorators with appropriate strategies
+- Use of `assume()` for conditional test logic
+- `@example` decorators for specific test cases
+- Clear, descriptive test method names
+- Comprehensive assertions with helpful error messages
+- Proper handling of edge cases and boundary conditions
+
+All tests are designed to run with pytest and the Hypothesis framework, thoroughly exercising the semantic properties defined in `properties/bandwidth_apportion_properties.json`.

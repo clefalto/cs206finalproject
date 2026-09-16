@@ -1,0 +1,65 @@
+[
+  {
+    "scope": "branch",
+    "function": "job_queue_priority",
+    "condition": "max_jobs < 0",
+    "property": "invalid_capacity_rejection",
+    "formal": "if max_jobs < 0 then raise ValueError(\"max_jobs must be non-negative\")"
+  },
+  {
+    "scope": "branch", 
+    "function": "job_queue_priority",
+    "condition": "len(jobs) > max_jobs",
+    "property": "capacity_exceeded_rejection",
+    "formal": "if len(jobs) > max_jobs then return False"
+  },
+  {
+    "scope": "branch",
+    "function": "job_queue_priority", 
+    "condition": "not (len(jobs) > max_jobs)",
+    "property": "capacity_available_acceptance",
+    "formal": "if not (len(jobs) > max_jobs) then return True"
+  },
+  {
+    "scope": "function",
+    "function": "job_queue_priority",
+    "property": "non_negative_capacity_requirement",
+    "precondition": "max_jobs >= 0",
+    "formal": "max_jobs must be non-negative for function to proceed"
+  },
+  {
+    "scope": "function",
+    "function": "job_queue_priority",
+    "property": "capacity_check",
+    "precondition": "max_jobs >= 0",
+    "formal": "return True if len(jobs) <= max_jobs else False"
+  },
+  {
+    "scope": "function",
+    "function": "job_queue_priority",
+    "property": "boolean_return_type",
+    "precondition": "max_jobs >= 0",
+    "formal": "function always returns boolean value (True or False)"
+  },
+  {
+    "scope": "function",
+    "function": "job_queue_priority",
+    "property": "capacity_invariant",
+    "precondition": "max_jobs >= 0",
+    "formal": "function accepts jobs when queue length <= capacity, rejects when > capacity"
+  },
+  {
+    "scope": "function",
+    "function": "job_queue_priority",
+    "property": "buggy_capacity_logic",
+    "precondition": "max_jobs >= 0",
+    "formal": "BUG: allows one extra job when at capacity (len(jobs) > max_jobs check)"
+  },
+  {
+    "scope": "function",
+    "function": "job_queue_priority",
+    "property": "exception_on_invalid_input",
+    "precondition": "max_jobs < 0",
+    "formal": "raises ValueError with message \"max_jobs must be non-negative\""
+  }
+]

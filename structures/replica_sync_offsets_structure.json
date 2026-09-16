@@ -1,0 +1,46 @@
+{
+    "functions": [
+        {
+            "name": "replica_sync_offsets",
+            "parameters": [
+                "primary",
+                "replica"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "primary[i] < replica[j]",
+                        "branches": null,
+                        "body_contains": "missing.append(primary[i])\n            i += 1",
+                        "returns": null,
+                        "early_exit": false
+                    },
+                    {
+                        "type": "elif",
+                        "condition": "replica[j] < primary[i]",
+                        "body_contains": "j += 1",
+                        "returns": null,
+                        "early_exit": false
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (primary[i] < replica[j] and replica[j] < primary[i])",
+                        "body_contains": "else:\n            i += 1\n            j += 1",
+                        "returns": null,
+                        "early_exit": false
+                    }
+                ],
+                {
+                    "type": "if",
+                    "condition": "missing and replica and missing[-1] == replica[-1]",
+                    "branches": null,
+                    "body_contains": "missing.pop()",
+                    "returns": null,
+                    "early_exit": false
+                }
+            ],
+            "returns": "missing"
+        }
+    ]
+}

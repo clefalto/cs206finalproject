@@ -1,0 +1,40 @@
+{
+    "functions": [
+        {
+            "name": "tensor_slice_pad",
+            "parameters": [
+                "values",
+                "start",
+                "end"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "start < 0 or end < start",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"invalid range\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (start < 0 or end < start)",
+                        "body_contains": "result = values[start:end]\nmissing = end - start - len(result)\n# BUG: pads one extra element when exactly aligned.\nif missing >= 0:\n        result.extend([pad] * (missing + 1))\nreturn result",
+                        "returns": "result",
+                        "early_exit": false
+                    }
+                ],
+                {
+                    "type": "if",
+                    "condition": "missing >= 0",
+                    "branches": null,
+                    "body_contains": "result.extend([pad] * (missing + 1))",
+                    "returns": null,
+                    "early_exit": false
+                }
+            ],
+            "returns": "result"
+        }
+    ]
+}

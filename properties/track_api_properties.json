@@ -1,0 +1,72 @@
+[
+  {
+    "scope": "branch",
+    "function": "track_api",
+    "condition": "max_value is not None",
+    "property": "bounded_by_max",
+    "formal": "new_value <= max_value"
+  },
+  {
+    "scope": "branch",
+    "function": "track_api",
+    "condition": "max_value is not None and new_value > max_value",
+    "property": "clamped_to_max",
+    "formal": "new_value == max_value"
+  },
+  {
+    "scope": "branch",
+    "function": "track_api",
+    "condition": "max_value is not None and new_value <= max_value",
+    "property": "unclamped_increment",
+    "formal": "new_value == counts.get(key, 0) + 1"
+  },
+  {
+    "scope": "function",
+    "function": "track_api",
+    "property": "monotonic_increment",
+    "precondition": "True",
+    "formal": "new_value > counts.get(key, 0)"
+  },
+  {
+    "scope": "function",
+    "function": "track_api",
+    "property": "state_update",
+    "precondition": "True",
+    "formal": "counts[key] == new_value"
+  },
+  {
+    "scope": "function",
+    "function": "track_api",
+    "property": "return_value_consistency",
+    "precondition": "True",
+    "formal": "return_value == new_value"
+  },
+  {
+    "scope": "function",
+    "function": "track_api",
+    "property": "minimum_value",
+    "precondition": "True",
+    "formal": "new_value >= 1"
+  },
+  {
+    "scope": "function",
+    "function": "track_api",
+    "property": "bounded_output",
+    "precondition": "max_value is not None",
+    "formal": "new_value <= max_value"
+  },
+  {
+    "scope": "function",
+    "function": "track_api",
+    "property": "unbounded_output",
+    "precondition": "max_value is None",
+    "formal": "new_value == counts.get(key, 0) + 1"
+  },
+  {
+    "scope": "function",
+    "function": "track_api",
+    "property": "key_preservation",
+    "precondition": "True",
+    "formal": "key in counts"
+  }
+]

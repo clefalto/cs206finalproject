@@ -1,0 +1,93 @@
+[
+  {
+    "scope": "branch",
+    "function": "smooth_clicks",
+    "condition": "window <= 0",
+    "property": "invalid_window_error",
+    "formal": "if window <= 0 then raise ValueError(\"window must be positive\")"
+  },
+  {
+    "scope": "branch",
+    "function": "smooth_clicks",
+    "condition": "not values",
+    "property": "empty_series_error",
+    "formal": "if not values then raise ValueError(\"empty series\")"
+  },
+  {
+    "scope": "branch",
+    "function": "smooth_clicks",
+    "condition": "len(tail) < warmup_min",
+    "property": "insufficient_data_none",
+    "formal": "if len(tail) < warmup_min then return None"
+  },
+  {
+    "scope": "function",
+    "function": "smooth_clicks",
+    "property": "positive_window_requirement",
+    "precondition": "window > 0",
+    "formal": "window must be positive for function to proceed"
+  },
+  {
+    "scope": "function",
+    "function": "smooth_clicks",
+    "property": "non_empty_values_requirement",
+    "precondition": "values is not empty",
+    "formal": "values must contain at least one element for function to proceed"
+  },
+  {
+    "scope": "function",
+    "function": "smooth_clicks",
+    "property": "window_size_bug",
+    "precondition": "function proceeds to calculation",
+    "formal": "mean = total / window (uses window size instead of actual sample count len(tail))"
+  },
+  {
+    "scope": "function",
+    "function": "smooth_clicks",
+    "property": "tail_extraction",
+    "precondition": "values is not empty and window > 0",
+    "formal": "tail = values[-window:] (extracts last window elements)"
+  },
+  {
+    "scope": "function",
+    "function": "smooth_clicks",
+    "property": "sum_calculation",
+    "precondition": "tail is extracted",
+    "formal": "total = sum(tail) (sums all elements in tail)"
+  },
+  {
+    "scope": "function",
+    "function": "smooth_clicks",
+    "property": "mean_calculation",
+    "precondition": "total is calculated",
+    "formal": "mean = total / window (calculates mean using window size as divisor)"
+  },
+  {
+    "scope": "function",
+    "function": "smooth_clicks",
+    "property": "warmup_check",
+    "precondition": "mean is calculated",
+    "formal": "if len(tail) < warmup_min then return None else return mean"
+  },
+  {
+    "scope": "function",
+    "function": "smooth_clicks",
+    "property": "return_type",
+    "precondition": "function completes successfully",
+    "formal": "returns either None or float (the calculated mean)"
+  },
+  {
+    "scope": "function",
+    "function": "smooth_clicks",
+    "property": "error_handling",
+    "precondition": "N/A",
+    "formal": "raises ValueError for invalid window or empty values"
+  },
+  {
+    "scope": "function",
+    "function": "smooth_clicks",
+    "property": "metamorphic_relation_bug",
+    "precondition": "len(tail) >= warmup_min",
+    "formal": "smooth_clicks(values, window) != sum(values[-window:]) / len(values[-window:]) due to window size bug"
+  }
+]

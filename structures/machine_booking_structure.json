@@ -1,0 +1,48 @@
+{
+    "functions": [
+        {
+            "name": "machine_booking",
+            "parameters": [
+                "timeline",
+                "window"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "a >= b",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"empty window\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (a >= b)",
+                        "body_contains": "if any(not (b <= s or a >= e) for s, e in timeline):\n        # BUG: should allow b == s or a == e to pass.\n        return False, timeline\nresult = sorted(timeline + [window])\nreturn True, result",
+                        "returns": "True, result",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "any(not (b <= s or a >= e) for s, e in timeline)",
+                        "branches": null,
+                        "body_contains": "return False, timeline",
+                        "returns": "False, timeline",
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (any(not (b <= s or a >= e) for s, e in timeline))",
+                        "body_contains": "result = sorted(timeline + [window])\nreturn True, result",
+                        "returns": "True, result",
+                        "early_exit": false
+                    }
+                ]
+            ],
+            "returns": "True, result"
+        }
+    ]
+}

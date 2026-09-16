@@ -1,0 +1,51 @@
+[
+  {
+    "scope": "branch",
+    "function": "offer_expiry",
+    "condition": "record is None",
+    "property": "default_on_missing",
+    "formal": "offer_expiry(store, key, now) == default"
+  },
+  {
+    "scope": "branch",
+    "function": "offer_expiry",
+    "condition": "now > deadline",
+    "property": "default_on_expired",
+    "formal": "offer_expiry(store, key, now) == default"
+  },
+  {
+    "scope": "branch",
+    "function": "offer_expiry",
+    "condition": "not (record is None) and not (now > deadline)",
+    "property": "value_on_valid",
+    "formal": "offer_expiry(store, key, now) == value"
+  },
+  {
+    "scope": "function",
+    "function": "offer_expiry",
+    "property": "boundary_inclusion",
+    "precondition": "record is not None and now == deadline",
+    "formal": "offer_expiry(store, key, now) == value"
+  },
+  {
+    "scope": "function",
+    "function": "offer_expiry",
+    "property": "monotonic_expiry",
+    "precondition": "record is not None and now1 <= now2",
+    "formal": "offer_expiry(store, key, now1) == default implies offer_expiry(store, key, now2) == default"
+  },
+  {
+    "scope": "function",
+    "function": "offer_expiry",
+    "property": "idempotent",
+    "precondition": "record is not None",
+    "formal": "offer_expiry(store, key, now) == offer_expiry(store, key, now)"
+  },
+  {
+    "scope": "function",
+    "function": "offer_expiry",
+    "property": "default_fallback",
+    "precondition": "True",
+    "formal": "offer_expiry(store, key, now) in {default, value}"
+  }
+]

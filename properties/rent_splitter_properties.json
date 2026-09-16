@@ -1,0 +1,121 @@
+[
+  {
+    "scope": "branch",
+    "function": "rent_splitter",
+    "condition": "len(ratios) == 0",
+    "property": "empty_ratios_error",
+    "formal": "len(ratios) == 0 => raises ValueError(\"no ratios\")"
+  },
+  {
+    "scope": "branch",
+    "function": "rent_splitter",
+    "condition": "sum(ratios) <= 0",
+    "property": "invalid_ratios_error",
+    "formal": "sum(ratios) <= 0 => raises ValueError(\"invalid ratios\")"
+  },
+  {
+    "scope": "branch",
+    "function": "rent_splitter",
+    "condition": "amount < 0",
+    "property": "negative_amount_error",
+    "formal": "amount < 0 => raises ValueError(\"negative amount\")"
+  },
+  {
+    "scope": "branch",
+    "function": "rent_splitter",
+    "condition": "len(ratios) > 0 and sum(ratios) > 0 and amount >= 0",
+    "property": "valid_input_processing",
+    "formal": "len(ratios) > 0 and sum(ratios) > 0 and amount >= 0 => returns [share - fee for share in base]"
+  },
+  {
+    "scope": "function",
+    "function": "rent_splitter",
+    "property": "input_validation",
+    "precondition": "True",
+    "formal": "if len(ratios) == 0 or sum(ratios) <= 0 or amount < 0 then raises ValueError"
+  },
+  {
+    "scope": "function",
+    "function": "rent_splitter",
+    "property": "proportional_distribution",
+    "precondition": "len(ratios) > 0 and sum(ratios) > 0 and amount >= 0",
+    "formal": "sum([share - fee for share in base]) == amount - (len(ratios) * fee)"
+  },
+  {
+    "scope": "function",
+    "function": "rent_splitter",
+    "property": "ratio_preservation",
+    "precondition": "len(ratios) > 0 and sum(ratios) > 0 and amount >= 0",
+    "formal": "all(base[i] / base[j] == ratios[i] / ratios[j] for i in range(len(ratios)) for j in range(len(ratios)) if ratios[j] != 0)"
+  },
+  {
+    "scope": "function",
+    "function": "rent_splitter",
+    "property": "fee_application_bug",
+    "precondition": "len(ratios) > 0 and sum(ratios) > 0 and amount >= 0",
+    "formal": "applies fee to each share individually instead of once to total amount"
+  },
+  {
+    "scope": "function",
+    "function": "rent_splitter",
+    "property": "output_length",
+    "precondition": "len(ratios) > 0 and sum(ratios) > 0 and amount >= 0",
+    "formal": "len(result) == len(ratios)"
+  },
+  {
+    "scope": "function",
+    "function": "rent_splitter",
+    "property": "non_negative_base_shares",
+    "precondition": "len(ratios) > 0 and sum(ratios) > 0 and amount >= 0",
+    "formal": "all(share >= 0 for share in base)"
+  },
+  {
+    "scope": "function",
+    "function": "rent_splitter",
+    "property": "sum_preservation_before_fee",
+    "precondition": "len(ratios) > 0 and sum(ratios) > 0 and amount >= 0",
+    "formal": "sum(base) == amount"
+  },
+  {
+    "scope": "function",
+    "function": "rent_splitter",
+    "property": "monotonicity_in_amount",
+    "precondition": "len(ratios) > 0 and sum(ratios) > 0",
+    "formal": "amount1 >= amount2 => all(result1[i] >= result2[i] for i in range(len(ratios)))"
+  },
+  {
+    "scope": "function",
+    "function": "rent_splitter",
+    "property": "scale_invariance_ratios",
+    "precondition": "len(ratios) > 0 and sum(ratios) > 0 and amount >= 0 and k > 0",
+    "formal": "rent_splitter(amount, [k*r for r in ratios]) == rent_splitter(amount, ratios)"
+  },
+  {
+    "scope": "function",
+    "function": "rent_splitter",
+    "property": "scale_invariance_amount",
+    "precondition": "len(ratios) > 0 and sum(ratios) > 0 and amount >= 0 and k >= 0",
+    "formal": "rent_splitter(k*amount, ratios) == [k*share for share in rent_splitter(amount, ratios)]"
+  },
+  {
+    "scope": "function",
+    "function": "rent_splitter",
+    "property": "zero_amount_handling",
+    "precondition": "len(ratios) > 0 and sum(ratios) > 0",
+    "formal": "amount == 0 => all(share == -fee for share in result)"
+  },
+  {
+    "scope": "function",
+    "function": "rent_splitter",
+    "property": "single_ratio_handling",
+    "precondition": "len(ratios) == 1 and ratios[0] > 0 and amount >= 0",
+    "formal": "result[0] == amount - fee"
+  },
+  {
+    "scope": "function",
+    "function": "rent_splitter",
+    "property": "error_precedence",
+    "precondition": "True",
+    "formal": "empty ratios check takes precedence over invalid ratios check, which takes precedence over negative amount check"
+  }
+]

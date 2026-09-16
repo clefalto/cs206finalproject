@@ -1,0 +1,65 @@
+[
+  {
+    "scope": "branch",
+    "function": "priority_mix",
+    "condition": "len(current) != len(target)",
+    "property": "shape_mismatch_error",
+    "formal": "priority_mix(current, target) raises ValueError(\"shape mismatch\")"
+  },
+  {
+    "scope": "branch",
+    "function": "priority_mix",
+    "condition": "not current",
+    "property": "empty_allocation_error",
+    "formal": "priority_mix(current, target) raises ValueError(\"empty allocation\")"
+  },
+  {
+    "scope": "function",
+    "function": "priority_mix",
+    "property": "length_preservation",
+    "precondition": "len(current) == len(target)",
+    "formal": "len(priority_mix(current, target)) == len(current)"
+  },
+  {
+    "scope": "function",
+    "function": "priority_mix",
+    "property": "linear_interpolation",
+    "precondition": "len(current) == len(target) and current != []",
+    "formal": "priority_mix(current, target)[i] == current[i] + (target[i] - current[i]) * damping for all i"
+  },
+  {
+    "scope": "function",
+    "function": "priority_mix",
+    "property": "identity_on_equal_inputs",
+    "precondition": "len(current) == len(target) and current == target",
+    "formal": "priority_mix(current, target) == current"
+  },
+  {
+    "scope": "function",
+    "function": "priority_mix",
+    "property": "damping_factor_effect",
+    "precondition": "len(current) == len(target) and current != []",
+    "formal": "priority_mix(current, target) moves current towards target by factor damping"
+  },
+  {
+    "scope": "function",
+    "function": "priority_mix",
+    "property": "no_renormalization_bug",
+    "precondition": "len(current) == len(target) and current != []",
+    "formal": "sum(priority_mix(current, target)) != 1 when sum(current) == 1 and sum(target) == 1"
+  },
+  {
+    "scope": "function",
+    "function": "priority_mix",
+    "property": "error_on_empty_current",
+    "precondition": "current == []",
+    "formal": "priority_mix(current, target) raises ValueError(\"empty allocation\")"
+  },
+  {
+    "scope": "function",
+    "function": "priority_mix",
+    "property": "error_on_length_mismatch",
+    "precondition": "len(current) != len(target)",
+    "formal": "priority_mix(current, target) raises ValueError(\"shape mismatch\")"
+  }
+]

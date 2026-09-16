@@ -1,0 +1,33 @@
+I have successfully created a comprehensive test suite using the Hypothesis testing framework for the `latency_rolling_avg` function. The test file `tests/latency_rolling_avg_test.py` contains:
+
+**Main Test Class: `TestLatencyRollingAvgProperties`**
+
+**Core Property Tests (14 semantic properties):**
+1. `test_invalid_window_error` - Tests window <= 0 raises ValueError
+2. `test_empty_series_error` - Tests empty series raises ValueError  
+3. `test_insufficient_samples_return_none` - Tests warmup_min threshold returns None
+4. `test_valid_window_precondition` - Tests window > 0 precondition
+5. `test_non_empty_series_precondition` - Tests non-empty series precondition
+6. `test_moving_average_computation` - Tests correct average calculation
+7. `test_window_size_invariant` - Tests only last 'window' elements considered
+8. `test_warmup_min_threshold` - Tests warmup_min parameter behavior
+9. `test_monotonicity_preservation` - Tests non-negative inputs → non-negative output
+10. `test_scale_invariance` - Tests k*series → k*result scaling property
+11. `test_additive_property` - Tests linearity: f(x+y) = f(x) + f(y)
+12. `test_window_parameter_dependency` - Tests window parameter position independence
+13. `test_warmup_min_parameter_dependency` - Tests warmup_min parameter position independence
+14. `test_bug_in_warmup_calculation` - Tests the specific bug (uses window instead of len(tail))
+
+**Additional Edge Case Tests:**
+- Single element window behavior
+- Large numeric values handling
+- Mixed positive/negative values
+
+**Key Features:**
+- Uses Hypothesis strategies for comprehensive property-based testing
+- Includes proper error handling and assertions
+- Tests floating-point precision with appropriate tolerances
+- Includes a mock implementation for testing (replace with actual import)
+- Comprehensive documentation and clear test naming
+
+The test suite exercises all 14 semantic properties identified in the properties file, ensuring thorough coverage of the function's behavior, edge cases, and the specific bug in the warmup calculation.

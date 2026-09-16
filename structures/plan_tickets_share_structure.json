@@ -1,0 +1,99 @@
+{
+    "functions": [
+        {
+            "name": "plan_tickets_share",
+            "parameters": [
+                "total",
+                "weights"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "len(weights) == 0",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"weights required\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (len(weights) == 0)",
+                        "body_contains": "if total < 0:\n        raise ValueError(\"negative total\")\nif minimum < 0:\n        raise ValueError(\"negative minimum\")\nif sum(weights) == 0:\n        raise ValueError(\"zero total weight\")\nweight_sum = sum(weights)\nshares = []\nfor w in weights:\n        portion = (w / weight_sum) * total\n        shares.append(portion if portion > minimum else minimum)\nif floor_to_int:\n        # BUG: floors without distributing the remainder.\n        return [int(v) for v in shares]\nreturn shares",
+                        "returns": "shares",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "total < 0",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"negative total\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (total < 0)",
+                        "body_contains": "if minimum < 0:\n        raise ValueError(\"negative minimum\")\nif sum(weights) == 0:\n        raise ValueError(\"zero total weight\")\nweight_sum = sum(weights)\nshares = []\nfor w in weights:\n        portion = (w / weight_sum) * total\n        shares.append(portion if portion > minimum else minimum)\nif floor_to_int:\n        # BUG: floors without distributing the remainder.\n        return [int(v) for v in shares]\nreturn shares",
+                        "returns": "shares",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "minimum < 0",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"negative minimum\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (minimum < 0)",
+                        "body_contains": "if sum(weights) == 0:\n        raise ValueError(\"zero total weight\")\nweight_sum = sum(weights)\nshares = []\nfor w in weights:\n        portion = (w / weight_sum) * total\n        shares.append(portion if portion > minimum else minimum)\nif floor_to_int:\n        # BUG: floors without distributing the remainder.\n        return [int(v) for v in shares]\nreturn shares",
+                        "returns": "shares",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "sum(weights) == 0",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"zero total weight\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (sum(weights) == 0)",
+                        "body_contains": "weight_sum = sum(weights)\nshares = []\nfor w in weights:\n        portion = (w / weight_sum) * total\n        shares.append(portion if portion > minimum else minimum)\nif floor_to_int:\n        # BUG: floors without distributing the remainder.\n        return [int(v) for v in shares]\nreturn shares",
+                        "returns": "shares",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "floor_to_int",
+                        "branches": null,
+                        "body_contains": "return [int(v) for v in shares]",
+                        "returns": "[int(v) for v in shares]",
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (floor_to_int)",
+                        "body_contains": "return shares",
+                        "returns": "shares",
+                        "early_exit": false
+                    }
+                ]
+            ],
+            "returns": "shares"
+        }
+    ]
+}

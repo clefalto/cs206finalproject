@@ -1,0 +1,32 @@
+{
+    "functions": [
+        {
+            "name": "time_range_filter",
+            "parameters": [
+                "points",
+                "start",
+                "end"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "start >= end",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"invalid range\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (start >= end)",
+                        "body_contains": "# BUG: includes end boundary, making it [start, end].\nreturn [p for p in points if start <= p[0] <= end]",
+                        "returns": "[p for p in points if start <= p[0] <= end]",
+                        "early_exit": false
+                    }
+                ]
+            ],
+            "returns": "[p for p in points if start <= p[0] <= end]"
+        }
+    ]
+}

@@ -1,0 +1,4 @@
+# file: /home/clef/hw/cs206/project/errorfultests/../dataset/python_programs/shift_risk.py
+# hypothesis_version: 6.151.9
+
+[0.3, 'empty allocation', 'shape mismatch']

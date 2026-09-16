@@ -1,0 +1,51 @@
+[
+  {
+    "scope": "branch",
+    "function": "request_token_bucket",
+    "condition": "rate <= 0 or capacity <= 0",
+    "property": "invalid_rate_or_capacity",
+    "formal": "raise ValueError(\"invalid rate/capacity\")"
+  },
+  {
+    "scope": "branch",
+    "function": "request_token_bucket",
+    "condition": "available <= 0",
+    "property": "no_token_available",
+    "formal": "return False"
+  },
+  {
+    "scope": "function",
+    "function": "request_token_bucket",
+    "property": "token_consumption",
+    "precondition": "rate > 0 and capacity > 0 and available > 0",
+    "formal": "tokens[\"available\"] = available - 1 and tokens[\"last\"] = now and return True"
+  },
+  {
+    "scope": "function",
+    "function": "request_token_bucket",
+    "property": "token_refill",
+    "precondition": "rate > 0 and capacity > 0",
+    "formal": "available = min(capacity, available + int((now - last) * rate))"
+  },
+  {
+    "scope": "function",
+    "function": "request_token_bucket",
+    "property": "capacity_limit",
+    "precondition": "rate > 0 and capacity > 0",
+    "formal": "available <= capacity"
+  },
+  {
+    "scope": "function",
+    "function": "request_token_bucket",
+    "property": "non_negative_tokens",
+    "precondition": "rate > 0 and capacity > 0",
+    "formal": "available >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "request_token_bucket",
+    "property": "monotonic_time_update",
+    "precondition": "rate > 0 and capacity > 0 and available > 0",
+    "formal": "tokens[\"last\"] = now and now >= previous_now"
+  }
+]

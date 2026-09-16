@@ -1,0 +1,72 @@
+[
+  {
+    "scope": "branch",
+    "function": "payment_payout",
+    "condition": "not ratios",
+    "property": "empty_ratios_error",
+    "formal": "payment_payout(amount, []) raises ValueError('ratios required')"
+  },
+  {
+    "scope": "branch",
+    "function": "payment_payout",
+    "condition": "amount < 0",
+    "property": "negative_amount_error",
+    "formal": "payment_payout(negative_amount, ratios) raises ValueError('negative amount')"
+  },
+  {
+    "scope": "branch",
+    "function": "payment_payout",
+    "condition": "total_ratio <= 0",
+    "property": "invalid_ratios_error",
+    "formal": "payment_payout(amount, ratios) raises ValueError('invalid ratios') when sum(ratios) <= 0"
+  },
+  {
+    "scope": "function",
+    "function": "payment_payout",
+    "property": "fee_deduction_bug",
+    "formal": "payment_payout(amount, ratios) returns [s - fee for s in shares]",
+    "precondition": "amount >= 0 and sum(ratios) > 0"
+  },
+  {
+    "scope": "function",
+    "function": "payment_payout",
+    "property": "proportional_distribution",
+    "formal": "sum(shares) == amount when fee == 0",
+    "precondition": "amount >= 0 and sum(ratios) > 0"
+  },
+  {
+    "scope": "function",
+    "function": "payment_payout",
+    "property": "ratio_proportionality",
+    "formal": "shares[i] / shares[j] == ratios[i] / ratios[j] when fee == 0",
+    "precondition": "amount >= 0 and sum(ratios) > 0 and ratios[i] != 0 and ratios[j] != 0"
+  },
+  {
+    "scope": "function",
+    "function": "payment_payout",
+    "property": "non_negative_shares",
+    "formal": "all(s >= 0 for s in shares) when fee == 0",
+    "precondition": "amount >= 0 and sum(ratios) > 0 and all(r >= 0 for r in ratios)"
+  },
+  {
+    "scope": "function",
+    "function": "payment_payout",
+    "property": "zero_amount_zero_shares",
+    "formal": "payment_payout(0, ratios) == [0 for _ in ratios]",
+    "precondition": "sum(ratios) > 0"
+  },
+  {
+    "scope": "function",
+    "function": "payment_payout",
+    "property": "single_ratio_full_amount",
+    "formal": "payment_payout(amount, [1]) == [amount - fee]",
+    "precondition": "amount >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "payment_payout",
+    "property": "linear_scaling",
+    "formal": "payment_payout(k * amount, ratios) == [k * s for s in payment_payout(amount, ratios)] + [k * fee - fee for _ in ratios]",
+    "precondition": "amount >= 0 and sum(ratios) > 0 and k > 0"
+  }
+]

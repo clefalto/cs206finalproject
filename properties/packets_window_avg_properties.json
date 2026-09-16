@@ -1,0 +1,65 @@
+[
+  {
+    "scope": "branch",
+    "function": "packets_window_avg",
+    "condition": "window <= 0",
+    "property": "invalid_window_size",
+    "formal": "packets_window_avg(values) raises ValueError(\"window must be positive\")"
+  },
+  {
+    "scope": "branch",
+    "function": "packets_window_avg",
+    "condition": "not values",
+    "property": "empty_values_error",
+    "formal": "packets_window_avg(values) raises ValueError(\"no values\")"
+  },
+  {
+    "scope": "branch",
+    "function": "packets_window_avg",
+    "condition": "len(recent) < warmup_min",
+    "property": "insufficient_warmup",
+    "formal": "packets_window_avg(values) returns None"
+  },
+  {
+    "scope": "function",
+    "function": "packets_window_avg",
+    "property": "positive_window_requirement",
+    "precondition": "window > 0",
+    "formal": "packets_window_avg(values) does not raise ValueError for window size"
+  },
+  {
+    "scope": "function",
+    "function": "packets_window_avg",
+    "property": "non_empty_values_requirement",
+    "precondition": "values is not empty",
+    "formal": "packets_window_avg(values) does not raise ValueError for empty values"
+  },
+  {
+    "scope": "function",
+    "function": "packets_window_avg",
+    "property": "mean_calculation",
+    "precondition": "window > 0 and values is not empty and len(recent) >= warmup_min",
+    "formal": "packets_window_avg(values) returns mean where mean = sum(recent) / window"
+  },
+  {
+    "scope": "function",
+    "function": "packets_window_avg",
+    "property": "window_slicing",
+    "precondition": "window > 0 and values is not empty",
+    "formal": "recent = values[-window:]"
+  },
+  {
+    "scope": "function",
+    "function": "packets_window_avg",
+    "property": "total_summation",
+    "precondition": "window > 0 and values is not empty",
+    "formal": "total = sum(recent)"
+  },
+  {
+    "scope": "function",
+    "function": "packets_window_avg",
+    "property": "warmup_min_check",
+    "precondition": "window > 0 and values is not empty",
+    "formal": "if len(recent) < warmup_min then packets_window_avg(values) returns None"
+  }
+]

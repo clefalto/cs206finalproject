@@ -1,0 +1,79 @@
+[
+  {
+    "scope": "branch",
+    "function": "storage_mix",
+    "condition": "len(current) != len(target)",
+    "property": "shape_mismatch_error",
+    "formal": "storage_mix(current, target) raises ValueError(\"shape mismatch\")"
+  },
+  {
+    "scope": "branch",
+    "function": "storage_mix",
+    "condition": "not current",
+    "property": "empty_allocation_error",
+    "formal": "storage_mix(current, target) raises ValueError(\"empty allocation\")"
+  },
+  {
+    "scope": "function",
+    "function": "storage_mix",
+    "property": "shape_consistency",
+    "precondition": "len(current) == len(target) and current != []",
+    "formal": "len(storage_mix(current, target)) == len(current)"
+  },
+  {
+    "scope": "function",
+    "function": "storage_mix",
+    "property": "linear_interpolation",
+    "precondition": "len(current) == len(target) and current != []",
+    "formal": "storage_mix(current, target)[i] == current[i] + (target[i] - current[i]) * damping for all i"
+  },
+  {
+    "scope": "function",
+    "function": "storage_mix",
+    "property": "damping_factor_effect",
+    "precondition": "len(current) == len(target) and current != []",
+    "formal": "if damping == 0 then storage_mix(current, target) == current"
+  },
+  {
+    "scope": "function",
+    "function": "storage_mix",
+    "property": "damping_factor_effect",
+    "precondition": "len(current) == len(target) and current != []",
+    "formal": "if damping == 1 then storage_mix(current, target) == target"
+  },
+  {
+    "scope": "function",
+    "function": "storage_mix",
+    "property": "monotonicity_preservation",
+    "precondition": "len(current) == len(target) and current != [] and 0 <= damping <= 1",
+    "formal": "min(current[i], target[i]) <= storage_mix(current, target)[i] <= max(current[i], target[i]) for all i"
+  },
+  {
+    "scope": "function",
+    "function": "storage_mix",
+    "property": "no_renormalization_bug",
+    "precondition": "len(current) == len(target) and current != []",
+    "formal": "sum(storage_mix(current, target)) != 1 (when sum(current) == 1 and sum(target) == 1)"
+  },
+  {
+    "scope": "function",
+    "function": "storage_mix",
+    "property": "preserves_zero_entries",
+    "precondition": "len(current) == len(target) and current != [] and current[i] == 0",
+    "formal": "storage_mix(current, target)[i] == target[i] * damping"
+  },
+  {
+    "scope": "function",
+    "function": "storage_mix",
+    "property": "preserves_target_entries",
+    "precondition": "len(current) == len(target) and current != [] and target[i] == current[i]",
+    "formal": "storage_mix(current, target)[i] == current[i]"
+  },
+  {
+    "scope": "function",
+    "function": "storage_mix",
+    "property": "bounded_adjustment",
+    "precondition": "len(current) == len(target) and current != [] and 0 <= damping <= 1",
+    "formal": "abs(storage_mix(current, target)[i] - current[i]) <= abs(target[i] - current[i]) for all i"
+  }
+]

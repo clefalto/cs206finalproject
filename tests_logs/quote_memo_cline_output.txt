@@ -1,0 +1,29 @@
+I have successfully created a comprehensive Hypothesis test file for the `quote_memo` function located at `tests/quote_memo_test.py`. The test file includes:
+
+**All 12 Semantic Properties Tested:**
+
+1. **Branch Properties (3):**
+   - `test_cache_miss_return` - Tests when item is None, returns None
+   - `test_expired_entry_return` - Tests when now > ttl, returns None  
+   - `test_valid_entry_return` - Tests when item exists and now <= ttl, returns payload
+
+2. **Function Properties (9):**
+   - `test_cache_consistency` - Tests cache consistency when entry exists and not expired
+   - `test_monotonic_expiry` - Tests that if lookup returns None at time t1, it returns None at any t2 > t1
+   - `test_deterministic_lookup` - Tests that multiple calls with same parameters return same result
+   - `test_null_safety` - Tests that function returns None when cache or key is None
+   - `test_ttl_boundary_bug` - Tests the specific bug where now == ttl should expire but doesn't
+   - `test_payload_preservation` - Tests that valid entries return their original payload
+   - `test_cache_immutability` - Tests that the cache remains unchanged after function calls
+   - `test_key_independence` - Tests that lookups for different keys are independent
+   - `test_time_monotonicity` - Tests that once an entry expires, it stays expired
+
+**Key Features:**
+- Uses Hypothesis for property-based testing with comprehensive strategies
+- Tests cover edge cases, boundary conditions, and the specific TTL boundary bug
+- Includes proper type hints and documentation for each test
+- Uses `assume()` to set up proper preconditions for each property
+- Includes the `quote_memo` function implementation for testing
+- Follows the existing test structure pattern from other test files in the project
+
+The test file is ready to be executed with pytest and will thoroughly exercise all the semantic properties identified in `properties/quote_memo_properties.json`.

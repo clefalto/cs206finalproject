@@ -1,0 +1,26 @@
+Successfully created comprehensive Hypothesis-based tests for the quota_for_fuel function. The test file `tests/quota_for_fuel_test.py` contains 19 test methods that exercise all the semantic properties identified in `properties/quota_for_fuel_properties.json`:
+
+**Branch Property Tests:**
+- `test_negative_total_error` - Tests error handling for negative total values
+- `test_negative_minimum_error` - Tests error handling for negative minimum values  
+- `test_empty_weights_error` - Tests error handling for empty weights list
+- `test_zero_weights_error` - Tests error handling for all-zero weights
+- `test_valid_input_allocation` - Tests valid input allocation behavior
+
+**Function Property Tests:**
+- `test_minimum_allocation_guarantee` - Ensures minimum allocation guarantee
+- `test_allocation_length_preservation` - Verifies allocation length matches weights length
+- `test_non_negative_allocations` - Ensures all allocations are non-negative
+- `test_integer_allocations` - Verifies all allocations are integers
+- `test_allocation_sum_bound` - Tests that sum of allocations doesn't exceed total
+- `test_minimum_sum_bound` - Tests that sum meets minimum requirements
+- `test_proportional_allocation_tendency` - Tests proportional allocation for large totals
+- `test_monotonicity_in_total` - Tests monotonic behavior with respect to total
+- `test_monotonicity_in_minimum` - Tests monotonic behavior with respect to minimum
+- `test_error_on_negative_total` - Tests specific error message for negative total
+- `test_error_on_negative_minimum` - Tests specific error message for negative minimum
+- `test_error_on_empty_weights` - Tests specific error message for empty weights
+- `test_error_on_zero_weights` - Tests specific error message for zero weights
+- `test_allocation_truncation_bug` - Tests for the identified truncation bug
+
+The tests use Hypothesis strategies to generate comprehensive test data and include proper assumptions to filter invalid test cases. All tests are structured to verify the formal specifications provided in the properties JSON file.

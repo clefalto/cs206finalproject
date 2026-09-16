@@ -1,0 +1,34 @@
+I have successfully created a comprehensive test file `tests/schedule_window_test.py` using the Hypothesis testing framework that exercises all 10 semantic properties identified in `properties/schedule_window_properties.json`.
+
+**Key Features of the Test Suite:**
+
+1. **Complete Property Coverage**: All 10 semantic properties are tested:
+   - `invalid_interval_detection` - Tests ValueError for invalid intervals (start >= end)
+   - `overlap_detection` - Tests overlap detection and False return
+   - `interval_validation` - Tests interval validation with ValueError
+   - `overlap_preservation` - Tests successful scheduling with sorted output
+   - `sorted_output` - Tests that results are always sorted
+   - `interval_addition` - Tests that new intervals are properly added
+   - `overlap_rejection` - Tests rejection of overlapping intervals
+   - `touching_endpoint_overlap_bug` - Tests the specific bug with touching endpoints
+   - `non_destructive_on_failure` - Tests that original list is preserved on failure
+   - `successful_scheduling` - Tests successful scheduling scenarios
+
+2. **Hypothesis-Based Testing**: Uses property-based testing with sophisticated strategies:
+   - `valid_interval`: Generates valid time intervals with proper ordering
+   - `invalid_interval`: Generates invalid intervals for error testing
+   - `sorted_non_overlapping_intervals`: Generates valid test data for precondition testing
+
+3. **Edge Case Coverage**: Additional edge case tests for:
+   - Empty existing lists
+   - Single interval scenarios
+   - Touching endpoints
+   - Identical intervals
+   - Zero-length intervals
+   - Negative time values
+
+4. **Proper Import Structure**: Correctly imports the actual `schedule_window` function from `dataset/python_programs/schedule_window.py`
+
+5. **Comprehensive Assertions**: Each test verifies the exact formal specifications from the properties file, ensuring the implementation matches the expected behavior.
+
+The test file is ready to run with pytest and will thoroughly exercise the `schedule_window` function against all identified semantic properties using Hypothesis's property-based testing approach.

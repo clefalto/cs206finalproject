@@ -1,0 +1,72 @@
+[
+  {
+    "scope": "branch",
+    "function": "calendar_slot_insert",
+    "condition": "start >= end",
+    "property": "invalid_slot_raises_error",
+    "formal": "calendar_slot_insert(existing, (start, end)) raises ValueError when start >= end"
+  },
+  {
+    "scope": "branch",
+    "function": "calendar_slot_insert",
+    "condition": "not (end <= s or start >= e)",
+    "property": "overlap_detection",
+    "formal": "calendar_slot_insert(existing, slot) returns (False, list(existing)) when slot overlaps with any existing slot"
+  },
+  {
+    "scope": "function",
+    "function": "calendar_slot_insert",
+    "property": "validity_preservation",
+    "precondition": "start < end",
+    "formal": "calendar_slot_insert(existing, (start, end)) does not raise ValueError when start < end"
+  },
+  {
+    "scope": "function",
+    "function": "calendar_slot_insert",
+    "property": "non_overlapping_insertion",
+    "precondition": "start < end and not any(not (end <= s or start >= e) for s, e in existing)",
+    "formal": "calendar_slot_insert(existing, (start, end)) returns (True, sorted(existing + [(start, end)])) when slot is valid and non-overlapping"
+  },
+  {
+    "scope": "function",
+    "function": "calendar_slot_insert",
+    "property": "sorted_output",
+    "precondition": "True",
+    "formal": "calendar_slot_insert(existing, slot)[1] is sorted for all valid inputs"
+  },
+  {
+    "scope": "function",
+    "function": "calendar_slot_insert",
+    "property": "immutability_preservation",
+    "precondition": "True",
+    "formal": "calendar_slot_insert(existing, slot) does not modify the original existing list"
+  },
+  {
+    "scope": "function",
+    "function": "calendar_slot_insert",
+    "property": "overlap_detection_correctness",
+    "precondition": "start < end",
+    "formal": "calendar_slot_insert(existing, (start, end)) returns False if and only if (start, end) overlaps with some (s, e) in existing"
+  },
+  {
+    "scope": "function",
+    "function": "calendar_slot_insert",
+    "property": "identity_on_empty",
+    "precondition": "len(existing) == 0 and start < end",
+    "formal": "calendar_slot_insert([], (start, end)) == (True, [(start, end)]) when start < end"
+  },
+  {
+    "scope": "function",
+    "function": "calendar_slot_insert",
+    "property": "monotonicity",
+    "precondition": "start < end and not any(not (end <= s or start >= e) for s, e in existing)",
+    "formal": "len(calendar_slot_insert(existing, (start, end))[1]) == len(existing) + 1 when slot is valid and non-overlapping"
+  },
+  {
+    "scope": "function",
+    "function": "calendar_slot_insert",
+    "property": "boundary_touching_overlap_bug",
+    "precondition": "start < end",
+    "formal": "calendar_slot_insert(existing, (start, end)) returns False when end == s or start == e (touching endpoints treated as overlap)"
+  }
+]

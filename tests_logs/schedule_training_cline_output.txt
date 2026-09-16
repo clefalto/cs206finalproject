@@ -1,0 +1,17 @@
+I have successfully created a comprehensive test file for the schedule_training function using the Hypothesis testing framework. The test file `tests/schedule_training_test.py` contains:
+
+**Test Coverage:**
+- **Branch-level properties**: Tests for invalid interval detection, valid interval processing, overlap detection, and no overlap confirmation
+- **Function-level properties**: Tests for interval validation, overlap detection, sorted output, interval addition, immutability preservation, return format, touching endpoint overlap, and empty existing handling
+- **Edge cases**: Tests for empty existing lists, identical intervals, adjacent intervals, and small scenario coverage
+
+**Key Features:**
+- Uses Hypothesis strategies (`lists`, `tuples`, `integers`) for property-based testing
+- Each test method corresponds to a specific semantic property from the JSON file
+- Includes proper preconditions and formal specifications in docstrings
+- Tests both positive and negative cases (success and failure scenarios)
+- Validates the bug where intervals touching at endpoints are treated as overlapping
+- Ensures immutability of the original existing list
+- Verifies sorted output and correct return format
+
+The test file is saved in the `tests` directory with the `_test.py` suffix as requested, and is ready for execution with pytest and the Hypothesis framework.

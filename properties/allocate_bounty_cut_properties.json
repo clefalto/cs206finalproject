@@ -1,0 +1,72 @@
+[
+  {
+    "scope": "branch",
+    "function": "allocate_bounty_cut",
+    "condition": "len(ratios) == 0",
+    "property": "raises_no_ratios_error",
+    "formal": "if len(ratios) == 0 then raise ValueError(\"no ratios\")"
+  },
+  {
+    "scope": "branch",
+    "function": "allocate_bounty_cut",
+    "condition": "sum(ratios) <= 0",
+    "property": "raises_invalid_ratios_error",
+    "formal": "if sum(ratios) <= 0 then raise ValueError(\"invalid ratios\")"
+  },
+  {
+    "scope": "branch",
+    "function": "allocate_bounty_cut",
+    "condition": "amount < 0",
+    "property": "raises_negative_amount_error",
+    "formal": "if amount < 0 then raise ValueError(\"negative amount\")"
+  },
+  {
+    "scope": "function",
+    "function": "allocate_bounty_cut",
+    "property": "non_empty_ratios",
+    "precondition": "len(ratios) > 0",
+    "formal": "len(ratios) > 0"
+  },
+  {
+    "scope": "function",
+    "function": "allocate_bounty_cut",
+    "property": "positive_ratios_sum",
+    "precondition": "sum(ratios) > 0",
+    "formal": "sum(ratios) > 0"
+  },
+  {
+    "scope": "function",
+    "function": "allocate_bounty_cut",
+    "property": "non_negative_amount",
+    "precondition": "amount >= 0",
+    "formal": "amount >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "allocate_bounty_cut",
+    "property": "proportional_allocation",
+    "precondition": "len(ratios) > 0 and sum(ratios) > 0 and amount >= 0",
+    "formal": "base[i] = (ratios[i] / sum(ratios)) * amount for all i"
+  },
+  {
+    "scope": "function",
+    "function": "allocate_bounty_cut",
+    "property": "fee_deduction",
+    "precondition": "len(ratios) > 0 and sum(ratios) > 0 and amount >= 0",
+    "formal": "result[i] = base[i] - fee for all i"
+  },
+  {
+    "scope": "function",
+    "function": "allocate_bounty_cut",
+    "property": "total_allocation",
+    "precondition": "len(ratios) > 0 and sum(ratios) > 0 and amount >= 0",
+    "formal": "sum(result) = amount - len(ratios) * fee"
+  },
+  {
+    "scope": "function",
+    "function": "allocate_bounty_cut",
+    "property": "non_negative_shares",
+    "precondition": "len(ratios) > 0 and sum(ratios) > 0 and amount >= 0 and fee <= min(base)",
+    "formal": "result[i] >= 0 for all i"
+  }
+]

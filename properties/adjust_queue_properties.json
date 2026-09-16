@@ -1,0 +1,58 @@
+[
+  {
+    "scope": "branch",
+    "function": "adjust_queue",
+    "condition": "len(current) != len(target)",
+    "property": "shape_mismatch_error",
+    "formal": "len(current) != len(target) => raise ValueError(\"shape mismatch\")"
+  },
+  {
+    "scope": "branch",
+    "function": "adjust_queue",
+    "condition": "not current",
+    "property": "empty_allocation_error",
+    "formal": "not current => raise ValueError(\"empty allocation\")"
+  },
+  {
+    "scope": "function",
+    "function": "adjust_queue",
+    "property": "shape_consistency",
+    "precondition": "len(current) == len(target)",
+    "formal": "len(adjust_queue(current, target)) == len(current)"
+  },
+  {
+    "scope": "function",
+    "function": "adjust_queue",
+    "property": "non_empty_input",
+    "precondition": "current != []",
+    "formal": "current != [] => adjust_queue(current, target) != []"
+  },
+  {
+    "scope": "function",
+    "function": "adjust_queue",
+    "property": "linear_interpolation",
+    "precondition": "len(current) == len(target) and current != []",
+    "formal": "adjust_queue(current, target)[i] == current[i] + (target[i] - current[i]) * damping for all i"
+  },
+  {
+    "scope": "function",
+    "function": "adjust_queue",
+    "property": "damping_factor_effect",
+    "precondition": "len(current) == len(target) and current != []",
+    "formal": "damping == 0 => adjust_queue(current, target) == current and damping == 1 => adjust_queue(current, target) == target"
+  },
+  {
+    "scope": "function",
+    "function": "adjust_queue",
+    "property": "monotonicity_preservation",
+    "precondition": "len(current) == len(target) and current != [] and 0 <= damping <= 1",
+    "formal": "current[i] <= target[i] for all i => adjust_queue(current, target)[i] is between current[i] and target[i] for all i"
+  },
+  {
+    "scope": "function",
+    "function": "adjust_queue",
+    "property": "total_drift",
+    "precondition": "len(current) == len(target) and current != []",
+    "formal": "sum(adjust_queue(current, target)) != sum(current) in general (due to missing normalization)"
+  }
+]

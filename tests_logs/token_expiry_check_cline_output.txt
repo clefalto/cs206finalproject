@@ -1,0 +1,23 @@
+I have successfully created a comprehensive test suite for the `token_expiry_check` function using the Hypothesis testing framework. The test file `tests/token_expiry_check_test.py` contains:
+
+**Core Semantic Property Tests (7 tests):**
+1. `test_no_token_found` - Tests the "no_token_found" branch property when record is None
+2. `test_expired_token` - Tests the "expired_token" branch property when now > expires_at
+3. `test_valid_token_return` - Tests the "valid_token_return" function property for valid tokens
+4. `test_token_expiry_boundary` - Tests the "token_expiry_boundary" property at exact expiry time
+5. `test_monotonic_expiry` - Tests the "monotonic_expiry" property ensuring tokens don't expire backwards
+6. `test_key_independence` - Tests the "key_independence" property for identical token records
+7. `test_deterministic` - Tests the "deterministic" property ensuring consistent results
+
+**Additional Edge Case Tests (3 tests):**
+8. `test_empty_tokens_dict` - Tests behavior with empty tokens dictionary
+9. `test_future_expiry` - Tests tokens with future expiry times
+10. `test_past_expiry` - Tests tokens with past expiry times
+
+The test suite uses Hypothesis strategies to generate comprehensive test cases:
+- Dictionary generation for tokens with string keys and (value, expiry) tuples
+- Integer generation for timestamps and expiry times
+- Text generation for keys and values
+- Proper use of `assume()` to enforce preconditions for each test
+
+All tests are designed to exercise the semantic properties identified in `properties/token_expiry_check_properties.json` and verify the correct behavior of the token expiry checking logic.

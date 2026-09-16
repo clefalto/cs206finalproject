@@ -1,0 +1,31 @@
+{
+    "functions": [
+        {
+            "name": "login_tally",
+            "parameters": [
+                "counters",
+                "key"
+            ],
+            "branches": [
+                {
+                    "type": "if",
+                    "condition": "cap is not None",
+                    "branches": [
+                        {
+                            "type": "if",
+                            "condition": "updated > cap",
+                            "branches": null,
+                            "body_contains": "updated = cap",
+                            "returns": null,
+                            "early_exit": false
+                        }
+                    ],
+                    "body_contains": "if updated > cap:\n            updated = cap",
+                    "returns": null,
+                    "early_exit": false
+                }
+            ],
+            "returns": "updated"
+        }
+    ]
+}

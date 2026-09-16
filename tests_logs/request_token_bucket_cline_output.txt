@@ -1,0 +1,26 @@
+I have successfully created a comprehensive test file for the `request_token_bucket` function using the Hypothesis testing framework. The test file `tests/request_token_bucket_test.py` contains tests that exercise all 7 semantic properties identified in `properties/request_token_bucket_properties.json`:
+
+**Test Coverage:**
+
+1. **Branch Property - Invalid Rate/Capacity**: Tests that `rate <= 0 or capacity <= 0` raises `ValueError("invalid rate/capacity")`
+
+2. **Branch Property - No Token Available**: Tests that `available <= 0` returns `False`
+
+3. **Function Property - Token Consumption**: Tests that when `rate > 0 and capacity > 0 and available > 0`, the function updates `tokens["available"] = available - 1`, `tokens["last"] = now`, and returns `True`
+
+4. **Function Property - Token Refill**: Tests the refill logic `available = min(capacity, available + int((now - last) * rate))`
+
+5. **Function Property - Capacity Limit**: Tests that `available <= capacity` is always maintained
+
+6. **Function Property - Non-negative Tokens**: Tests that `available >= 0` is always maintained
+
+7. **Function Property - Monotonic Time Update**: Tests that `tokens["last"] = now` and `now >= previous_now` when tokens are consumed
+
+**Additional Test Features:**
+- Edge case tests for zero and negative rate/capacity values
+- Multiple consecutive call behavior testing
+- Default initial state testing (empty tokens dict)
+- Comprehensive property-based testing using Hypothesis strategies
+- Proper assumptions to ensure valid test conditions
+
+The test file is ready to be executed with pytest and will thoroughly validate all the semantic properties of the token bucket implementation.

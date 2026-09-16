@@ -1,0 +1,49 @@
+{
+    "functions": [
+        {
+            "name": "session_memo",
+            "parameters": [
+                "store",
+                "key",
+                "now"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "record is None",
+                        "branches": null,
+                        "body_contains": "return default",
+                        "returns": "default",
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (record is None)",
+                        "body_contains": "value, deadline = record\n# BUG: boundary value at deadline is treated as valid.\nif now > deadline:\n        return default\nreturn value",
+                        "returns": "value",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "now > deadline",
+                        "branches": null,
+                        "body_contains": "return default",
+                        "returns": "default",
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (now > deadline)",
+                        "body_contains": "return value",
+                        "returns": "value",
+                        "early_exit": false
+                    }
+                ]
+            ],
+            "returns": "value"
+        }
+    ]
+}

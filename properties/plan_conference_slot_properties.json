@@ -1,0 +1,58 @@
+[
+  {
+    "scope": "branch",
+    "function": "plan_conference_slot",
+    "condition": "candidate[0] >= candidate[1]",
+    "property": "invalid_interval_rejection",
+    "formal": "if candidate[0] >= candidate[1] then ValueError is raised"
+  },
+  {
+    "scope": "branch",
+    "function": "plan_conference_slot",
+    "condition": "overlaps(slot, candidate)",
+    "property": "overlap_detection",
+    "formal": "if overlaps(slot, candidate) then return False, list(existing)"
+  },
+  {
+    "scope": "function",
+    "function": "plan_conference_slot",
+    "property": "valid_interval_acceptance",
+    "precondition": "candidate[0] < candidate[1]",
+    "formal": "if candidate[0] < candidate[1] then function proceeds to overlap checking"
+  },
+  {
+    "scope": "function",
+    "function": "plan_conference_slot",
+    "property": "non_overlapping_insertion",
+    "precondition": "candidate[0] < candidate[1] and no slot in existing overlaps with candidate",
+    "formal": "if no slot in existing overlaps with candidate then return True, sorted(existing + [candidate])"
+  },
+  {
+    "scope": "function",
+    "function": "plan_conference_slot",
+    "property": "sorted_output",
+    "precondition": "candidate[0] < candidate[1] and no slot in existing overlaps with candidate",
+    "formal": "merged list is sorted by start time"
+  },
+  {
+    "scope": "function",
+    "function": "plan_conference_slot",
+    "property": "existing_preservation",
+    "precondition": "candidate[0] < candidate[1] and no slot in existing overlaps with candidate",
+    "formal": "all elements from existing are preserved in output"
+  },
+  {
+    "scope": "function",
+    "function": "plan_conference_slot",
+    "property": "candidate_inclusion",
+    "precondition": "candidate[0] < candidate[1] and no slot in existing overlaps with candidate",
+    "formal": "candidate is included in output when no overlap detected"
+  },
+  {
+    "scope": "function",
+    "function": "plan_conference_slot",
+    "property": "boundary_touch_overlap",
+    "precondition": "candidate[0] < candidate[1]",
+    "formal": "slots that touch at boundaries are considered overlapping due to BUG in overlaps function"
+  }
+]

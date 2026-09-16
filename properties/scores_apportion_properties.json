@@ -1,0 +1,79 @@
+[
+  {
+    "scope": "branch",
+    "function": "scores_apportion",
+    "condition": "total < 0",
+    "property": "invalid_total_error",
+    "formal": "if total < 0 then raise ValueError(\"total < 0\")"
+  },
+  {
+    "scope": "branch",
+    "function": "scores_apportion",
+    "condition": "minimum < 0",
+    "property": "invalid_minimum_error",
+    "formal": "if minimum < 0 then raise ValueError(\"minimum < 0\")"
+  },
+  {
+    "scope": "branch",
+    "function": "scores_apportion",
+    "condition": "not weights or sum(weights) == 0",
+    "property": "invalid_weights_error",
+    "formal": "if not weights or sum(weights) == 0 then raise ValueError(\"invalid weights\")"
+  },
+  {
+    "scope": "function",
+    "function": "scores_apportion",
+    "property": "non_negative_output",
+    "precondition": "total >= 0 and minimum >= 0 and weights is not empty and sum(weights) > 0",
+    "formal": "all(x >= 0 for x in scores_apportion(total, weights))"
+  },
+  {
+    "scope": "function",
+    "function": "scores_apportion",
+    "property": "minimum_enforcement",
+    "precondition": "total >= 0 and minimum >= 0 and weights is not empty and sum(weights) > 0",
+    "formal": "all(x >= minimum for x in scores_apportion(total, weights))"
+  },
+  {
+    "scope": "function",
+    "function": "scores_apportion",
+    "property": "integer_output",
+    "precondition": "total >= 0 and minimum >= 0 and weights is not empty and sum(weights) > 0",
+    "formal": "all(isinstance(x, int) for x in scores_apportion(total, weights))"
+  },
+  {
+    "scope": "function",
+    "function": "scores_apportion",
+    "property": "sum_conservation",
+    "precondition": "total >= 0 and minimum >= 0 and weights is not empty and sum(weights) > 0 and total >= minimum * len(weights)",
+    "formal": "sum(scores_apportion(total, weights)) == total"
+  },
+  {
+    "scope": "function",
+    "function": "scores_apportion",
+    "property": "proportional_allocation",
+    "precondition": "total >= 0 and minimum >= 0 and weights is not empty and sum(weights) > 0 and total >= minimum * len(weights)",
+    "formal": "scores_apportion(total, weights)[i] / weights[i] == scores_apportion(total, weights)[j] / weights[j] for all i, j where weights[i] > 0 and weights[j] > 0"
+  },
+  {
+    "scope": "function",
+    "function": "scores_apportion",
+    "property": "monotonicity",
+    "precondition": "total1 >= total2 >= 0 and minimum >= 0 and weights is not empty and sum(weights) > 0",
+    "formal": "scores_apportion(total1, weights)[i] >= scores_apportion(total2, weights)[i] for all i"
+  },
+  {
+    "scope": "function",
+    "function": "scores_apportion",
+    "property": "scale_invariance",
+    "precondition": "total >= 0 and minimum >= 0 and weights is not empty and sum(weights) > 0 and k > 0",
+    "formal": "scores_apportion(total, [k * w for w in weights]) == scores_apportion(total, weights)"
+  },
+  {
+    "scope": "function",
+    "function": "scores_apportion",
+    "property": "zero_weights_handling",
+    "precondition": "total >= 0 and minimum >= 0 and weights is not empty and sum(weights) > 0",
+    "formal": "if weights[i] == 0 then scores_apportion(total, weights)[i] == minimum"
+  }
+]

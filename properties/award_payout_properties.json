@@ -1,0 +1,51 @@
+[
+  {
+    "scope": "branch",
+    "function": "award_payout",
+    "condition": "not ratios",
+    "property": "empty_ratios_error",
+    "formal": "award_payout(amount, []) raises ValueError('ratios required')"
+  },
+  {
+    "scope": "branch",
+    "function": "award_payout",
+    "condition": "amount < 0",
+    "property": "negative_amount_error",
+    "formal": "award_payout(negative_amount, ratios) raises ValueError('negative amount')"
+  },
+  {
+    "scope": "branch",
+    "function": "award_payout",
+    "condition": "total_ratio <= 0",
+    "property": "invalid_ratios_error",
+    "formal": "award_payout(amount, ratios) raises ValueError('invalid ratios') when sum(ratios) <= 0"
+  },
+  {
+    "scope": "function",
+    "function": "award_payout",
+    "property": "fee_deduction",
+    "precondition": "ratios is not empty and amount >= 0 and sum(ratios) > 0",
+    "formal": "all(s == (r / sum(ratios)) * amount - fee for s, r in zip(award_payout(amount, ratios), ratios))"
+  },
+  {
+    "scope": "function",
+    "function": "award_payout",
+    "property": "proportional_distribution",
+    "precondition": "ratios is not empty and amount >= 0 and sum(ratios) > 0 and fee == 0",
+    "formal": "sum(award_payout(amount, ratios)) == amount"
+  },
+  {
+    "scope": "function",
+    "function": "award_payout",
+    "property": "non_negative_shares",
+    "precondition": "ratios is not empty and amount >= 0 and sum(ratios) > 0 and fee <= min((r / sum(ratios)) * amount for r in ratios)",
+    "formal": "all(s >= 0 for s in award_payout(amount, ratios))"
+  },
+  {
+    "scope": "function",
+    "function": "award_payout",
+    "property": "length_preservation",
+    "precondition": "ratios is not empty and amount >= 0 and sum(ratios) > 0",
+    "formal": "len(award_payout(amount, ratios)) == len(ratios)"
+  }
+]

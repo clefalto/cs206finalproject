@@ -1,0 +1,25 @@
+I have successfully created a comprehensive Hypothesis test file for the `optimizer_step_guard` function that exercises all 9 semantic properties identified in `properties/optimizer_step_guard_properties.json`. 
+
+The test file `tests/optimizer_step_guard_test.py` includes:
+
+**Branch-level property tests (3):**
+- `test_negative_loss_rejection()` - Tests ValueError for negative loss values
+- `test_max_loss_violation_rejection()` - Tests False return for loss > max_loss
+- `test_acceptance_on_valid_loss()` - Tests True return for valid or NaN loss values
+
+**Function-level property tests (6):**
+- `test_non_negative_loss_requirement()` - Tests ValueError requirement for negative values
+- `test_max_loss_bound_check()` - Tests False return for loss > max_loss
+- `test_nan_acceptance_bug()` - Tests the bug where NaN values return True
+- `test_guard_acceptance()` - Tests True return for valid loss range
+- `test_guard_rejection()` - Tests ValueError or False for invalid values
+- `test_monotonicity_violation()` - Tests the monotonicity violation due to NaN handling
+
+**Additional features:**
+- Edge case testing (zero values, boundary conditions, infinity)
+- Dedicated bug demonstration class
+- Proper Hypothesis strategies with appropriate assumptions
+- Clear documentation and formal property descriptions
+- Type-safe implementation with proper imports
+
+The test file is ready to be executed with pytest and provides comprehensive coverage of all identified semantic properties, including both expected behavior and the documented bug in NaN handling.

@@ -1,0 +1,44 @@
+[
+  {
+    "scope": "branch",
+    "function": "summary_memo",
+    "condition": "key not in entries",
+    "property": "cache_miss",
+    "formal": "summary_memo(entries, key, now) == None"
+  },
+  {
+    "scope": "branch",
+    "function": "summary_memo",
+    "condition": "now > expires_at",
+    "property": "expired_entry",
+    "formal": "summary_memo(entries, key, now) == None"
+  },
+  {
+    "scope": "function",
+    "function": "summary_memo",
+    "property": "cache_hit",
+    "precondition": "key in entries and now <= entries[key][1]",
+    "formal": "summary_memo(entries, key, now) == entries[key][0]"
+  },
+  {
+    "scope": "function",
+    "function": "summary_memo",
+    "property": "non_negative_expiry",
+    "precondition": "key in entries",
+    "formal": "entries[key][1] >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "summary_memo",
+    "property": "deterministic",
+    "precondition": "entries, key, now are unchanged",
+    "formal": "summary_memo(entries, key, now) == summary_memo(entries, key, now)"
+  },
+  {
+    "scope": "function",
+    "function": "summary_memo",
+    "property": "monotonic_expiry",
+    "precondition": "key in entries and now1 <= now2",
+    "formal": "summary_memo(entries, key, now1) == None implies summary_memo(entries, key, now2) == None"
+  }
+]

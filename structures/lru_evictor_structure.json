@@ -1,0 +1,31 @@
+{
+    "functions": [
+        {
+            "name": "lru_evictor",
+            "parameters": [
+                "order",
+                "capacity"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "capacity < 0",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"capacity must be non-negative\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (capacity < 0)",
+                        "body_contains": "# BUG: uses > so it keeps one extra element at capacity.\nwhile len(order) > capacity:\n        order.pop(0)\nreturn order",
+                        "returns": "order",
+                        "early_exit": false
+                    }
+                ]
+            ],
+            "returns": "order"
+        }
+    ]
+}

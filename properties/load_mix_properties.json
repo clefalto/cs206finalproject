@@ -1,0 +1,51 @@
+[
+  {
+    "scope": "branch",
+    "function": "load_mix",
+    "condition": "len(current) != len(target)",
+    "property": "shape_mismatch_error",
+    "formal": "if len(current) != len(target) then raise ValueError(\"shape mismatch\")"
+  },
+  {
+    "scope": "branch",
+    "function": "load_mix",
+    "condition": "not current",
+    "property": "empty_allocation_error",
+    "formal": "if not current then raise ValueError(\"empty allocation\")"
+  },
+  {
+    "scope": "function",
+    "function": "load_mix",
+    "property": "linear_interpolation",
+    "precondition": "len(current) == len(target) and current is not empty",
+    "formal": "for all i, adjusted[i] = current[i] + (target[i] - current[i]) * damping"
+  },
+  {
+    "scope": "function",
+    "function": "load_mix",
+    "property": "length_preservation",
+    "precondition": "len(current) == len(target) and current is not empty",
+    "formal": "len(adjusted) == len(current) == len(target)"
+  },
+  {
+    "scope": "function",
+    "function": "load_mix",
+    "property": "damping_factor_application",
+    "precondition": "len(current) == len(target) and current is not empty",
+    "formal": "adjusted[i] interpolates between current[i] and target[i] based on damping factor"
+  },
+  {
+    "scope": "function",
+    "function": "load_mix",
+    "property": "no_normalization_bug",
+    "precondition": "len(current) == len(target) and current is not empty",
+    "formal": "sum(adjusted) may not equal sum(current) due to missing normalization"
+  },
+  {
+    "scope": "function",
+    "function": "load_mix",
+    "property": "monotonic_interpolation",
+    "precondition": "len(current) == len(target) and current is not empty and 0 <= damping <= 1",
+    "formal": "if damping in [0,1] then adjusted[i] is between current[i] and target[i]"
+  }
+]

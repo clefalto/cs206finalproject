@@ -1,0 +1,86 @@
+[
+  {
+    "scope": "branch",
+    "function": "log_sampling_decider",
+    "condition": "not (0 <= rate <= 1)",
+    "property": "invalid_rate_validation",
+    "formal": "if not (0 <= rate <= 1) then raise ValueError(\"rate must be in [0, 1]\")"
+  },
+  {
+    "scope": "branch",
+    "function": "log_sampling_decider",
+    "condition": "0 <= rate <= 1",
+    "property": "valid_rate_sampling",
+    "formal": "if 0 <= rate <= 1 then return bucket > rate where bucket = (hash(log_id) % 1000) / 1000.0"
+  },
+  {
+    "scope": "branch",
+    "function": "log_sampling_decider",
+    "condition": "rate == 0",
+    "property": "zero_rate_always_sample",
+    "formal": "if rate == 0 then return True (bucket > 0 for any bucket in [0, 1))"
+  },
+  {
+    "scope": "branch",
+    "function": "log_sampling_decider",
+    "condition": "rate == 1",
+    "property": "one_rate_never_sample",
+    "formal": "if rate == 1 then return False (bucket > 1 is impossible for bucket in [0, 1))"
+  },
+  {
+    "scope": "branch",
+    "function": "log_sampling_decider",
+    "condition": "0 < rate < 1",
+    "property": "inverted_sampling_behavior",
+    "formal": "if 0 < rate < 1 then return bucket > rate (inverted from expected bucket <= rate)"
+  },
+  {
+    "scope": "function",
+    "function": "log_sampling_decider",
+    "property": "rate_range_validation",
+    "precondition": "rate is provided",
+    "formal": "if not (0 <= rate <= 1) then raise ValueError(\"rate must be in [0, 1]\")"
+  },
+  {
+    "scope": "function",
+    "function": "log_sampling_decider",
+    "property": "deterministic_sampling",
+    "precondition": "0 <= rate <= 1",
+    "formal": "for same log_id and rate, always return same boolean result"
+  },
+  {
+    "scope": "function",
+    "function": "log_sampling_decider",
+    "property": "uniform_bucket_distribution",
+    "precondition": "0 <= rate <= 1",
+    "formal": "bucket = (hash(log_id) % 1000) / 1000.0 produces uniform distribution in [0, 1)"
+  },
+  {
+    "scope": "function",
+    "function": "log_sampling_decider",
+    "property": "boolean_return_type",
+    "precondition": "0 <= rate <= 1",
+    "formal": "always returns boolean value (True or False)"
+  },
+  {
+    "scope": "function",
+    "function": "log_sampling_decider",
+    "property": "inverted_rate_semantics",
+    "precondition": "0 <= rate <= 1",
+    "formal": "higher rate values result in lower sampling probability (bucket > rate)"
+  },
+  {
+    "scope": "function",
+    "function": "log_sampling_decider",
+    "property": "metamorphic_relation_rate_monotonicity",
+    "precondition": "0 <= rate1 <= rate2 <= 1 and same log_id",
+    "formal": "if rate1 <= rate2 then P(log_sampling_decider(log_id, rate1) = True) >= P(log_sampling_decider(log_id, rate2) = True)"
+  },
+  {
+    "scope": "function",
+    "function": "log_sampling_decider",
+    "property": "metamorphic_relation_log_id_independence",
+    "precondition": "0 <= rate <= 1 and log_id1 != log_id2",
+    "formal": "P(log_sampling_decider(log_id1, rate) = True) = P(log_sampling_decider(log_id2, rate) = True)"
+  }
+]

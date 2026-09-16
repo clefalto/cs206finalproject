@@ -1,0 +1,58 @@
+[
+  {
+    "scope": "branch",
+    "function": "limit_query",
+    "condition": "len(active) > limit",
+    "property": "rate_limited",
+    "formal": "limit_query(timestamps, now, window=window, limit=limit) == (False, 0)"
+  },
+  {
+    "scope": "branch",
+    "function": "limit_query",
+    "condition": "len(active) <= limit",
+    "property": "quota_available",
+    "formal": "limit_query(timestamps, now, window=window, limit=limit) == (True, limit - len(active))"
+  },
+  {
+    "scope": "function",
+    "function": "limit_query",
+    "property": "non_negative_quota",
+    "precondition": "True",
+    "formal": "limit_query(timestamps, now, window=window, limit=limit)[1] >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "limit_query",
+    "property": "boolean_allowance",
+    "precondition": "True",
+    "formal": "limit_query(timestamps, now, window=window, limit=limit)[0] in [True, False]"
+  },
+  {
+    "scope": "function",
+    "function": "limit_query",
+    "property": "quota_calculation",
+    "precondition": "len(active) <= limit",
+    "formal": "limit_query(timestamps, now, window=window, limit=limit)[1] == limit - len(active)"
+  },
+  {
+    "scope": "function",
+    "function": "limit_query",
+    "property": "window_filtering",
+    "precondition": "True",
+    "formal": "len([t for t in timestamps if t >= now - window]) == len(active)"
+  },
+  {
+    "scope": "function",
+    "function": "limit_query",
+    "property": "rate_limit_enforcement",
+    "precondition": "len(active) > limit",
+    "formal": "limit_query(timestamps, now, window=window, limit=limit) == (False, 0)"
+  },
+  {
+    "scope": "function",
+    "function": "limit_query",
+    "property": "allowance_when_within_limit",
+    "precondition": "len(active) <= limit",
+    "formal": "limit_query(timestamps, now, window=window, limit=limit)[0] == True"
+  }
+]

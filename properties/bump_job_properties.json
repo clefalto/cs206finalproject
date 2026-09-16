@@ -1,0 +1,44 @@
+[
+  {
+    "scope": "branch",
+    "function": "bump_job",
+    "condition": "cap is not None and counters[key] > cap",
+    "property": "cap_enforcement",
+    "formal": "counters[key] = cap"
+  },
+  {
+    "scope": "function",
+    "function": "bump_job",
+    "property": "key_preservation",
+    "precondition": "key in counters",
+    "formal": "counters[key] is counters[key]"
+  },
+  {
+    "scope": "function",
+    "function": "bump_job",
+    "property": "monotonicity",
+    "precondition": "counters[key] >= 0",
+    "formal": "counters[key] >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "bump_job",
+    "property": "cap_bound",
+    "precondition": "cap is not None",
+    "formal": "counters[key] <= cap"
+  },
+  {
+    "scope": "function",
+    "function": "bump_job",
+    "property": "identity_on_no_cap",
+    "precondition": "cap is None",
+    "formal": "counters[key] == counters[key]"
+  },
+  {
+    "scope": "function",
+    "function": "bump_job",
+    "property": "identity_on_no_exceed",
+    "precondition": "counters[key] <= cap",
+    "formal": "counters[key] == counters[key]"
+  }
+]

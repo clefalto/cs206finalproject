@@ -1,0 +1,17 @@
+I have successfully created a comprehensive test file for the `payment_split_rebate` function using the Hypothesis testing framework. The test file `tests/payment_split_rebate_test.py` contains tests for all 10 semantic properties identified in `properties/payment_split_rebate_properties.json`:
+
+**Branch-level error condition tests:**
+- `test_negative_total_error`: Tests that negative total raises ValueError("negative total")
+- `test_invalid_ratios_error`: Tests that invalid ratios (empty or sum <= 0) raises ValueError("invalid ratios")
+
+**Function-level behavioral property tests:**
+- `test_non_negative_total_property`: Verifies total >= 0 when precondition is met
+- `test_valid_ratios_property`: Verifies ratios are valid when precondition is met
+- `test_shares_sum_to_total_minus_rebate`: Tests that sum(shares) == total - len(ratios) * rebate
+- `test_shares_proportional_to_ratios`: Tests that shares[i] / ratios[i] == shares[j] / ratios[j] for all i, j
+- `test_shares_non_negative`: Tests that shares[i] >= 0 when rebate <= min(shares)
+- `test_shares_decrease_with_rebate`: Tests that shares[i] == original_shares[i] - rebate for all i
+- `test_shares_increase_with_total`: Tests monotonicity - shares increase as total increases
+- `test_shares_increase_with_ratio`: Tests monotonicity - shares increase as ratios[i] increases
+
+The tests use Hypothesis strategies to generate a wide range of test cases, include proper preconditions using `assume()`, and validate the mathematical relationships and error conditions specified in the semantic properties. The test file follows the same structure and patterns as the existing test files in the project.

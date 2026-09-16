@@ -1,0 +1,100 @@
+[
+  {
+    "scope": "branch",
+    "function": "probability_curve",
+    "condition": "x1 == x0",
+    "property": "degenerate_segment_error",
+    "formal": "probability_curve(x0, y0, x0, y1, x) raises ValueError"
+  },
+  {
+    "scope": "branch",
+    "function": "probability_curve",
+    "condition": "clamp and y < min(y0, y1)",
+    "property": "lower_bound_clamp",
+    "formal": "if clamp and y < min(y0, y1) then probability_curve(x0, y0, x1, y1, x, clamp=True) == min(y0, y1)"
+  },
+  {
+    "scope": "branch",
+    "function": "probability_curve",
+    "condition": "clamp and y > max(y0, y1)",
+    "property": "upper_bound_clamp",
+    "formal": "if clamp and y > max(y0, y1) then probability_curve(x0, y0, x1, y1, x, clamp=True) == max(y0, y1)"
+  },
+  {
+    "scope": "function",
+    "function": "probability_curve",
+    "property": "linear_interpolation",
+    "precondition": "x1 != x0",
+    "formal": "probability_curve(x0, y0, x1, y1, x) == y0 + ((x - x0) / (x1 - x0)) * (y1 - y0)"
+  },
+  {
+    "scope": "function",
+    "function": "probability_curve",
+    "property": "endpoint_interpolation",
+    "precondition": "x1 != x0",
+    "formal": "probability_curve(x0, y0, x1, y1, x0) == y0 and probability_curve(x0, y0, x1, y1, x1) == y1"
+  },
+  {
+    "scope": "function",
+    "function": "probability_curve",
+    "property": "clamp_range_preservation",
+    "precondition": "x1 != x0 and clamp",
+    "formal": "min(y0, y1) <= probability_curve(x0, y0, x1, y1, x, clamp=True) <= max(y0, y1)"
+  },
+  {
+    "scope": "function",
+    "function": "probability_curve",
+    "property": "clamp_identity",
+    "precondition": "x1 != x0 and not clamp",
+    "formal": "probability_curve(x0, y0, x1, y1, x, clamp=False) == probability_curve(x0, y0, x1, y1, x)"
+  },
+  {
+    "scope": "function",
+    "function": "probability_curve",
+    "property": "clamp_monotonicity",
+    "precondition": "x1 != x0 and clamp",
+    "formal": "if y0 <= y1 then probability_curve(x0, y0, x1, y1, x, clamp=True) is monotonically increasing in x"
+  },
+  {
+    "scope": "function",
+    "function": "probability_curve",
+    "property": "clamp_anti_monotonicity",
+    "precondition": "x1 != x0 and clamp",
+    "formal": "if y0 >= y1 then probability_curve(x0, y0, x1, y1, x, clamp=True) is monotonically decreasing in x"
+  },
+  {
+    "scope": "function",
+    "function": "probability_curve",
+    "property": "clamp_idempotence",
+    "precondition": "x1 != x0 and clamp",
+    "formal": "probability_curve(x0, y0, x1, y1, x, clamp=True) == probability_curve(x0, y0, x1, y1, x, clamp=True)"
+  },
+  {
+    "scope": "function",
+    "function": "probability_curve",
+    "property": "clamp_boundary_preservation",
+    "precondition": "x1 != x0 and clamp",
+    "formal": "probability_curve(x0, y0, x1, y1, x0, clamp=True) == y0 and probability_curve(x0, y0, x1, y1, x1, clamp=True) == y1"
+  },
+  {
+    "scope": "function",
+    "function": "probability_curve",
+    "property": "clamp_linear_interpolation",
+    "precondition": "x1 != x0 and clamp and min(y0, y1) <= y <= max(y0, y1)",
+    "formal": "if min(y0, y1) <= y <= max(y0, y1) then probability_curve(x0, y0, x1, y1, x, clamp=True) == y0 + ((x - x0) / (x1 - x0)) * (y1 - y0)"
+  },
+  {
+    "scope": "function",
+    "function": "probability_curve",
+    "property": "clamp_range_independence",
+    "precondition": "x1 != x0 and clamp",
+    "formal": "clamp behavior depends only on y0, y1 values, not on x-range"
+  },
+  {
+    "scope": "function",
+    "function": "probability_curve",
+    "property": "clamp_bug_documentation",
+    "precondition": "x1 != x0 and clamp",
+    "formal": "comment indicates clamping is based on y-range instead of x-range (intended behavior)"
+  }
+]

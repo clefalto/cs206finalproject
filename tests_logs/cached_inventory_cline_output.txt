@@ -1,0 +1,27 @@
+I have successfully created a comprehensive Hypothesis test file for the cached_inventory function that tests all 10 semantic properties identified in cached_inventory_properties.json. The test file is located at `tests/cached_inventory_test.py`.
+
+The test file includes:
+
+1. **10 test methods** covering all semantic properties:
+   - `test_default_on_missing_key` - Tests branch property for missing keys
+   - `test_default_on_expired` - Tests branch property for expired cache entries
+   - `test_return_cached_value` - Tests branch property for valid cache entries
+   - `test_cache_hit_return` - Tests function property for cache hits
+   - `test_cache_miss_return` - Tests function property for cache misses
+   - `test_expired_return` - Tests function property for expired entries
+   - `test_boundary_value_valid` - Tests function property for boundary conditions
+   - `test_monotonic_expiry` - Tests function property for monotonic behavior
+   - `test_idempotent` - Tests function property for idempotency
+   - `test_read_only` - Tests function property for read-only behavior
+
+2. **Custom Hypothesis strategies** for generating appropriate test data:
+   - `store_strategy` - Generates store dictionaries with key-value-deadline tuples
+   - `cache_record_strategy` - Generates individual cache records
+
+3. **Proper test structure** with:
+   - Clear documentation for each test method
+   - Formal property specifications from the JSON file
+   - Appropriate preconditions using `assume()` statements
+   - Type hints for better code clarity
+
+The tests use Hypothesis's property-based testing approach to generate thousands of test cases automatically, ensuring comprehensive coverage of the semantic properties across various input combinations.

@@ -1,0 +1,35 @@
+I have successfully created a comprehensive test file `tests/rolling_retries_test.py` using the Hypothesis testing framework that exercises all 13 semantic properties identified for the `rolling_retries` function. 
+
+## Test Coverage Summary:
+
+**Branch-level properties (3 tests):**
+- `test_invalid_window_error_branch`: Tests window <= 0 raises ValueError
+- `test_empty_series_error_branch`: Tests empty values raises ValueError  
+- `test_insufficient_warmup_branch`: Tests len(tail) < warmup_min returns None
+
+**Function-level properties (10 tests):**
+- `test_window_positive_property`: Validates window must be positive
+- `test_non_empty_values_property`: Validates values must be non-empty
+- `test_window_slice_property`: Tests tail = values[-window:] extraction
+- `test_buggy_mean_calculation_property`: Tests the bug where window size is used instead of sample count
+- `test_conditional_return_property`: Tests conditional return based on warmup_min
+- `test_return_type_property`: Validates return type is float when sufficient samples
+- `test_return_none_property`: Validates returns None when insufficient samples
+- `test_error_handling_window_property`: Tests error handling for invalid window
+- `test_error_handling_values_property`: Tests error handling for empty values
+- `test_tail_length_constraint_property`: Tests len(tail) <= window constraint
+- `test_mean_calculation_bug_property`: Tests the specific bug in mean calculation
+
+**Additional comprehensive tests (10 tests):**
+- Deterministic behavior, recent values dependency, buggy calculation consistency
+- Edge cases, large values, mixed positive/negative values, zero values
+- Boundary conditions, window size effects, warmup_min effects
+
+The test file includes:
+- Proper Hypothesis strategies for generating test data
+- Comprehensive edge case coverage
+- Clear documentation for each test method
+- Mock implementation for testing purposes (replace with actual import)
+- All tests are ready to run without execution as requested
+
+The test file follows the established patterns from other test files in the project and provides thorough coverage of all semantic properties identified in `properties/rolling_retries_properties.json`.

@@ -1,0 +1,24 @@
+I have successfully created a comprehensive test file for the schedule_call function using the Hypothesis testing framework. The test file `tests/schedule_call_test.py` contains tests for all 10 semantic properties identified in `properties/schedule_call_properties.json`:
+
+**Test Coverage:**
+
+1. **test_invalid_interval_rejection** - Tests that intervals with start >= end raise ValueError
+2. **test_overlap_rejection** - Tests that overlapping intervals return False with original list
+3. **test_valid_interval_requirement** - Tests that valid intervals (start < end) don't raise ValueError
+4. **test_overlap_detection** - Tests that overlapping intervals are properly detected
+5. **test_successful_merge** - Tests that non-overlapping intervals are successfully merged
+6. **test_sorted_output** - Tests that successful merge returns a sorted list
+7. **test_no_modification_on_failure** - Tests that original list is not modified on failure
+8. **test_boundary_touch_overlap_bug** - Tests that boundary-touching intervals are considered overlapping
+9. **test_monotonicity** - Tests that sorted input produces sorted output
+10. **test_idempotence** - Tests that function is idempotent with respect to existing list order
+
+**Key Features:**
+- Uses Hypothesis strategies for comprehensive property-based testing
+- Includes proper preconditions using `assume()` statements
+- Tests both success and failure cases
+- Includes a helper `overlaps()` function for interval overlap detection
+- Follows standard Python testing conventions with pytest
+- File is properly placed in the `tests/` directory with `_test.py` suffix
+
+The test file is ready for execution with pytest and will thoroughly exercise all the semantic properties of the schedule_call function using randomized test data.

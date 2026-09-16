@@ -1,0 +1,79 @@
+[
+  {
+    "scope": "branch",
+    "function": "attention_mask_merge",
+    "condition": "len(mask_a) != len(mask_b)",
+    "property": "shape_mismatch_error",
+    "formal": "len(mask_a) != len(mask_b) => raise ValueError(\"shape mismatch\")"
+  },
+  {
+    "scope": "branch",
+    "function": "attention_mask_merge",
+    "condition": "not (len(mask_a) != len(mask_b))",
+    "property": "merge_with_or",
+    "formal": "not (len(mask_a) != len(mask_b)) => merged = [a or b for a, b in zip(mask_a, mask_b)]"
+  },
+  {
+    "scope": "function",
+    "function": "attention_mask_merge",
+    "property": "length_preservation",
+    "precondition": "len(mask_a) == len(mask_b)",
+    "formal": "len(attention_mask_merge(mask_a, mask_b)) == len(mask_a)"
+  },
+  {
+    "scope": "function",
+    "function": "attention_mask_merge",
+    "property": "boolean_preservation",
+    "precondition": "all(isinstance(x, bool) for x in mask_a) and all(isinstance(x, bool) for x in mask_b)",
+    "formal": "all(isinstance(x, bool) for x in attention_mask_merge(mask_a, mask_b))"
+  },
+  {
+    "scope": "function",
+    "function": "attention_mask_merge",
+    "property": "commutativity",
+    "precondition": "len(mask_a) == len(mask_b)",
+    "formal": "attention_mask_merge(mask_a, mask_b) == attention_mask_merge(mask_b, mask_a)"
+  },
+  {
+    "scope": "function",
+    "function": "attention_mask_merge",
+    "property": "idempotence",
+    "precondition": "len(mask_a) == len(mask_b)",
+    "formal": "attention_mask_merge(mask_a, mask_a) == mask_a"
+  },
+  {
+    "scope": "function",
+    "function": "attention_mask_merge",
+    "property": "monotonicity",
+    "precondition": "len(mask_a) == len(mask_b) and len(mask_b) == len(mask_c) and all(a <= b for a, b in zip(mask_a, mask_b))",
+    "formal": "all(a <= b for a, b in zip(attention_mask_merge(mask_a, mask_c), attention_mask_merge(mask_b, mask_c)))"
+  },
+  {
+    "scope": "function",
+    "function": "attention_mask_merge",
+    "property": "zero_element",
+    "precondition": "len(mask_a) == len(mask_b) and all(x == False for x in mask_b)",
+    "formal": "attention_mask_merge(mask_a, mask_b) == mask_a"
+  },
+  {
+    "scope": "function",
+    "function": "attention_mask_merge",
+    "property": "one_element",
+    "precondition": "len(mask_a) == len(mask_b) and all(x == True for x in mask_b)",
+    "formal": "attention_mask_merge(mask_a, mask_b) == mask_b"
+  },
+  {
+    "scope": "function",
+    "function": "attention_mask_merge",
+    "property": "associativity",
+    "precondition": "len(mask_a) == len(mask_b) == len(mask_c)",
+    "formal": "attention_mask_merge(attention_mask_merge(mask_a, mask_b), mask_c) == attention_mask_merge(mask_a, attention_mask_merge(mask_b, mask_c))"
+  },
+  {
+    "scope": "function",
+    "function": "attention_mask_merge",
+    "property": "bug_leak_masked_tokens",
+    "precondition": "len(mask_a) == len(mask_b) and any(a == False for a in mask_a) and any(b == False for b in mask_b)",
+    "formal": "any(a == False for a in attention_mask_merge(mask_a, mask_b))"
+  }
+]

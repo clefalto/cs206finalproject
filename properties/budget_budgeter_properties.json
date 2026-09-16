@@ -1,0 +1,107 @@
+[
+  {
+    "scope": "branch",
+    "function": "budget_budgeter",
+    "condition": "total < 0",
+    "property": "negative_total_error",
+    "formal": "budget_budgeter(total, weights) raises ValueError(\"total must be non-negative\")"
+  },
+  {
+    "scope": "branch",
+    "function": "budget_budgeter",
+    "condition": "minimum < 0",
+    "property": "negative_minimum_error",
+    "formal": "budget_budgeter(total, weights, minimum) raises ValueError(\"minimum must be non-negative\")"
+  },
+  {
+    "scope": "branch",
+    "function": "budget_budgeter",
+    "condition": "not weights",
+    "property": "empty_weights_error",
+    "formal": "budget_budgeter(total, []) raises ValueError(\"no weights provided\")"
+  },
+  {
+    "scope": "branch",
+    "function": "budget_budgeter",
+    "condition": "not any(weights)",
+    "property": "zero_weights_error",
+    "formal": "budget_budgeter(total, [0, 0, 0]) raises ValueError(\"all weights are zero\")"
+  },
+  {
+    "scope": "function",
+    "function": "budget_budgeter",
+    "property": "non_negative_allocations",
+    "precondition": "total >= 0 and minimum >= 0 and weights is non-empty and not all zero",
+    "formal": "all(a >= 0 for a in budget_budgeter(total, weights, minimum))"
+  },
+  {
+    "scope": "function",
+    "function": "budget_budgeter",
+    "property": "minimum_allocation_guarantee",
+    "precondition": "total >= 0 and minimum >= 0 and weights is non-empty and not all zero",
+    "formal": "all(a >= minimum for a in budget_budgeter(total, weights, minimum))"
+  },
+  {
+    "scope": "function",
+    "function": "budget_budgeter",
+    "property": "allocation_length_preservation",
+    "precondition": "total >= 0 and minimum >= 0 and weights is non-empty and not all zero",
+    "formal": "len(budget_budgeter(total, weights, minimum)) == len(weights)"
+  },
+  {
+    "scope": "function",
+    "function": "budget_budgeter",
+    "property": "budget_not_exceeded",
+    "precondition": "total >= 0 and minimum >= 0 and weights is non-empty and not all zero",
+    "formal": "sum(budget_budgeter(total, weights, minimum)) <= total"
+  },
+  {
+    "scope": "function",
+    "function": "budget_budgeter",
+    "property": "monotonicity_in_total",
+    "precondition": "total1 >= total2 >= 0 and minimum >= 0 and weights is non-empty and not all zero",
+    "formal": "all(a1 >= a2 for a1, a2 in zip(budget_budgeter(total1, weights, minimum), budget_budgeter(total2, weights, minimum)))"
+  },
+  {
+    "scope": "function",
+    "function": "budget_budgeter",
+    "property": "monotonicity_in_minimum",
+    "precondition": "minimum1 >= minimum2 >= 0 and total >= 0 and weights is non-empty and not all zero",
+    "formal": "all(a1 >= a2 for a1, a2 in zip(budget_budgeter(total, weights, minimum1), budget_budgeter(total, weights, minimum2)))"
+  },
+  {
+    "scope": "function",
+    "function": "budget_budgeter",
+    "property": "scale_invariance_weights",
+    "precondition": "total >= 0 and minimum >= 0 and weights is non-empty and not all zero and k > 0",
+    "formal": "budget_budgeter(total, [k*w for w in weights], minimum) == budget_budgeter(total, weights, minimum)"
+  },
+  {
+    "scope": "function",
+    "function": "budget_budgeter",
+    "property": "scale_invariance_total",
+    "precondition": "total >= 0 and minimum >= 0 and weights is non-empty and not all zero and k > 0",
+    "formal": "budget_budgeter(k*total, weights, k*minimum) == [k*a for a in budget_budgeter(total, weights, minimum)]"
+  },
+  {
+    "scope": "function",
+    "function": "budget_budgeter",
+    "property": "identity_on_equal_weights",
+    "precondition": "total >= 0 and minimum >= 0 and weights is non-empty and not all zero and all(w == weights[0] for w in weights)",
+    "formal": "budget_budgeter(total, weights, minimum) == [max(minimum, total // len(weights))] * len(weights)"
+  },
+  {
+    "scope": "function",
+    "function": "budget_budgeter",
+    "property": "zero_total_gives_minimum",
+    "precondition": "minimum >= 0 and weights is non-empty and not all zero",
+    "formal": "budget_budgeter(0, weights, minimum) == [minimum] * len(weights)"
+  },
+  {
+    "scope": "function",
+    "function": "budget_budgeter",
+    "property": "integer_allocations",
+    "precondition": "total >= 0 and minimum >= 0 and weights is non-empty and not all zero",
+    "formal": "all(isinstance(a, int) for a in budget_budgeter(total, weights, minimum))"
+  }
+]

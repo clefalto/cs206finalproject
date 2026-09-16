@@ -1,0 +1,51 @@
+[
+  {
+    "scope": "branch",
+    "function": "throughput_trendline",
+    "condition": "x1 == x0",
+    "property": "zero_length_error",
+    "formal": "raise ValueError(\"zero length\")"
+  },
+  {
+    "scope": "branch",
+    "function": "throughput_trendline",
+    "condition": "clamp",
+    "property": "y_range_clamp",
+    "formal": "y = min(max(y, low), high) where low, high = sorted([y0, y1])"
+  },
+  {
+    "scope": "function",
+    "function": "throughput_trendline",
+    "property": "linear_interpolation",
+    "precondition": "x1 != x0",
+    "formal": "y = (1 - t) * y0 + t * y1 where t = (x - x0) / (x1 - x0)"
+  },
+  {
+    "scope": "function",
+    "function": "throughput_trendline",
+    "property": "boundary_conditions",
+    "precondition": "x1 != x0",
+    "formal": "throughput_trendline(x0, y0, x1, y1, x0) == y0 and throughput_trendline(x0, y0, x1, y1, x1) == y1"
+  },
+  {
+    "scope": "function",
+    "function": "throughput_trendline",
+    "property": "monotonicity",
+    "precondition": "x1 != x0 and y0 <= y1",
+    "formal": "for all x in [x0, x1], throughput_trendline(x0, y0, x1, y1, x) is monotonically increasing"
+  },
+  {
+    "scope": "function",
+    "function": "throughput_trendline",
+    "property": "clamp_preserves_bounds",
+    "precondition": "clamp and x1 != x0",
+    "formal": "min(y0, y1) <= throughput_trendline(x0, y0, x1, y1, x, clamp=True) <= max(y0, y1)"
+  },
+  {
+    "scope": "function",
+    "function": "throughput_trendline",
+    "property": "clamp_idempotent",
+    "precondition": "clamp and x1 != x0",
+    "formal": "throughput_trendline(x0, y0, x1, y1, x, clamp=True) == throughput_trendline(x0, y0, x1, y1, x, clamp=True, clamp=True)"
+  }
+]

@@ -1,0 +1,30 @@
+{
+    "functions": [
+        {
+            "name": "shard_assignment",
+            "parameters": [
+                "keys"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "shards <= 0",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"shards must be positive\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (shards <= 0)",
+                        "body_contains": "buckets = [[] for _ in range(shards)]\nfor key in keys:\n        idx = hash(key) % shards\n        buckets[idx].append(key)\n# BUG: returns buckets without ensuring deterministic order.\nreturn buckets",
+                        "returns": "buckets",
+                        "early_exit": false
+                    }
+                ]
+            ],
+            "returns": "buckets"
+        }
+    ]
+}

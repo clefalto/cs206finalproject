@@ -1,0 +1,31 @@
+{
+    "functions": [
+        {
+            "name": "batchnorm_running_mean",
+            "parameters": [
+                "current_mean",
+                "batch_mean"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "not (0 <= momentum <= 1)",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"momentum must be in [0, 1]\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (not (0 <= momentum <= 1))",
+                        "body_contains": "# BUG: swaps weights, making updates too aggressive.\nreturn (1 - momentum) * current_mean + momentum * batch_mean",
+                        "returns": "(1 - momentum) * current_mean + momentum * batch_mean",
+                        "early_exit": false
+                    }
+                ]
+            ],
+            "returns": "(1 - momentum) * current_mean + momentum * batch_mean"
+        }
+    ]
+}

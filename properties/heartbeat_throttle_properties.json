@@ -1,0 +1,65 @@
+[
+  {
+    "scope": "branch",
+    "function": "heartbeat_throttle",
+    "condition": "len(active) > limit",
+    "property": "throttle_active",
+    "formal": "heartbeat_throttle(timestamps, now, window=window, limit=limit) == (False, 0)"
+  },
+  {
+    "scope": "branch",
+    "function": "heartbeat_throttle",
+    "condition": "len(active) <= limit",
+    "property": "throttle_inactive_with_capacity",
+    "formal": "heartbeat_throttle(timestamps, now, window=window, limit=limit) == (True, limit - len(active))"
+  },
+  {
+    "scope": "function",
+    "function": "heartbeat_throttle",
+    "property": "non_negative_remaining_capacity",
+    "precondition": "True",
+    "formal": "heartbeat_throttle(timestamps, now, window=window, limit=limit)[1] >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "heartbeat_throttle",
+    "property": "boolean_first_return",
+    "precondition": "True",
+    "formal": "type(heartbeat_throttle(timestamps, now, window=window, limit=limit)[0]) == bool"
+  },
+  {
+    "scope": "function",
+    "function": "heartbeat_throttle",
+    "property": "capacity_calculation",
+    "precondition": "len(active) <= limit",
+    "formal": "heartbeat_throttle(timestamps, now, window=window, limit=limit) == (True, limit - len(active))"
+  },
+  {
+    "scope": "function",
+    "function": "heartbeat_throttle",
+    "property": "window_filtering",
+    "precondition": "True",
+    "formal": "len([t for t in timestamps if t >= now - window]) == len(active)"
+  },
+  {
+    "scope": "function",
+    "function": "heartbeat_throttle",
+    "property": "monotonic_throttling",
+    "precondition": "len(active1) <= len(active2)",
+    "formal": "if len(active1) <= len(active2) then heartbeat_throttle returns (False, 0) for active2 implies it returns (False, 0) for active1"
+  },
+  {
+    "scope": "function",
+    "function": "heartbeat_throttle",
+    "property": "limit_respect",
+    "precondition": "len(active) <= limit",
+    "formal": "heartbeat_throttle(timestamps, now, window=window, limit=limit)[0] == True"
+  },
+  {
+    "scope": "function",
+    "function": "heartbeat_throttle",
+    "property": "exceeds_limit_throttles",
+    "precondition": "len(active) > limit",
+    "formal": "heartbeat_throttle(timestamps, now, window=window, limit=limit) == (False, 0)"
+  }
+]

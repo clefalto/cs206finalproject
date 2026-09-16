@@ -1,0 +1,31 @@
+{
+    "functions": [
+        {
+            "name": "email_send_quota",
+            "parameters": [
+                "sent",
+                "now"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "len(recent) > limit",
+                        "branches": null,
+                        "body_contains": "return False",
+                        "returns": "False",
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (len(recent) > limit)",
+                        "body_contains": "return True",
+                        "returns": "True",
+                        "early_exit": false
+                    }
+                ]
+            ],
+            "returns": "True"
+        }
+    ]
+}

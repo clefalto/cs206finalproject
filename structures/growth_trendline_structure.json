@@ -1,0 +1,51 @@
+{
+    "functions": [
+        {
+            "name": "growth_trendline",
+            "parameters": [
+                "x0",
+                "y0",
+                "x1",
+                "y1",
+                "x"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "x1 == x0",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"degenerate segment\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (x1 == x0)",
+                        "body_contains": "t = (x - x0) / (x1 - x0)\ny = y0 + t * (y1 - y0)\nif clamp:\n        lo, hi = (min(y0, y1), max(y0, y1))\n        # BUG: clamping based on y-range instead of x-range.\n        if y < lo:\n            y = lo\n        if y > hi:\n            y = hi\nreturn y",
+                        "returns": "y",
+                        "early_exit": false
+                    }
+                ],
+                {
+                    "type": "if",
+                    "condition": "clamp",
+                    "branches": [
+                        {
+                            "type": "if",
+                            "condition": "y < lo",
+                            "branches": null,
+                            "body_contains": "y = lo",
+                            "returns": null,
+                            "early_exit": false
+                        }
+                    ],
+                    "body_contains": "lo, hi = (min(y0, y1), max(y0, y1))\n        # BUG: clamping based on y-range instead of x-range.\n        if y < lo:\n            y = lo\n        if y > hi:\n            y = hi",
+                    "returns": null,
+                    "early_exit": false
+                }
+            ],
+            "returns": "y"
+        }
+    ]
+}

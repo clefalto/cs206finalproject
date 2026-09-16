@@ -1,0 +1,114 @@
+[
+  {
+    "scope": "branch",
+    "function": "schedule_shift_allocator",
+    "condition": "total < 0",
+    "property": "rejects_negative_total",
+    "formal": "if total < 0 then ValueError(\"total must be non-negative\") is raised"
+  },
+  {
+    "scope": "branch", 
+    "function": "schedule_shift_allocator",
+    "condition": "minimum < 0",
+    "property": "rejects_negative_minimum",
+    "formal": "if minimum < 0 then ValueError(\"minimum must be non-negative\") is raised"
+  },
+  {
+    "scope": "branch",
+    "function": "schedule_shift_allocator", 
+    "condition": "not weights or sum(weights) == 0",
+    "property": "rejects_invalid_weights",
+    "formal": "if not weights or sum(weights) == 0 then ValueError(\"invalid weights\") is raised"
+  },
+  {
+    "scope": "branch",
+    "function": "schedule_shift_allocator",
+    "condition": "total == 0",
+    "property": "zero_total_allocation",
+    "formal": "if total == 0 then all allocations are minimum values"
+  },
+  {
+    "scope": "branch",
+    "function": "schedule_shift_allocator",
+    "condition": "len(weights) == 1",
+    "property": "single_weight_allocation",
+    "formal": "if len(weights) == 1 then allocation equals min(minimum, total)"
+  },
+  {
+    "scope": "branch",
+    "function": "schedule_shift_allocator",
+    "condition": "all(w == 0 for w in weights)",
+    "property": "zero_weights_allocation",
+    "formal": "if all weights are zero then ValueError(\"invalid weights\") is raised"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_shift_allocator",
+    "property": "non_negative_allocations",
+    "precondition": "total >= 0 and minimum >= 0 and weights is valid",
+    "formal": "all(allocation >= 0 for allocation in result)"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_shift_allocator",
+    "property": "minimum_guarantee",
+    "precondition": "total >= 0 and minimum >= 0 and weights is valid",
+    "formal": "all(allocation >= minimum for allocation in result)"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_shift_allocator",
+    "property": "allocation_length_preservation",
+    "precondition": "weights is valid",
+    "formal": "len(result) == len(weights)"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_shift_allocator",
+    "property": "integer_allocations",
+    "precondition": "total >= 0 and minimum >= 0 and weights is valid",
+    "formal": "all(isinstance(allocation, int) for allocation in result)"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_shift_allocator",
+    "property": "monotonic_total",
+    "precondition": "minimum >= 0 and weights is valid",
+    "formal": "if total1 <= total2 then all(result1[i] <= result2[i] for i in range(len(weights)))"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_shift_allocator",
+    "property": "scale_invariance_weights",
+    "precondition": "total >= 0 and minimum >= 0 and weights is valid and k > 0",
+    "formal": "schedule_shift_allocator(total, weights) == schedule_shift_allocator(total, [k*w for w in weights])"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_shift_allocator",
+    "property": "scale_invariance_total",
+    "precondition": "total >= 0 and minimum >= 0 and weights is valid and k > 0",
+    "formal": "schedule_shift_allocator(k*total, weights) == [k*x for x in schedule_shift_allocator(total, weights)]"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_shift_allocator",
+    "property": "remainder_loss_bug",
+    "precondition": "total >= 0 and minimum >= 0 and weights is valid",
+    "formal": "sum(result) <= total (due to truncation losing remainder)"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_shift_allocator",
+    "property": "proportional_allocation",
+    "precondition": "total >= 0 and minimum >= 0 and weights is valid and total is large enough",
+    "formal": "result[i] / result[j] ≈ weights[i] / weights[j] for all i,j"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_shift_allocator",
+    "property": "error_conditions",
+    "precondition": "None",
+    "formal": "raises ValueError for total < 0, minimum < 0, or invalid weights"
+  }
+]

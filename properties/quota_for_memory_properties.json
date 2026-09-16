@@ -1,0 +1,128 @@
+[
+  {
+    "scope": "branch",
+    "function": "quota_for_memory",
+    "condition": "total < 0",
+    "property": "negative_total_error",
+    "formal": "quota_for_memory(negative_total, weights) raises ValueError(\"total must be non-negative\")"
+  },
+  {
+    "scope": "branch",
+    "function": "quota_for_memory",
+    "condition": "minimum < 0",
+    "property": "negative_minimum_error",
+    "formal": "quota_for_memory(total, weights, minimum=negative_minimum) raises ValueError(\"minimum must be non-negative\")"
+  },
+  {
+    "scope": "branch",
+    "function": "quota_for_memory",
+    "condition": "not weights",
+    "property": "empty_weights_error",
+    "formal": "quota_for_memory(total, []) raises ValueError(\"no weights provided\")"
+  },
+  {
+    "scope": "branch",
+    "function": "quota_for_memory",
+    "condition": "not any(weights)",
+    "property": "zero_weights_error",
+    "formal": "quota_for_memory(total, [0, 0, 0]) raises ValueError(\"all weights are zero\")"
+  },
+  {
+    "scope": "branch",
+    "function": "quota_for_memory",
+    "condition": "planned[i] >= minimum",
+    "property": "minimum_floor",
+    "formal": "allocation[i] = max(minimum, (weights[i] / total_weight) * total)"
+  },
+  {
+    "scope": "branch",
+    "function": "quota_for_memory",
+    "condition": "int(x)",
+    "property": "truncation_bug",
+    "formal": "allocation[i] = int(planned[i]) loses fractional remainder"
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_memory",
+    "property": "non_negative_allocations",
+    "precondition": "total >= 0 and minimum >= 0 and weights is non-empty and any(weights)",
+    "formal": "all(allocation >= 0 for allocation in quota_for_memory(total, weights, minimum=minimum))"
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_memory",
+    "property": "allocations_length",
+    "precondition": "weights is non-empty and any(weights)",
+    "formal": "len(quota_for_memory(total, weights, minimum=minimum)) == len(weights)"
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_memory",
+    "property": "minimum_allocation_guarantee",
+    "precondition": "total >= 0 and minimum >= 0 and weights is non-empty and any(weights)",
+    "formal": "all(allocation >= minimum for allocation in quota_for_memory(total, weights, minimum=minimum))"
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_memory",
+    "property": "sum_allocation_bound",
+    "precondition": "total >= 0 and minimum >= 0 and weights is non-empty and any(weights)",
+    "formal": "sum(quota_for_memory(total, weights, minimum=minimum)) <= total"
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_memory",
+    "property": "proportional_distribution",
+    "precondition": "total >= 0 and minimum >= 0 and weights is non-empty and any(weights) and total is sufficiently large",
+    "formal": "allocation[i] / allocation[j] ≈ weights[i] / weights[j] for sufficiently large total"
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_memory",
+    "property": "monotonic_total",
+    "precondition": "total1 >= total2 and minimum >= 0 and weights is non-empty and any(weights)",
+    "formal": "all(a1 >= a2 for a1, a2 in zip(quota_for_memory(total1, weights, minimum=minimum), quota_for_memory(total2, weights, minimum=minimum)))"
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_memory",
+    "property": "monotonic_minimum",
+    "precondition": "minimum1 >= minimum2 and total >= 0 and weights is non-empty and any(weights)",
+    "formal": "all(a1 >= a2 for a1, a2 in zip(quota_for_memory(total, weights, minimum=minimum1), quota_for_memory(total, weights, minimum=minimum2)))"
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_memory",
+    "property": "zero_total_minimum",
+    "precondition": "minimum >= 0 and weights is non-empty and any(weights)",
+    "formal": "quota_for_memory(0, weights, minimum=minimum) == [minimum] * len(weights)"
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_memory",
+    "property": "single_weight_total",
+    "precondition": "total >= 0 and minimum >= 0",
+    "formal": "quota_for_memory(total, [1], minimum=minimum) == [max(minimum, total)]"
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_memory",
+    "property": "error_conditions",
+    "precondition": "true",
+    "formal": "quota_for_memory raises ValueError when total < 0 or minimum < 0 or weights is empty or all weights are zero"
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_memory",
+    "property": "allocation_sum_less_than_total",
+    "precondition": "total >= 0 and minimum >= 0 and weights is non-empty and any(weights)",
+    "formal": "sum(quota_for_memory(total, weights, minimum=minimum)) <= total"
+  },
+  {
+    "scope": "function",
+    "function": "quota_for_memory",
+    "property": "integer_allocation",
+    "precondition": "total >= 0 and minimum >= 0 and weights is non-empty and any(weights)",
+    "formal": "all(isinstance(allocation, int) for allocation in quota_for_memory(total, weights, minimum=minimum))"
+  }
+]

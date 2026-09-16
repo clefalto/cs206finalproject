@@ -1,0 +1,72 @@
+[
+  {
+    "scope": "branch",
+    "function": "cacheline_expiry",
+    "condition": "item is None",
+    "property": "cache_miss_return",
+    "formal": "cacheline_expiry(cache, key, now) == None"
+  },
+  {
+    "scope": "branch",
+    "function": "cacheline_expiry",
+    "condition": "now > ttl",
+    "property": "expired_entry_return",
+    "formal": "cacheline_expiry(cache, key, now) == None"
+  },
+  {
+    "scope": "branch",
+    "function": "cacheline_expiry",
+    "condition": "now <= ttl",
+    "property": "valid_entry_return",
+    "formal": "cacheline_expiry(cache, key, now) == payload"
+  },
+  {
+    "scope": "function",
+    "function": "cacheline_expiry",
+    "property": "cache_miss_consistency",
+    "precondition": "cache.get(key) is None",
+    "formal": "cacheline_expiry(cache, key, now) == None"
+  },
+  {
+    "scope": "function",
+    "function": "cacheline_expiry",
+    "property": "non_negative_ttl",
+    "precondition": "item is not None",
+    "formal": "ttl >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "cacheline_expiry",
+    "property": "payload_preservation",
+    "precondition": "item is not None and now <= ttl",
+    "formal": "cacheline_expiry(cache, key, now) == payload"
+  },
+  {
+    "scope": "function",
+    "function": "cacheline_expiry",
+    "property": "expiration_behavior",
+    "precondition": "item is not None and now > ttl",
+    "formal": "cacheline_expiry(cache, key, now) == None"
+  },
+  {
+    "scope": "function",
+    "function": "cacheline_expiry",
+    "property": "deterministic_output",
+    "precondition": "cache, key, now remain unchanged",
+    "formal": "cacheline_expiry(cache, key, now) == cacheline_expiry(cache, key, now)"
+  },
+  {
+    "scope": "function",
+    "function": "cacheline_expiry",
+    "property": "buggy_equality_handling",
+    "precondition": "item is not None and now == ttl",
+    "formal": "cacheline_expiry(cache, key, now) == payload  # Should return None per comment"
+  },
+  {
+    "scope": "function",
+    "function": "cacheline_expiry",
+    "property": "monotonic_expiry",
+    "precondition": "item is not None and now1 <= now2",
+    "formal": "cacheline_expiry(cache, key, now1) != None implies cacheline_expiry(cache, key, now2) != None"
+  }
+]

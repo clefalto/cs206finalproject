@@ -1,0 +1,72 @@
+[
+  {
+    "scope": "branch",
+    "function": "lru_evictor",
+    "condition": "capacity < 0",
+    "property": "invalid_capacity_error",
+    "formal": "raise ValueError(\"capacity must be non-negative\")"
+  },
+  {
+    "scope": "branch",
+    "function": "lru_evictor",
+    "condition": "len(order) <= capacity",
+    "property": "no_eviction_needed",
+    "formal": "return order"
+  },
+  {
+    "scope": "branch",
+    "function": "lru_evictor",
+    "condition": "len(order) > capacity",
+    "property": "evict_oldest_elements",
+    "formal": "while len(order) > capacity: order.pop(0)"
+  },
+  {
+    "scope": "function",
+    "function": "lru_evictor",
+    "property": "capacity_constraint",
+    "precondition": "capacity >= 0",
+    "formal": "len(result) <= capacity"
+  },
+  {
+    "scope": "function",
+    "function": "lru_evictor",
+    "property": "order_preservation",
+    "precondition": "capacity >= 0",
+    "formal": "result is a suffix of order"
+  },
+  {
+    "scope": "function",
+    "function": "lru_evictor",
+    "property": "lru_semantics",
+    "precondition": "capacity >= 0",
+    "formal": "if len(order) > capacity then result == order[len(order)-capacity:]"
+  },
+  {
+    "scope": "function",
+    "function": "lru_evictor",
+    "property": "identity_on_valid_capacity",
+    "precondition": "len(order) <= capacity",
+    "formal": "result == order"
+  },
+  {
+    "scope": "function",
+    "function": "lru_evictor",
+    "property": "monotonicity",
+    "precondition": "capacity1 <= capacity2",
+    "formal": "len(lru_evictor(order, capacity1)) <= len(lru_evictor(order, capacity2))"
+  },
+  {
+    "scope": "function",
+    "function": "lru_evictor",
+    "property": "idempotence",
+    "precondition": "capacity >= 0",
+    "formal": "lru_evictor(lru_evictor(order, capacity), capacity) == lru_evictor(order, capacity)"
+  },
+  {
+    "scope": "function",
+    "function": "lru_evictor",
+    "property": "buggy_capacity_behavior",
+    "precondition": "len(order) == capacity",
+    "formal": "len(result) == capacity (should be capacity-1 due to > vs >= bug)"
+  }
+]

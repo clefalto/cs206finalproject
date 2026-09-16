@@ -1,0 +1,86 @@
+[
+  {
+    "scope": "branch",
+    "function": "cached_route",
+    "condition": "key not in entries",
+    "property": "cache_miss_return_none",
+    "formal": "cached_route(entries, key, now) == None"
+  },
+  {
+    "scope": "branch",
+    "function": "cached_route",
+    "condition": "now > expires_at",
+    "property": "expired_entry_return_none",
+    "formal": "cached_route(entries, key, now) == None"
+  },
+  {
+    "scope": "branch",
+    "function": "cached_route",
+    "condition": "now <= expires_at",
+    "property": "valid_entry_return_value",
+    "formal": "cached_route(entries, key, now) == entries[key][0]"
+  },
+  {
+    "scope": "function",
+    "function": "cached_route",
+    "property": "cache_hit_return_stored_value",
+    "precondition": "key in entries and now <= entries[key][1]",
+    "formal": "cached_route(entries, key, now) == entries[key][0]"
+  },
+  {
+    "scope": "function",
+    "function": "cached_route",
+    "property": "cache_miss_return_none",
+    "precondition": "key not in entries",
+    "formal": "cached_route(entries, key, now) == None"
+  },
+  {
+    "scope": "function",
+    "function": "cached_route",
+    "property": "expired_entry_return_none",
+    "precondition": "key in entries and now > entries[key][1]",
+    "formal": "cached_route(entries, key, now) == None"
+  },
+  {
+    "scope": "function",
+    "function": "cached_route",
+    "property": "non_negative_expiry",
+    "precondition": "key in entries",
+    "formal": "entries[key][1] >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "cached_route",
+    "property": "deterministic_behavior",
+    "precondition": "True",
+    "formal": "for all entries, key, now: cached_route(entries, key, now) produces the same result given identical inputs"
+  },
+  {
+    "scope": "function",
+    "function": "cached_route",
+    "property": "no_side_effects",
+    "precondition": "True",
+    "formal": "cached_route(entries, key, now) does not modify entries or any global state"
+  },
+  {
+    "scope": "function",
+    "function": "cached_route",
+    "property": "buggy_expiry_behavior",
+    "precondition": "key in entries and now == entries[key][1]",
+    "formal": "cached_route(entries, key, now) == entries[key][0] (should return None for expired entries)"
+  },
+  {
+    "scope": "function",
+    "function": "cached_route",
+    "property": "metamorphic_relation_expiry",
+    "precondition": "key in entries and t1 <= t2",
+    "formal": "if cached_route(entries, key, t1) == None then cached_route(entries, key, t2) == None"
+  },
+  {
+    "scope": "function",
+    "function": "cached_route",
+    "property": "metamorphic_relation_cache_miss",
+    "precondition": "key not in entries",
+    "formal": "for all now: cached_route(entries, key, now) == None"
+  }
+]

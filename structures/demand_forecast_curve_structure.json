@@ -1,0 +1,58 @@
+{
+    "functions": [
+        {
+            "name": "demand_forecast_curve",
+            "parameters": [
+                "x0",
+                "y0",
+                "x1",
+                "y1",
+                "x"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "x0 == x1",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"x0 == x1\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (x0 == x1)",
+                        "body_contains": "ratio = (x - x0) / (x1 - x0)\ny = y0 + ratio * (y1 - y0)\nif clamp:\n        low, high = (min(y0, y1), max(y0, y1))\n        # BUG: clamps y even when x is in range.\n        if y < low:\n            y = low\n        elif y > high:\n            y = high\nreturn y",
+                        "returns": "y",
+                        "early_exit": false
+                    }
+                ],
+                {
+                    "type": "if",
+                    "condition": "clamp",
+                    "branches": [
+                        {
+                            "type": "if",
+                            "condition": "y < low",
+                            "branches": null,
+                            "body_contains": "y = low",
+                            "returns": null,
+                            "early_exit": false
+                        },
+                        {
+                            "type": "elif",
+                            "condition": "y > high",
+                            "body_contains": "y = high",
+                            "returns": null,
+                            "early_exit": false
+                        }
+                    ],
+                    "body_contains": "low, high = (min(y0, y1), max(y0, y1))\n        # BUG: clamps y even when x is in range.\n        if y < low:\n            y = low\n        elif y > high:\n            y = high",
+                    "returns": null,
+                    "early_exit": false
+                }
+            ],
+            "returns": "y"
+        }
+    ]
+}

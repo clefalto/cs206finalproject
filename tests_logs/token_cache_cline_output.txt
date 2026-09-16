@@ -1,0 +1,24 @@
+I have successfully created a comprehensive test suite for the token_cache function using the Hypothesis testing framework. The test file `tests/token_cache_test.py` contains:
+
+**Main Test Class: `TestTokenCacheProperties`**
+- `test_cache_miss_property`: Tests the cache_miss branch when item is None
+- `test_expired_entry_property`: Tests the expired_entry branch when now > ttl  
+- `test_cache_hit_property`: Tests the cache_hit branch when now <= ttl
+- `test_non_negative_ttl_property`: Validates that TTL values are non-negative
+- `test_monotonic_expiry_property`: Tests that expiry behavior is monotonic over time
+- `test_deterministic_property`: Ensures the function is deterministic for same inputs
+- `test_buggy_expiry_property`: Documents the specific bug where now == ttl returns payload instead of None
+
+**Additional Edge Case Tests: `TestTokenCacheEdgeCases`**
+- Tests with empty cache
+- Tests with single entry cache
+- Tests bulk expiry scenarios
+
+**Key Features:**
+- Uses Hypothesis strategies to generate comprehensive test data
+- Includes proper preconditions using `assume()` statements
+- Tests all 7 semantic properties identified in the properties file
+- Documents the buggy behavior in the expiry logic
+- Includes comprehensive edge case coverage
+
+The test file is ready to be executed with pytest and will exercise all the semantic properties you identified for the token_cache function.

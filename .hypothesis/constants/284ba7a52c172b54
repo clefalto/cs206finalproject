@@ -1,0 +1,4 @@
+# file: /home/clef/hw/cs206/project/errorfultests/../dataset/python_programs/scores_apportion.py
+# hypothesis_version: 6.151.9
+
+['invalid weights', 'minimum < 0', 'total < 0']

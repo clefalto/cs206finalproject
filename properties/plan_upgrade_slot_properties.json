@@ -1,0 +1,72 @@
+[
+  {
+    "scope": "branch",
+    "function": "plan_upgrade_slot",
+    "condition": "a >= b",
+    "property": "empty_window_detection",
+    "formal": "if a >= b then raise ValueError(\"empty window\")"
+  },
+  {
+    "scope": "branch",
+    "function": "plan_upgrade_slot",
+    "condition": "any(not (b <= s or a >= e) for s, e in timeline)",
+    "property": "overlap_detection",
+    "formal": "if any window in timeline overlaps with [a,b) then return False, timeline"
+  },
+  {
+    "scope": "function",
+    "function": "plan_upgrade_slot",
+    "property": "window_validity",
+    "precondition": "window = (a, b) where a < b",
+    "formal": "if a >= b then raise ValueError(\"empty window\")"
+  },
+  {
+    "scope": "function",
+    "function": "plan_upgrade_slot",
+    "property": "overlap_check",
+    "precondition": "window = (a, b) where a < b",
+    "formal": "if any window (s, e) in timeline satisfies not (b <= s or a >= e) then return False, timeline"
+  },
+  {
+    "scope": "function",
+    "function": "plan_upgrade_slot",
+    "property": "timeline_sorting",
+    "precondition": "no overlap detected",
+    "formal": "result = sorted(timeline + [window])"
+  },
+  {
+    "scope": "function",
+    "function": "plan_upgrade_slot",
+    "property": "successful_insertion",
+    "precondition": "no overlap detected",
+    "formal": "return True, sorted(timeline + [window])"
+  },
+  {
+    "scope": "function",
+    "function": "plan_upgrade_slot",
+    "property": "timeline_unchanged_on_failure",
+    "precondition": "overlap detected",
+    "formal": "return False, timeline"
+  },
+  {
+    "scope": "function",
+    "function": "plan_upgrade_slot",
+    "property": "timeline_monotonicity",
+    "precondition": "successful insertion",
+    "formal": "result is sorted(timeline + [window])"
+  },
+  {
+    "scope": "function",
+    "function": "plan_upgrade_slot",
+    "property": "window_membership",
+    "precondition": "successful insertion",
+    "formal": "window in result and len(result) == len(timeline) + 1"
+  },
+  {
+    "scope": "function",
+    "function": "plan_upgrade_slot",
+    "property": "timeline_preservation",
+    "precondition": "successful insertion",
+    "formal": "all(window in result for window in timeline)"
+  }
+]

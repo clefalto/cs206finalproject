@@ -1,0 +1,39 @@
+{
+    "functions": [
+        {
+            "name": "dataloader_shard_merge",
+            "parameters": [
+                "left_ids",
+                "right_ids"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "left_ids[i] <= right_ids[j]",
+                        "branches": null,
+                        "body_contains": "merged.append(left_ids[i])\n            i += 1",
+                        "returns": null,
+                        "early_exit": false
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (left_ids[i] <= right_ids[j])",
+                        "body_contains": "else:\n            merged.append(right_ids[j])\n            j += 1",
+                        "returns": null,
+                        "early_exit": false
+                    }
+                ],
+                {
+                    "type": "if",
+                    "condition": "merged and left_ids and right_ids and merged[-1] == left_ids[-1] == right_ids[-1]",
+                    "branches": null,
+                    "body_contains": "merged.pop()",
+                    "returns": null,
+                    "early_exit": false
+                }
+            ],
+            "returns": "merged"
+        }
+    ]
+}

@@ -1,0 +1,35 @@
+I have successfully created a comprehensive Hypothesis test file for the `plan_upgrade_slot` function located at `tests/plan_upgrade_slot_test.py`. The test file includes:
+
+## Test Coverage Summary
+
+The test file covers all 10 semantic properties identified in `properties/plan_upgrade_slot_properties.json`:
+
+1. **empty_window_detection** - Tests that empty windows (a >= b) raise ValueError
+2. **overlap_detection** - Tests that overlapping windows return False with original timeline
+3. **window_validity** - Tests that valid windows (a < b) create valid intervals
+4. **overlap_check** - Tests the overlap detection condition using the same logic as the function
+5. **timeline_sorting** - Tests that result timeline is sorted when no overlaps
+6. **successful_insertion** - Tests that windows are successfully inserted when no overlaps
+7. **timeline_unchanged_on_failure** - Tests that timeline remains unchanged when overlaps detected
+8. **timeline_monotonicity** - Tests that result timeline maintains monotonicity when successful
+9. **window_membership** - Tests that window is in result and result has correct length
+10. **timeline_preservation** - Tests that all original timeline windows are preserved
+
+## Additional Test Cases
+
+The test file also includes:
+- **Return format validation** - Ensures function returns (bool, list) tuple
+- **Success/failure indicators** - Tests True/False return values
+- **Edge case testing** - Tests adjacent windows (revealing the bug in the implementation)
+- **Empty timeline testing** - Tests behavior with empty input timeline
+
+## Key Features
+
+- Uses Hypothesis testing framework with comprehensive strategies for integers and tuples
+- Includes proper preconditions using `assume()` statements
+- Tests both positive and negative cases
+- Includes detailed docstrings explaining each test's purpose
+- Follows the same pattern as existing test files in the project
+- File compiles successfully with Python 3
+
+The test file is ready for execution and will thoroughly exercise all the semantic properties of the `plan_upgrade_slot` function using property-based testing.

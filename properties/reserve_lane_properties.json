@@ -1,0 +1,58 @@
+[
+  {
+    "scope": "branch",
+    "function": "reserve_lane",
+    "condition": "candidate[0] >= candidate[1]",
+    "property": "invalid_interval_rejection",
+    "formal": "if candidate[0] >= candidate[1] then raise ValueError(\"start must be before end\")"
+  },
+  {
+    "scope": "branch",
+    "function": "reserve_lane",
+    "condition": "overlaps(slot, candidate)",
+    "property": "overlap_rejection",
+    "formal": "if overlaps(slot, candidate) then return False, list(existing)"
+  },
+  {
+    "scope": "function",
+    "function": "reserve_lane",
+    "property": "valid_interval_check",
+    "precondition": "candidate[0] < candidate[1]",
+    "formal": "if candidate[0] < candidate[1] then proceed with reservation logic"
+  },
+  {
+    "scope": "function",
+    "function": "reserve_lane",
+    "property": "overlap_detection",
+    "precondition": "candidate[0] < candidate[1]",
+    "formal": "overlaps(a, b) returns True if intervals a and b overlap (including boundary-touch)"
+  },
+  {
+    "scope": "function",
+    "function": "reserve_lane",
+    "property": "successful_reservation",
+    "precondition": "candidate[0] < candidate[1] and no overlaps with existing slots",
+    "formal": "return True, merged where merged is sorted list of existing + candidate"
+  },
+  {
+    "scope": "function",
+    "function": "reserve_lane",
+    "property": "existing_slots_preservation",
+    "precondition": "candidate[0] < candidate[1]",
+    "formal": "if reservation fails, return False, list(existing) preserving original existing list"
+  },
+  {
+    "scope": "function",
+    "function": "reserve_lane",
+    "property": "sorted_output",
+    "precondition": "reservation successful",
+    "formal": "merged list is sorted by start time"
+  },
+  {
+    "scope": "function",
+    "function": "reserve_lane",
+    "property": "boundary_touch_overlap",
+    "precondition": "candidate[0] < candidate[1]",
+    "formal": "overlaps considers intervals touching at boundaries as overlapping (BUG comment)"
+  }
+]

@@ -1,0 +1,86 @@
+[
+  {
+    "scope": "branch",
+    "function": "login_throttle",
+    "condition": "len(recent) > limit",
+    "property": "block_on_excess_attempts",
+    "formal": "login_throttle(timestamps, now, window=window, limit=limit) == (False, 0)"
+  },
+  {
+    "scope": "branch",
+    "function": "login_throttle",
+    "condition": "not (len(recent) > limit)",
+    "property": "allow_on_within_limit",
+    "formal": "login_throttle(timestamps, now, window=window, limit=limit) == (True, limit - len(recent))"
+  },
+  {
+    "scope": "function",
+    "function": "login_throttle",
+    "property": "monotonic_allowance",
+    "precondition": "len(recent) <= limit",
+    "formal": "login_throttle(timestamps, now, window=window, limit=limit)[1] == limit - len(recent)"
+  },
+  {
+    "scope": "function",
+    "function": "login_throttle",
+    "property": "block_on_limit_exceeded",
+    "precondition": "len(recent) > limit",
+    "formal": "login_throttle(timestamps, now, window=window, limit=limit) == (False, 0)"
+  },
+  {
+    "scope": "function",
+    "function": "login_throttle",
+    "property": "non_negative_allowance",
+    "precondition": "len(recent) <= limit",
+    "formal": "login_throttle(timestamps, now, window=window, limit=limit)[1] >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "login_throttle",
+    "property": "window_filtering",
+    "precondition": "True",
+    "formal": "len([t for t in timestamps if t >= now - window]) == len(recent)"
+  },
+  {
+    "scope": "function",
+    "function": "login_throttle",
+    "property": "deterministic_output",
+    "precondition": "True",
+    "formal": "login_throttle(timestamps, now, window=window, limit=limit) == login_throttle(timestamps, now, window=window, limit=limit)"
+  },
+  {
+    "scope": "function",
+    "function": "login_throttle",
+    "property": "time_monotonicity",
+    "precondition": "now2 >= now1",
+    "formal": "login_throttle(timestamps, now2, window=window, limit=limit)[1] >= login_throttle(timestamps, now1, window=window, limit=limit)[1]"
+  },
+  {
+    "scope": "function",
+    "function": "login_throttle",
+    "property": "limit_monotonicity",
+    "precondition": "limit2 >= limit1",
+    "formal": "login_throttle(timestamps, now, window=window, limit=limit2)[1] >= login_throttle(timestamps, now, window=window, limit=limit1)[1]"
+  },
+  {
+    "scope": "function",
+    "function": "login_throttle",
+    "property": "window_monotonicity",
+    "precondition": "window2 >= window1",
+    "formal": "login_throttle(timestamps, now, window=window2, limit=limit)[1] <= login_throttle(timestamps, now, window=window1, limit=limit)[1]"
+  },
+  {
+    "scope": "function",
+    "function": "login_throttle",
+    "property": "empty_timestamps_identity",
+    "precondition": "len(timestamps) == 0",
+    "formal": "login_throttle([], now, window=window, limit=limit) == (True, limit)"
+  },
+  {
+    "scope": "function",
+    "function": "login_throttle",
+    "property": "max_allowance_bound",
+    "precondition": "True",
+    "formal": "login_throttle(timestamps, now, window=window, limit=limit)[1] <= limit"
+  }
+]

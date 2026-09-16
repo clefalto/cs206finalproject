@@ -1,0 +1,65 @@
+{
+    "functions": [
+        {
+            "name": "bill_payout",
+            "parameters": [
+                "amount",
+                "ratios"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "not ratios",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"ratios required\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (not ratios)",
+                        "body_contains": "if amount < 0:\n        raise ValueError(\"negative amount\")\ntotal_ratio = sum(ratios)\nif total_ratio <= 0:\n        raise ValueError(\"invalid ratios\")\nshares = []\nfor r in ratios:\n        shares.append((r / total_ratio) * amount)\n# BUG: fee is deducted from every participant.\nreturn [s - fee for s in shares]",
+                        "returns": "[s - fee for s in shares]",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "amount < 0",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"negative amount\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (amount < 0)",
+                        "body_contains": "total_ratio = sum(ratios)\nif total_ratio <= 0:\n        raise ValueError(\"invalid ratios\")\nshares = []\nfor r in ratios:\n        shares.append((r / total_ratio) * amount)\n# BUG: fee is deducted from every participant.\nreturn [s - fee for s in shares]",
+                        "returns": "[s - fee for s in shares]",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "total_ratio <= 0",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"invalid ratios\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (total_ratio <= 0)",
+                        "body_contains": "shares = []\nfor r in ratios:\n        shares.append((r / total_ratio) * amount)\n# BUG: fee is deducted from every participant.\nreturn [s - fee for s in shares]",
+                        "returns": "[s - fee for s in shares]",
+                        "early_exit": false
+                    }
+                ]
+            ],
+            "returns": "[s - fee for s in shares]"
+        }
+    ]
+}

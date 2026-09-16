@@ -1,0 +1,93 @@
+[
+  {
+    "scope": "branch",
+    "function": "replica_sync_offsets",
+    "condition": "primary[i] < replica[j]",
+    "property": "missing_element_identified",
+    "formal": "missing.append(primary[i])"
+  },
+  {
+    "scope": "branch",
+    "function": "replica_sync_offsets",
+    "condition": "replica[j] < primary[i]",
+    "property": "replica_skip",
+    "formal": "j += 1"
+  },
+  {
+    "scope": "branch",
+    "function": "replica_sync_offsets",
+    "condition": "not (primary[i] < replica[j] and replica[j] < primary[i])",
+    "property": "common_element_found",
+    "formal": "i += 1 and j += 1"
+  },
+  {
+    "scope": "branch",
+    "function": "replica_sync_offsets",
+    "condition": "missing and replica and missing[-1] == replica[-1]",
+    "property": "duplicate_removal",
+    "formal": "missing.pop()"
+  },
+  {
+    "scope": "function",
+    "function": "replica_sync_offsets",
+    "property": "monotonic_sequences",
+    "precondition": "primary and replica are sorted in ascending order",
+    "formal": "for all k, primary[k] <= primary[k+1] and replica[k] <= replica[k+1]"
+  },
+  {
+    "scope": "function",
+    "function": "replica_sync_offsets",
+    "property": "missing_elements_only",
+    "precondition": "primary and replica are sorted sequences",
+    "formal": "missing contains only elements present in primary but not in replica"
+  },
+  {
+    "scope": "function",
+    "function": "replica_sync_offsets",
+    "property": "order_preservation",
+    "precondition": "primary and replica are sorted sequences",
+    "formal": "elements in missing maintain their relative order from primary"
+  },
+  {
+    "scope": "function",
+    "function": "replica_sync_offsets",
+    "property": "no_duplicates_in_result",
+    "precondition": "primary and replica contain no duplicates",
+    "formal": "missing contains no duplicate elements"
+  },
+  {
+    "scope": "function",
+    "function": "replica_sync_offsets",
+    "property": "empty_result_when_identical",
+    "precondition": "primary == replica",
+    "formal": "missing == []"
+  },
+  {
+    "scope": "function",
+    "function": "replica_sync_offsets",
+    "property": "complete_when_replica_empty",
+    "precondition": "replica is empty",
+    "formal": "missing == primary"
+  },
+  {
+    "scope": "function",
+    "function": "replica_sync_offsets",
+    "property": "empty_when_primary_empty",
+    "precondition": "primary is empty",
+    "formal": "missing == []"
+  },
+  {
+    "scope": "function",
+    "function": "replica_sync_offsets",
+    "property": "postcondition_length",
+    "precondition": "primary and replica are sorted sequences",
+    "formal": "len(missing) <= len(primary)"
+  },
+  {
+    "scope": "function",
+    "function": "replica_sync_offsets",
+    "property": "metamorphic_relation",
+    "precondition": "primary and replica are sorted sequences",
+    "formal": "replica_sync_offsets(primary, replica) == set(primary) - set(replica)"
+  }
+]

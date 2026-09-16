@@ -1,0 +1,58 @@
+[
+  {
+    "scope": "branch",
+    "function": "allocate_prize_cut",
+    "condition": "not ratios",
+    "property": "empty_ratios_error",
+    "formal": "if not ratios: raise ValueError(\"ratios required\")"
+  },
+  {
+    "scope": "branch",
+    "function": "allocate_prize_cut",
+    "condition": "amount < 0",
+    "property": "negative_amount_error",
+    "formal": "if amount < 0: raise ValueError(\"negative amount\")"
+  },
+  {
+    "scope": "branch",
+    "function": "allocate_prize_cut",
+    "condition": "total_ratio <= 0",
+    "property": "invalid_ratios_error",
+    "formal": "if total_ratio <= 0: raise ValueError(\"invalid ratios\")"
+  },
+  {
+    "scope": "function",
+    "function": "allocate_prize_cut",
+    "property": "proportional_allocation",
+    "precondition": "ratios and amount >= 0 and sum(ratios) > 0",
+    "formal": "sum(shares) == amount"
+  },
+  {
+    "scope": "function",
+    "function": "allocate_prize_cut",
+    "property": "fee_deduction_bug",
+    "precondition": "ratios and amount >= 0 and sum(ratios) > 0",
+    "formal": "all(s == original_share - fee for s, original_share in zip(result, original_shares))"
+  },
+  {
+    "scope": "function",
+    "function": "allocate_prize_cut",
+    "property": "non_negative_shares",
+    "precondition": "ratios and amount >= 0 and sum(ratios) > 0 and fee <= min(original_shares)",
+    "formal": "all(s >= 0 for s in result)"
+  },
+  {
+    "scope": "function",
+    "function": "allocate_prize_cut",
+    "property": "monotonic_allocation",
+    "precondition": "ratios and amount >= 0 and sum(ratios) > 0",
+    "formal": "if ratios[i] > ratios[j] then result[i] > result[j]"
+  },
+  {
+    "scope": "function",
+    "function": "allocate_prize_cut",
+    "property": "scale_invariance",
+    "precondition": "ratios and amount >= 0 and sum(ratios) > 0 and k > 0",
+    "formal": "allocate_prize_cut(amount * k, [r * k for r in ratios]) == [s * k for s in allocate_prize_cut(amount, ratios)]"
+  }
+]

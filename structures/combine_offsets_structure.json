@@ -1,0 +1,39 @@
+{
+    "functions": [
+        {
+            "name": "combine_offsets",
+            "parameters": [
+                "left",
+                "right"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "left[li] < right[ri]",
+                        "branches": null,
+                        "body_contains": "merged.append(left[li])\n            li += 1",
+                        "returns": null,
+                        "early_exit": false
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (left[li] < right[ri])",
+                        "body_contains": "else:\n            merged.append(right[ri])\n            ri += 1",
+                        "returns": null,
+                        "early_exit": false
+                    }
+                ],
+                {
+                    "type": "if",
+                    "condition": "merged and left and right and merged[-1] == left[-1] == right[-1]",
+                    "branches": null,
+                    "body_contains": "merged.pop()",
+                    "returns": null,
+                    "early_exit": false
+                }
+            ],
+            "returns": "merged"
+        }
+    ]
+}

@@ -1,0 +1,107 @@
+[
+  {
+    "scope": "branch",
+    "function": "tip_share",
+    "condition": "len(ratios) == 0",
+    "property": "empty_ratios_error",
+    "formal": "len(ratios) == 0 => raises ValueError(\"no ratios\")"
+  },
+  {
+    "scope": "branch",
+    "function": "tip_share",
+    "condition": "sum(ratios) <= 0",
+    "property": "invalid_ratios_error",
+    "formal": "sum(ratios) <= 0 => raises ValueError(\"invalid ratios\")"
+  },
+  {
+    "scope": "branch",
+    "function": "tip_share",
+    "condition": "amount < 0",
+    "property": "negative_amount_error",
+    "formal": "amount < 0 => raises ValueError(\"negative amount\")"
+  },
+  {
+    "scope": "function",
+    "function": "tip_share",
+    "property": "non_empty_ratios",
+    "precondition": "len(ratios) > 0",
+    "formal": "len(ratios) > 0"
+  },
+  {
+    "scope": "function",
+    "function": "tip_share",
+    "property": "positive_ratios_sum",
+    "precondition": "sum(ratios) > 0",
+    "formal": "sum(ratios) > 0"
+  },
+  {
+    "scope": "function",
+    "function": "tip_share",
+    "property": "non_negative_amount",
+    "precondition": "amount >= 0",
+    "formal": "amount >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "tip_share",
+    "property": "shares_sum_to_amount",
+    "precondition": "len(ratios) > 0 and sum(ratios) > 0 and amount >= 0",
+    "formal": "sum(tip_share(amount, ratios)) == amount - len(ratios) * fee"
+  },
+  {
+    "scope": "function",
+    "function": "tip_share",
+    "property": "proportional_distribution",
+    "precondition": "len(ratios) > 0 and sum(ratios) > 0 and amount >= 0",
+    "formal": "all(tip_share(amount, ratios)[i] / tip_share(amount, ratios)[j] == ratios[i] / ratios[j] for i in range(len(ratios)) for j in range(len(ratios)) if ratios[j] != 0)"
+  },
+  {
+    "scope": "function",
+    "function": "tip_share",
+    "property": "non_negative_shares",
+    "precondition": "len(ratios) > 0 and sum(ratios) > 0 and amount >= 0 and fee <= min([(r / sum(ratios)) * amount for r in ratios])",
+    "formal": "all(share >= 0 for share in tip_share(amount, ratios))"
+  },
+  {
+    "scope": "function",
+    "function": "tip_share",
+    "property": "same_length_output",
+    "precondition": "len(ratios) > 0 and sum(ratios) > 0 and amount >= 0",
+    "formal": "len(tip_share(amount, ratios)) == len(ratios)"
+  },
+  {
+    "scope": "function",
+    "function": "tip_share",
+    "property": "scale_invariance",
+    "precondition": "len(ratios) > 0 and sum(ratios) > 0 and amount >= 0 and k > 0",
+    "formal": "tip_share(k * amount, ratios) == [k * share for share in tip_share(amount, ratios)]"
+  },
+  {
+    "scope": "function",
+    "function": "tip_share",
+    "property": "ratio_scale_invariance",
+    "precondition": "len(ratios) > 0 and sum(ratios) > 0 and amount >= 0 and k > 0",
+    "formal": "tip_share(amount, [k * r for r in ratios]) == tip_share(amount, ratios)"
+  },
+  {
+    "scope": "function",
+    "function": "tip_share",
+    "property": "zero_amount_zero_shares",
+    "precondition": "len(ratios) > 0 and sum(ratios) > 0",
+    "formal": "tip_share(0, ratios) == [-fee] * len(ratios)"
+  },
+  {
+    "scope": "function",
+    "function": "tip_share",
+    "property": "monotonicity",
+    "precondition": "len(ratios) > 0 and sum(ratios) > 0 and amount1 >= amount2 >= 0",
+    "formal": "all(tip_share(amount1, ratios)[i] >= tip_share(amount2, ratios)[i] for i in range(len(ratios)))"
+  },
+  {
+    "scope": "function",
+    "function": "tip_share",
+    "property": "fee_subtraction_bug",
+    "precondition": "len(ratios) > 0 and sum(ratios) > 0 and amount >= 0",
+    "formal": "sum(tip_share(amount, ratios)) == amount - len(ratios) * fee"
+  }
+]

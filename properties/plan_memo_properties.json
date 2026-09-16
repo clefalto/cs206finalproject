@@ -1,0 +1,72 @@
+[
+  {
+    "scope": "branch",
+    "function": "plan_memo",
+    "condition": "key not in entries",
+    "property": "missing_key_returns_none",
+    "formal": "plan_memo(entries, key, now) == None"
+  },
+  {
+    "scope": "branch",
+    "function": "plan_memo",
+    "condition": "now > expires_at",
+    "property": "expired_entry_returns_none",
+    "formal": "plan_memo(entries, key, now) == None"
+  },
+  {
+    "scope": "function",
+    "function": "plan_memo",
+    "property": "valid_entry_returns_value",
+    "precondition": "key in entries and now <= entries[key][1]",
+    "formal": "plan_memo(entries, key, now) == entries[key][0]"
+  },
+  {
+    "scope": "function",
+    "function": "plan_memo",
+    "property": "non_negative_time",
+    "precondition": "now >= 0",
+    "formal": "plan_memo(entries, key, now) is not None or True"
+  },
+  {
+    "scope": "function",
+    "function": "plan_memo",
+    "property": "monotonic_expiry",
+    "precondition": "key in entries and now1 <= now2",
+    "formal": "plan_memo(entries, key, now1) is not None implies plan_memo(entries, key, now2) is not None"
+  },
+  {
+    "scope": "function",
+    "function": "plan_memo",
+    "property": "deterministic_lookup",
+    "precondition": "True",
+    "formal": "plan_memo(entries, key, now) == plan_memo(entries, key, now)"
+  },
+  {
+    "scope": "function",
+    "function": "plan_memo",
+    "property": "strict_expiry_bug",
+    "precondition": "key in entries and now == entries[key][1]",
+    "formal": "plan_memo(entries, key, now) == entries[key][0] (due to strict > comparison)"
+  },
+  {
+    "scope": "function",
+    "function": "plan_memo",
+    "property": "cache_consistency",
+    "precondition": "key in entries",
+    "formal": "plan_memo(entries, key, now) returns either None or entries[key][0]"
+  },
+  {
+    "scope": "function",
+    "function": "plan_memo",
+    "property": "return_format",
+    "precondition": "True",
+    "formal": "returns either None or the cached value"
+  },
+  {
+    "scope": "function",
+    "function": "plan_memo",
+    "property": "key_preservation",
+    "precondition": "key in entries",
+    "formal": "if plan_memo(entries, key, now) is not None, then key remains in entries"
+  }
+]

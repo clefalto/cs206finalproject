@@ -1,0 +1,58 @@
+[
+  {
+    "scope": "branch",
+    "function": "ad_mix",
+    "condition": "len(current) != len(target)",
+    "property": "shape_mismatch_error",
+    "formal": "if len(current) != len(target) then raise ValueError(\"shape mismatch\")"
+  },
+  {
+    "scope": "branch",
+    "function": "ad_mix",
+    "condition": "not current",
+    "property": "empty_allocation_error",
+    "formal": "if not current then raise ValueError(\"empty allocation\")"
+  },
+  {
+    "scope": "function",
+    "function": "ad_mix",
+    "property": "length_preservation",
+    "precondition": "len(current) == len(target)",
+    "formal": "len(ad_mix(current, target)) == len(current)"
+  },
+  {
+    "scope": "function",
+    "function": "ad_mix",
+    "property": "linear_interpolation",
+    "precondition": "len(current) == len(target) and current != []",
+    "formal": "for all i, ad_mix(current, target)[i] == current[i] + (target[i] - current[i]) * damping"
+  },
+  {
+    "scope": "function",
+    "function": "ad_mix",
+    "property": "identity_on_equal",
+    "precondition": "len(current) == len(target) and current == target",
+    "formal": "ad_mix(current, current) == current"
+  },
+  {
+    "scope": "function",
+    "function": "ad_mix",
+    "property": "boundary_preservation",
+    "precondition": "len(current) == len(target) and current != []",
+    "formal": "min(current[i], target[i]) <= ad_mix(current, target)[i] <= max(current[i], target[i]) for all i"
+  },
+  {
+    "scope": "function",
+    "function": "ad_mix",
+    "property": "monotonicity",
+    "precondition": "len(current) == len(target) and current != []",
+    "formal": "if current[i] <= target[i] then ad_mix(current, target)[i] >= current[i] for all i"
+  },
+  {
+    "scope": "function",
+    "function": "ad_mix",
+    "property": "sum_drift",
+    "precondition": "len(current) == len(target) and current != []",
+    "formal": "sum(ad_mix(current, target)) != sum(current) in general (due to missing normalization)"
+  }
+]

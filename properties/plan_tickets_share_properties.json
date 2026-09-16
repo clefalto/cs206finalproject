@@ -1,0 +1,135 @@
+[
+  {
+    "scope": "branch",
+    "function": "plan_tickets_share",
+    "condition": "len(weights) == 0",
+    "property": "empty_weights_error",
+    "formal": "len(weights) == 0 => raises ValueError(\"weights required\")"
+  },
+  {
+    "scope": "branch",
+    "function": "plan_tickets_share",
+    "condition": "total < 0",
+    "property": "negative_total_error",
+    "formal": "total < 0 => raises ValueError(\"negative total\")"
+  },
+  {
+    "scope": "branch",
+    "function": "plan_tickets_share",
+    "condition": "minimum < 0",
+    "property": "negative_minimum_error",
+    "formal": "minimum < 0 => raises ValueError(\"negative minimum\")"
+  },
+  {
+    "scope": "branch",
+    "function": "plan_tickets_share",
+    "condition": "sum(weights) == 0",
+    "property": "zero_weight_sum_error",
+    "formal": "sum(weights) == 0 => raises ValueError(\"zero total weight\")"
+  },
+  {
+    "scope": "branch",
+    "function": "plan_tickets_share",
+    "condition": "portion > minimum",
+    "property": "proportional_allocation",
+    "formal": "portion > minimum => shares[i] == portion"
+  },
+  {
+    "scope": "branch",
+    "function": "plan_tickets_share",
+    "condition": "portion <= minimum",
+    "property": "minimum_enforcement",
+    "formal": "portion <= minimum => shares[i] == minimum"
+  },
+  {
+    "scope": "branch",
+    "function": "plan_tickets_share",
+    "condition": "floor_to_int",
+    "property": "integer_flooring",
+    "formal": "floor_to_int => all(isinstance(x, int) for x in shares)"
+  },
+  {
+    "scope": "branch",
+    "function": "plan_tickets_share",
+    "condition": "not floor_to_int",
+    "property": "float_preservation",
+    "formal": "not floor_to_int => shares contains floats"
+  },
+  {
+    "scope": "function",
+    "function": "plan_tickets_share",
+    "property": "non_negative_shares",
+    "precondition": "total >= 0 and minimum >= 0 and sum(weights) > 0",
+    "formal": "all(share >= 0 for share in shares)"
+  },
+  {
+    "scope": "function",
+    "function": "plan_tickets_share",
+    "property": "minimum_shares",
+    "precondition": "total >= 0 and minimum >= 0 and sum(weights) > 0",
+    "formal": "all(share >= minimum for share in shares)"
+  },
+  {
+    "scope": "function",
+    "function": "plan_tickets_share",
+    "property": "shares_length",
+    "precondition": "len(weights) > 0 and sum(weights) > 0",
+    "formal": "len(shares) == len(weights)"
+  },
+  {
+    "scope": "function",
+    "function": "plan_tickets_share",
+    "property": "proportional_distribution",
+    "precondition": "total >= 0 and minimum >= 0 and sum(weights) > 0 and all(w >= 0 for w in weights)",
+    "formal": "shares[i] / shares[j] == weights[i] / weights[j] when both portions > minimum"
+  },
+  {
+    "scope": "function",
+    "function": "plan_tickets_share",
+    "property": "total_preservation",
+    "precondition": "total >= 0 and minimum >= 0 and sum(weights) > 0 and floor_to_int == False",
+    "formal": "sum(shares) == total"
+  },
+  {
+    "scope": "function",
+    "function": "plan_tickets_share",
+    "property": "total_approximation",
+    "precondition": "total >= 0 and minimum >= 0 and sum(weights) > 0 and floor_to_int == True",
+    "formal": "abs(sum(shares) - total) < len(weights)"
+  },
+  {
+    "scope": "function",
+    "function": "plan_tickets_share",
+    "property": "monotonicity",
+    "precondition": "total1 >= total2 and minimum >= 0 and sum(weights) > 0",
+    "formal": "plan_tickets_share(total1, weights, minimum, floor_to_int)[i] >= plan_tickets_share(total2, weights, minimum, floor_to_int)[i]"
+  },
+  {
+    "scope": "function",
+    "function": "plan_tickets_share",
+    "property": "weight_monotonicity",
+    "precondition": "total >= 0 and minimum >= 0 and sum(weights1) > 0 and sum(weights2) > 0 and weights1[i] >= weights2[i]",
+    "formal": "plan_tickets_share(total, weights1, minimum, floor_to_int)[i] >= plan_tickets_share(total, weights2, minimum, floor_to_int)[i]"
+  },
+  {
+    "scope": "function",
+    "function": "plan_tickets_share",
+    "property": "scale_invariance",
+    "precondition": "total >= 0 and minimum >= 0 and sum(weights) > 0 and k > 0",
+    "formal": "plan_tickets_share(total, [w*k for w in weights], minimum, floor_to_int) == plan_tickets_share(total, weights, minimum, floor_to_int)"
+  },
+  {
+    "scope": "function",
+    "function": "plan_tickets_share",
+    "property": "minimum_dominance",
+    "precondition": "total >= 0 and minimum >= 0 and sum(weights) > 0 and minimum * len(weights) >= total",
+    "formal": "all(share == minimum for share in shares)"
+  },
+  {
+    "scope": "function",
+    "function": "plan_tickets_share",
+    "property": "error_conditions",
+    "precondition": "True",
+    "formal": "raises ValueError when len(weights) == 0 or total < 0 or minimum < 0 or sum(weights) == 0"
+  }
+]

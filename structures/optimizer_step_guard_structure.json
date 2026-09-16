@@ -1,0 +1,47 @@
+{
+    "functions": [
+        {
+            "name": "optimizer_step_guard",
+            "parameters": [
+                "loss_value"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "loss_value < 0",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"loss must be non-negative\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (loss_value < 0)",
+                        "body_contains": "# BUG: NaN check is inverted; NaN passes the guard.\nif loss_value == loss_value and loss_value > max_loss:\n        return False\nreturn True",
+                        "returns": "True",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "loss_value == loss_value and loss_value > max_loss",
+                        "branches": null,
+                        "body_contains": "return False",
+                        "returns": "False",
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (loss_value == loss_value and loss_value > max_loss)",
+                        "body_contains": "return True",
+                        "returns": "True",
+                        "early_exit": false
+                    }
+                ]
+            ],
+            "returns": "True"
+        }
+    ]
+}

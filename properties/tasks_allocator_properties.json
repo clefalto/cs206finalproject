@@ -1,0 +1,128 @@
+[
+  {
+    "scope": "branch",
+    "function": "tasks_allocator",
+    "condition": "total < 0",
+    "property": "negative_total_error",
+    "formal": "raise ValueError(\"total must be non-negative\")"
+  },
+  {
+    "scope": "branch",
+    "function": "tasks_allocator",
+    "condition": "minimum < 0",
+    "property": "negative_minimum_error",
+    "formal": "raise ValueError(\"minimum must be non-negative\")"
+  },
+  {
+    "scope": "branch",
+    "function": "tasks_allocator",
+    "condition": "not weights",
+    "property": "empty_weights_error",
+    "formal": "raise ValueError(\"no weights provided\")"
+  },
+  {
+    "scope": "branch",
+    "function": "tasks_allocator",
+    "condition": "not any(weights)",
+    "property": "zero_weights_error",
+    "formal": "raise ValueError(\"all weights are zero\")"
+  },
+  {
+    "scope": "function",
+    "function": "tasks_allocator",
+    "property": "non_negative_allocations",
+    "precondition": "total >= 0 and minimum >= 0 and weights is not empty and any(weights)",
+    "formal": "all(a >= 0 for a in allocations)"
+  },
+  {
+    "scope": "function",
+    "function": "tasks_allocator",
+    "property": "minimum_allocation_guarantee",
+    "precondition": "total >= 0 and minimum >= 0 and weights is not empty and any(weights)",
+    "formal": "all(a >= minimum for a in allocations)"
+  },
+  {
+    "scope": "function",
+    "function": "tasks_allocator",
+    "property": "allocation_sum_bound",
+    "precondition": "total >= 0 and minimum >= 0 and weights is not empty and any(weights)",
+    "formal": "sum(allocations) <= total"
+  },
+  {
+    "scope": "function",
+    "function": "tasks_allocator",
+    "property": "allocation_sum_bound_with_minimum",
+    "precondition": "total >= 0 and minimum >= 0 and weights is not empty and any(weights)",
+    "formal": "sum(allocations) >= minimum * len(weights)"
+  },
+  {
+    "scope": "function",
+    "function": "tasks_allocator",
+    "property": "proportional_allocation",
+    "precondition": "total >= 0 and minimum >= 0 and weights is not empty and any(weights)",
+    "formal": "allocations[i] / allocations[j] ≈ weights[i] / weights[j] for all i, j where weights[i] > 0 and weights[j] > 0"
+  },
+  {
+    "scope": "function",
+    "function": "tasks_allocator",
+    "property": "integer_allocation",
+    "precondition": "total >= 0 and minimum >= 0 and weights is not empty and any(weights)",
+    "formal": "all(isinstance(a, int) for a in allocations)"
+  },
+  {
+    "scope": "function",
+    "function": "tasks_allocator",
+    "property": "allocation_length",
+    "precondition": "total >= 0 and minimum >= 0 and weights is not empty and any(weights)",
+    "formal": "len(allocations) == len(weights)"
+  },
+  {
+    "scope": "function",
+    "function": "tasks_allocator",
+    "property": "monotonic_allocation",
+    "precondition": "total >= 0 and minimum >= 0 and weights is not empty and any(weights)",
+    "formal": "if weights[i] >= weights[j] then allocations[i] >= allocations[j]"
+  },
+  {
+    "scope": "function",
+    "function": "tasks_allocator",
+    "property": "scale_invariance",
+    "precondition": "total >= 0 and minimum >= 0 and weights is not empty and any(weights)",
+    "formal": "tasks_allocator(total, weights) == tasks_allocator(total, [w * k for w in weights]) for any positive k"
+  },
+  {
+    "scope": "function",
+    "function": "tasks_allocator",
+    "property": "total_independence",
+    "precondition": "total >= 0 and minimum >= 0 and weights is not empty and any(weights)",
+    "formal": "if total1 >= sum(minimum * len(weights)) and total2 >= sum(minimum * len(weights)) then tasks_allocator(total1, weights) == tasks_allocator(total2, weights)"
+  },
+  {
+    "scope": "function",
+    "function": "tasks_allocator",
+    "property": "minimum_independence",
+    "precondition": "total >= 0 and minimum >= 0 and weights is not empty and any(weights)",
+    "formal": "if minimum1 <= min(planned) and minimum2 <= min(planned) then tasks_allocator(total, weights, minimum1) == tasks_allocator(total, weights, minimum2)"
+  },
+  {
+    "scope": "function",
+    "function": "tasks_allocator",
+    "property": "zero_weight_handling",
+    "precondition": "total >= 0 and minimum >= 0 and weights is not empty and any(weights)",
+    "formal": "if weights[i] == 0 then allocations[i] == minimum"
+  },
+  {
+    "scope": "function",
+    "function": "tasks_allocator",
+    "property": "single_weight_handling",
+    "precondition": "total >= 0 and minimum >= 0 and weights is not empty and any(weights)",
+    "formal": "if len(weights) == 1 then allocations[0] == total"
+  },
+  {
+    "scope": "function",
+    "function": "tasks_allocator",
+    "property": "error_conditions",
+    "precondition": "None",
+    "formal": "raises ValueError for total < 0, minimum < 0, empty weights, or all zero weights"
+  }
+]

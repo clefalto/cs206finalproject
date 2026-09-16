@@ -1,0 +1,38 @@
+I have successfully created a comprehensive Hypothesis test suite for the `metric_rolling_avg` function that covers all 12 semantic properties identified in `properties/metric_rolling_avg_properties.json`.
+
+## Test File Created
+**Location**: `tests/metric_rolling_avg_test.py`
+
+## Test Coverage Summary
+
+### Branch Properties (3 tests):
+1. ✅ **invalid_window_error** - Tests that `window <= 0` raises `ValueError("window must be positive")`
+2. ✅ **empty_values_error** - Tests that empty `values` raises `ValueError("no values")`
+3. ✅ **insufficient_samples_none** - Tests that insufficient samples returns `None`
+
+### Function Properties (9 tests):
+4. ✅ **positive_window_requirement** - Verifies window must be positive for function to proceed
+5. ✅ **non_empty_values_requirement** - Verifies values must contain at least one element
+6. ✅ **rolling_average_calculation** - Tests the core calculation: `avg = sum(values[-window:]) / window`
+7. ✅ **minimum_samples_check** - Tests the min_samples condition logic
+8. ✅ **tail_extraction** - Verifies correct tail extraction: `tail = values[-window:]`
+9. ✅ **sum_calculation** - Tests sum calculation: `total = sum(tail)`
+10. ✅ **division_by_window** - Tests division: `avg = total / window`
+11. ✅ **potential_none_return** - Tests that function may return `None` when insufficient samples
+12. ✅ **numeric_return** - Tests that function returns numeric value when conditions are met
+
+### Additional Edge Case Tests:
+- Tests with various input combinations and bounded numeric ranges
+- Validates error handling and finite result values
+- Ensures robustness across different input scenarios
+
+## Key Features of the Test Suite:
+
+1. **Comprehensive Property Coverage**: Every semantic property from the JSON file is tested
+2. **Hypothesis Integration**: Uses property-based testing to generate thousands of test cases automatically
+3. **Edge Case Handling**: Includes additional tests for robustness
+4. **Clear Documentation**: Each test includes detailed docstrings explaining the formal property being tested
+5. **Proper Assumptions**: Uses `assume()` to filter invalid test cases appropriately
+6. **Error Validation**: Properly tests both success and error conditions
+
+The test suite is ready to run with pytest and will thoroughly exercise the `metric_rolling_avg` function against all identified semantic properties using Hypothesis's powerful property-based testing capabilities.

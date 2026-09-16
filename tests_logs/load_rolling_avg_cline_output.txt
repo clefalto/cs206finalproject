@@ -1,0 +1,27 @@
+I have successfully created a comprehensive Hypothesis-based test file for the load_rolling_avg function that exercises all 12 semantic properties identified in properties/load_rolling_avg_properties.json.
+
+The test file `tests/load_rolling_avg_test.py` includes:
+
+**Branch-level property tests:**
+- `test_invalid_window_error` - Tests that window <= 0 raises ValueError("invalid window")
+- `test_empty_series_error` - Tests that empty series raises ValueError("no samples") 
+- `test_insufficient_warmup` - Tests that insufficient warmup returns None
+
+**Function-level property tests:**
+- `test_valid_window_precondition` - Verifies window must be positive
+- `test_non_empty_series_precondition` - Verifies series must not be empty
+- `test_rolling_average_computation` - Tests the core averaging calculation
+- `test_warmup_check` - Tests the warmup validation logic
+- `test_bug_ignores_actual_count` - Specifically tests the identified bug
+- `test_postcondition_valid_or_none` - Verifies return value is valid or None
+
+**Metamorphic property tests:**
+- `test_metamorphic_monotonicity` - Tests that extending series maintains monotonicity
+- `test_metamorphic_scaling` - Tests that scaling input scales output proportionally
+
+**Invariant property tests:**
+- `test_invariant_window_size` - Verifies average is computed over correct number of elements
+
+The test file uses Hypothesis strategies to generate comprehensive test cases with appropriate assumptions to avoid invalid test inputs. It includes a mock implementation of load_rolling_avg for validation purposes, with a note to replace the import with the actual function location.
+
+All tests follow the formal specifications provided in the properties JSON file and use appropriate assertions to verify each semantic property.

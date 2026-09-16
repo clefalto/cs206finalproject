@@ -1,0 +1,49 @@
+{
+    "functions": [
+        {
+            "name": "cache_entry_ttl",
+            "parameters": [
+                "entries",
+                "key",
+                "now"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "key not in entries",
+                        "branches": null,
+                        "body_contains": "return None",
+                        "returns": "None",
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (key not in entries)",
+                        "body_contains": "value, expires = entries[key]\n# BUG: strict comparison keeps items expiring at now.\nif now > expires:\n        return None\nreturn value",
+                        "returns": "value",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "now > expires",
+                        "branches": null,
+                        "body_contains": "return None",
+                        "returns": "None",
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (now > expires)",
+                        "body_contains": "return value",
+                        "returns": "value",
+                        "early_exit": false
+                    }
+                ]
+            ],
+            "returns": "value"
+        }
+    ]
+}

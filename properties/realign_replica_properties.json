@@ -1,0 +1,65 @@
+[
+  {
+    "scope": "branch",
+    "function": "realign_replica",
+    "condition": "len(current) != len(target)",
+    "property": "shape_mismatch_error",
+    "formal": "len(current) != len(target) => raises ValueError(\"shape mismatch\")"
+  },
+  {
+    "scope": "branch",
+    "function": "realign_replica",
+    "condition": "not current",
+    "property": "empty_allocation_error",
+    "formal": "not current => raises ValueError(\"empty allocation\")"
+  },
+  {
+    "scope": "function",
+    "function": "realign_replica",
+    "property": "length_preservation",
+    "precondition": "len(current) == len(target)",
+    "formal": "len(realign_replica(current, target)) == len(current)"
+  },
+  {
+    "scope": "function",
+    "function": "realign_replica",
+    "property": "linear_interpolation",
+    "precondition": "len(current) == len(target) and current != []",
+    "formal": "realign_replica(current, target)[i] == current[i] + (target[i] - current[i]) * damping for all i"
+  },
+  {
+    "scope": "function",
+    "function": "realign_replica",
+    "property": "identity_on_equal_inputs",
+    "precondition": "current == target and current != []",
+    "formal": "realign_replica(current, current) == current"
+  },
+  {
+    "scope": "function",
+    "function": "realign_replica",
+    "property": "target_convergence",
+    "precondition": "damping == 1.0 and len(current) == len(target) and current != []",
+    "formal": "realign_replica(current, target) == target"
+  },
+  {
+    "scope": "function",
+    "function": "realign_replica",
+    "property": "no_drift_invariant",
+    "precondition": "sum(current) == sum(target) and damping == 1.0 and len(current) == len(target) and current != []",
+    "formal": "sum(realign_replica(current, target)) == sum(current)"
+  },
+  {
+    "scope": "function",
+    "function": "realign_replica",
+    "property": "monotonic_convergence",
+    "precondition": "0 <= damping <= 1 and len(current) == len(target) and current != []",
+    "formal": "abs(realign_replica(current, target)[i] - target[i]) <= abs(current[i] - target[i]) for all i"
+  },
+  {
+    "scope": "function",
+    "function": "realign_replica",
+    "property": "error_conditions",
+    "precondition": "len(current) != len(target) or not current",
+    "formal": "raises ValueError with appropriate message"
+  }
+]

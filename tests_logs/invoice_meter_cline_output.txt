@@ -1,0 +1,22 @@
+Created comprehensive Hypothesis-based test suite for the invoice_meter function in tests/invoice_meter_test.py. The test file includes:
+
+1. **Branch-level property tests:**
+   - `test_ceiling_applied_branch`: Tests that new_value <= max_value when max_value is not None
+   - `test_value_capped_branch`: Tests that new_value == max_value when increment would exceed max_value
+
+2. **Function-level property tests:**
+   - `test_incremental_counting`: Verifies new_value == counts.get(key, 0) + 1
+   - `test_state_persistence`: Ensures counts[key] == new_value
+   - `test_monotonic_increase`: Confirms new_value >= previous count
+   - `test_non_negative_count`: Validates new_value >= 0
+   - `test_ceiling_respect`: Tests new_value <= max_value when max_value is not None
+   - `test_key_preservation`: Ensures key remains in counts dictionary
+   - `test_return_value_consistency`: Verifies return value equals counts[key]
+   - `test_boundary_bug`: Specifically tests the boundary condition bug
+
+3. **Additional comprehensive tests:**
+   - Multiple calls consistency
+   - Different keys independence
+   - Specific max_value scenarios with parametrized testing
+
+The tests use Hypothesis strategies to generate random test data including dictionaries of counts, string keys, and optional max_values. All tests follow Hypothesis best practices with proper assume() calls for preconditions and comprehensive edge case coverage.

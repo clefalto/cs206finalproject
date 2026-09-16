@@ -1,0 +1,64 @@
+{
+    "functions": [
+        {
+            "name": "metric_rolling_avg",
+            "parameters": [
+                "values"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "window <= 0",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"window must be positive\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (window <= 0)",
+                        "body_contains": "if not values:\n        raise ValueError(\"no values\")\ntail = values[-window:]\ntotal = sum(tail)\n# BUG: divides by window even during warmup.\navg = total / window\nif len(tail) < min_samples:\n        return None\nreturn avg",
+                        "returns": "avg",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "not values",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"no values\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (not values)",
+                        "body_contains": "tail = values[-window:]\ntotal = sum(tail)\n# BUG: divides by window even during warmup.\navg = total / window\nif len(tail) < min_samples:\n        return None\nreturn avg",
+                        "returns": "avg",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "len(tail) < min_samples",
+                        "branches": null,
+                        "body_contains": "return None",
+                        "returns": "None",
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (len(tail) < min_samples)",
+                        "body_contains": "return avg",
+                        "returns": "avg",
+                        "early_exit": false
+                    }
+                ]
+            ],
+            "returns": "avg"
+        }
+    ]
+}

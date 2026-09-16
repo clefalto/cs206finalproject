@@ -1,0 +1,39 @@
+{
+    "functions": [
+        {
+            "name": "stream_joiner",
+            "parameters": [
+                "left",
+                "right"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "left[i] <= right[j]",
+                        "branches": null,
+                        "body_contains": "out.append(left[i])\n            i += 1",
+                        "returns": null,
+                        "early_exit": false
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (left[i] <= right[j])",
+                        "body_contains": "else:\n            out.append(right[j])\n            j += 1",
+                        "returns": null,
+                        "early_exit": false
+                    }
+                ],
+                {
+                    "type": "if",
+                    "condition": "out and left and right and out[-1] == left[-1] == right[-1]",
+                    "branches": null,
+                    "body_contains": "out.pop()",
+                    "returns": null,
+                    "early_exit": false
+                }
+            ],
+            "returns": "out"
+        }
+    ]
+}

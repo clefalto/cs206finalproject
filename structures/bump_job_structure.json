@@ -1,0 +1,22 @@
+{
+    "functions": [
+        {
+            "name": "bump_job",
+            "parameters": [
+                "counters",
+                "key"
+            ],
+            "branches": [
+                {
+                    "type": "if",
+                    "condition": "cap is not None and counters[key] > cap",
+                    "branches": null,
+                    "body_contains": "counters[key] = cap",
+                    "returns": null,
+                    "early_exit": false
+                }
+            ],
+            "returns": "counters[key]"
+        }
+    ]
+}

@@ -1,0 +1,72 @@
+[
+  {
+    "scope": "branch",
+    "function": "shares_apportion",
+    "condition": "total < 0",
+    "property": "negative_total_error",
+    "formal": "if total < 0 then ValueError(\"total must be non-negative\") is raised"
+  },
+  {
+    "scope": "branch",
+    "function": "shares_apportion",
+    "condition": "minimum < 0",
+    "property": "negative_minimum_error",
+    "formal": "if minimum < 0 then ValueError(\"minimum must be non-negative\") is raised"
+  },
+  {
+    "scope": "branch",
+    "function": "shares_apportion",
+    "condition": "not weights",
+    "property": "empty_weights_error",
+    "formal": "if not weights then ValueError(\"no weights provided\") is raised"
+  },
+  {
+    "scope": "branch",
+    "function": "shares_apportion",
+    "condition": "not any(weights)",
+    "property": "zero_weights_error",
+    "formal": "if not any(weights) then ValueError(\"all weights are zero\") is raised"
+  },
+  {
+    "scope": "function",
+    "function": "shares_apportion",
+    "property": "non_negative_allocations",
+    "precondition": "total >= 0 and minimum >= 0 and weights is non-empty and not all weights are zero",
+    "formal": "all(allocation >= 0 for allocation in shares_apportion(total, weights))"
+  },
+  {
+    "scope": "function",
+    "function": "shares_apportion",
+    "property": "minimum_allocation",
+    "precondition": "total >= 0 and minimum >= 0 and weights is non-empty and not all weights are zero",
+    "formal": "all(allocation >= minimum for allocation in shares_apportion(total, weights))"
+  },
+  {
+    "scope": "function",
+    "function": "shares_apportion",
+    "property": "integer_allocations",
+    "precondition": "total >= 0 and minimum >= 0 and weights is non-empty and not all weights are zero",
+    "formal": "all(isinstance(allocation, int) for allocation in shares_apportion(total, weights))"
+  },
+  {
+    "scope": "function",
+    "function": "shares_apportion",
+    "property": "allocation_sum_less_than_total",
+    "precondition": "total >= 0 and minimum >= 0 and weights is non-empty and not all weights are zero",
+    "formal": "sum(shares_apportion(total, weights)) <= total"
+  },
+  {
+    "scope": "function",
+    "function": "shares_apportion",
+    "property": "monotonicity",
+    "precondition": "total >= 0 and minimum >= 0 and weights is non-empty and not all weights are zero",
+    "formal": "if total1 <= total2 then all(a1 <= a2 for a1, a2 in zip(shares_apportion(total1, weights), shares_apportion(total2, weights)))"
+  },
+  {
+    "scope": "function",
+    "function": "shares_apportion",
+    "property": "scale_invariance",
+    "precondition": "total >= 0 and minimum >= 0 and weights is non-empty and not all weights are zero",
+    "formal": "shares_apportion(total, [w * k for w in weights]) == shares_apportion(total, weights) for any positive k"
+  }
+]

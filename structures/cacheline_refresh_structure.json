@@ -1,0 +1,49 @@
+{
+    "functions": [
+        {
+            "name": "cacheline_refresh",
+            "parameters": [
+                "store",
+                "key",
+                "now"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "item is None",
+                        "branches": null,
+                        "body_contains": "return None",
+                        "returns": "None",
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (item is None)",
+                        "body_contains": "value, expires_at = item\nif now > expires_at:\n        return None\n# BUG: refresh uses now + ttl but fails to write back.\nexpires_at = now + ttl\nreturn value",
+                        "returns": "value",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "now > expires_at",
+                        "branches": null,
+                        "body_contains": "return None",
+                        "returns": "None",
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (now > expires_at)",
+                        "body_contains": "# BUG: refresh uses now + ttl but fails to write back.\nexpires_at = now + ttl\nreturn value",
+                        "returns": "value",
+                        "early_exit": false
+                    }
+                ]
+            ],
+            "returns": "value"
+        }
+    ]
+}

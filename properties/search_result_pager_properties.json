@@ -1,0 +1,65 @@
+[
+  {
+    "scope": "branch",
+    "function": "search_result_pager",
+    "condition": "page < 1",
+    "property": "invalid_page_error",
+    "formal": "raises ValueError with message 'page must be >= 1'"
+  },
+  {
+    "scope": "branch",
+    "function": "search_result_pager",
+    "condition": "page_size <= 0",
+    "property": "invalid_page_size_error",
+    "formal": "raises ValueError with message 'page_size must be positive'"
+  },
+  {
+    "scope": "branch",
+    "function": "search_result_pager",
+    "condition": "page >= 1 and page_size > 0",
+    "property": "inclusive_end_bug",
+    "formal": "returns results[start:end + 1] where end is inclusive instead of exclusive"
+  },
+  {
+    "scope": "function",
+    "function": "search_result_pager",
+    "property": "valid_page_precondition",
+    "precondition": "page >= 1",
+    "formal": "function does not raise ValueError for page parameter"
+  },
+  {
+    "scope": "function",
+    "function": "search_result_pager",
+    "property": "valid_page_size_precondition",
+    "precondition": "page_size > 0",
+    "formal": "function does not raise ValueError for page_size parameter"
+  },
+  {
+    "scope": "function",
+    "function": "search_result_pager",
+    "property": "start_index_calculation",
+    "precondition": "page >= 1 and page_size > 0",
+    "formal": "start = (page - 1) * page_size"
+  },
+  {
+    "scope": "function",
+    "function": "search_result_pager",
+    "property": "end_index_calculation",
+    "precondition": "page >= 1 and page_size > 0",
+    "formal": "end = start + page_size"
+  },
+  {
+    "scope": "function",
+    "function": "search_result_pager",
+    "property": "slice_return",
+    "precondition": "page >= 1 and page_size > 0",
+    "formal": "returns results[start:end + 1]"
+  },
+  {
+    "scope": "function",
+    "function": "search_result_pager",
+    "property": "metamorphic_relation",
+    "precondition": "page >= 1 and page_size > 0 and len(results) >= page * page_size",
+    "formal": "search_result_pager(results, page, page_size) == results[(page-1)*page_size:page*page_size]"
+  }
+]

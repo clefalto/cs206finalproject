@@ -1,0 +1,4 @@
+# file: /home/clef/hw/cs206/project/dataset/python_programs/plan_points_share.py
+# hypothesis_version: 6.151.9
+
+['invalid weights', 'minimum < 0', 'total < 0']

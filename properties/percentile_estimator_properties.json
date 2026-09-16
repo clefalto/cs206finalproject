@@ -1,0 +1,58 @@
+[
+  {
+    "scope": "branch",
+    "function": "percentile_estimator",
+    "condition": "not values",
+    "property": "empty_input_error",
+    "formal": "percentile_estimator(values) raises ValueError with message 'no values'"
+  },
+  {
+    "scope": "branch",
+    "function": "percentile_estimator",
+    "condition": "not (0 <= q <= 1)",
+    "property": "invalid_quantile_error",
+    "formal": "percentile_estimator(values, q) raises ValueError with message 'q must be in [0, 1]'"
+  },
+  {
+    "scope": "function",
+    "function": "percentile_estimator",
+    "property": "quantile_range",
+    "precondition": "values is non-empty and 0 <= q <= 1",
+    "formal": "min(values) <= percentile_estimator(values, q) <= max(values)"
+  },
+  {
+    "scope": "function",
+    "function": "percentile_estimator",
+    "property": "monotonicity",
+    "precondition": "values is non-empty and 0 <= q1 <= q2 <= 1",
+    "formal": "percentile_estimator(values, q1) <= percentile_estimator(values, q2)"
+  },
+  {
+    "scope": "function",
+    "function": "percentile_estimator",
+    "property": "identity_on_extremes",
+    "precondition": "values is non-empty",
+    "formal": "percentile_estimator(values, 0) == min(values) and percentile_estimator(values, 1) == max(values)"
+  },
+  {
+    "scope": "function",
+    "function": "percentile_estimator",
+    "property": "scale_invariance",
+    "precondition": "values is non-empty, 0 <= q <= 1, and c > 0",
+    "formal": "percentile_estimator([c * x for x in values], q) == c * percentile_estimator(values, q)"
+  },
+  {
+    "scope": "function",
+    "function": "percentile_estimator",
+    "property": "translation_invariance",
+    "precondition": "values is non-empty, 0 <= q <= 1, and c is any constant",
+    "formal": "percentile_estimator([x + c for x in values], q) == percentile_estimator(values, q) + c"
+  },
+  {
+    "scope": "function",
+    "function": "percentile_estimator",
+    "property": "off_by_one_bug",
+    "precondition": "values is non-empty and q == 1.0",
+    "formal": "percentile_estimator(values, 1.0) raises IndexError or returns incorrect value"
+  }
+]

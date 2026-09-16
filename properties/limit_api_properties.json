@@ -1,0 +1,58 @@
+[
+  {
+    "scope": "branch",
+    "function": "limit_api",
+    "condition": "len(recent) > limit",
+    "property": "rate_limit_exceeded",
+    "formal": "if len(recent) > limit then return False, 0"
+  },
+  {
+    "scope": "branch",
+    "function": "limit_api",
+    "condition": "not (len(recent) > limit)",
+    "property": "rate_limit_allowed",
+    "formal": "if not (len(recent) > limit) then return True, limit - len(recent)"
+  },
+  {
+    "scope": "function",
+    "function": "limit_api",
+    "property": "boolean_status",
+    "precondition": "true",
+    "formal": "limit_api(timestamps, now) returns (bool, int) where bool indicates if request is allowed"
+  },
+  {
+    "scope": "function",
+    "function": "limit_api",
+    "property": "remaining_count",
+    "precondition": "true",
+    "formal": "limit_api(timestamps, now) returns (status, remaining) where remaining >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "limit_api",
+    "property": "monotonic_remaining",
+    "precondition": "true",
+    "formal": "if len(recent) increases then remaining decreases or stays same"
+  },
+  {
+    "scope": "function",
+    "function": "limit_api",
+    "property": "boundary_conditions",
+    "precondition": "true",
+    "formal": "if len(recent) == 0 then remaining == limit, if len(recent) >= limit then status == False"
+  },
+  {
+    "scope": "function",
+    "function": "limit_api",
+    "property": "idempotency",
+    "precondition": "true",
+    "formal": "limit_api(timestamps, now) == limit_api(timestamps, now) for same inputs"
+  },
+  {
+    "scope": "function",
+    "function": "limit_api",
+    "property": "deterministic",
+    "precondition": "true",
+    "formal": "same inputs always produce same outputs"
+  }
+]

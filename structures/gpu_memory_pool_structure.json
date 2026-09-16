@@ -1,0 +1,66 @@
+{
+    "functions": [
+        {
+            "name": "gpu_memory_pool",
+            "parameters": [
+                "allocations",
+                "request",
+                "capacity"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "capacity <= 0",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"capacity must be positive\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (capacity <= 0)",
+                        "body_contains": "if request < 0:\n        raise ValueError(\"request must be non-negative\")\nused = sum(allocations)\n# BUG: uses > so it allows one extra byte at capacity.\nif used + request > capacity:\n        return False\nreturn True",
+                        "returns": "True",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "request < 0",
+                        "branches": null,
+                        "body_contains": "raise ValueError(\"request must be non-negative\")",
+                        "returns": null,
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (request < 0)",
+                        "body_contains": "used = sum(allocations)\n# BUG: uses > so it allows one extra byte at capacity.\nif used + request > capacity:\n        return False\nreturn True",
+                        "returns": "True",
+                        "early_exit": false
+                    }
+                ],
+                [
+                    {
+                        "type": "if",
+                        "condition": "used + request > capacity",
+                        "branches": null,
+                        "body_contains": "return False",
+                        "returns": "False",
+                        "early_exit": true
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (used + request > capacity)",
+                        "body_contains": "return True",
+                        "returns": "True",
+                        "early_exit": false
+                    }
+                ]
+            ],
+            "returns": "True"
+        }
+    ]
+}

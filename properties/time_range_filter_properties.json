@@ -1,0 +1,58 @@
+[
+  {
+    "scope": "branch",
+    "function": "time_range_filter",
+    "condition": "start >= end",
+    "property": "invalid_range_error",
+    "formal": "time_range_filter(points, start, end) raises ValueError('invalid range')"
+  },
+  {
+    "scope": "branch",
+    "function": "time_range_filter",
+    "condition": "not (start >= end)",
+    "property": "inclusive_range_filter",
+    "formal": "time_range_filter(points, start, end) == [p for p in points if start <= p[0] <= end]"
+  },
+  {
+    "scope": "function",
+    "function": "time_range_filter",
+    "property": "monotonic_order_preservation",
+    "precondition": "not (start >= end)",
+    "formal": "time_range_filter(points, start, end) preserves the order of points"
+  },
+  {
+    "scope": "function",
+    "function": "time_range_filter",
+    "property": "subset_property",
+    "precondition": "not (start >= end)",
+    "formal": "all(p in points for p in time_range_filter(points, start, end))"
+  },
+  {
+    "scope": "function",
+    "function": "time_range_filter",
+    "property": "boundary_inclusion",
+    "precondition": "not (start >= end)",
+    "formal": "all(start <= p[0] <= end for p in time_range_filter(points, start, end))"
+  },
+  {
+    "scope": "function",
+    "function": "time_range_filter",
+    "property": "empty_input_identity",
+    "precondition": "not (start >= end)",
+    "formal": "time_range_filter([], start, end) == []"
+  },
+  {
+    "scope": "function",
+    "function": "time_range_filter",
+    "property": "no_out_of_range_points",
+    "precondition": "not (start >= end)",
+    "formal": "not any(p[0] < start or p[0] > end for p in time_range_filter(points, start, end))"
+  },
+  {
+    "scope": "function",
+    "function": "time_range_filter",
+    "property": "idempotence",
+    "precondition": "not (start >= end)",
+    "formal": "time_range_filter(time_range_filter(points, start, end), start, end) == time_range_filter(points, start, end)"
+  }
+]

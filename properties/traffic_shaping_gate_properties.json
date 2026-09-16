@@ -1,0 +1,149 @@
+[
+  {
+    "scope": "branch",
+    "function": "traffic_shaping_gate",
+    "condition": "len(active) > limit",
+    "property": "block_when_over_limit",
+    "formal": "traffic_shaping_gate(timestamps, now, window=window, limit=limit) == (False, 0)"
+  },
+  {
+    "scope": "branch",
+    "function": "traffic_shaping_gate",
+    "condition": "not (len(active) > limit)",
+    "property": "allow_when_under_limit",
+    "formal": "traffic_shaping_gate(timestamps, now, window=window, limit=limit) == (True, limit - len(active))"
+  },
+  {
+    "scope": "function",
+    "function": "traffic_shaping_gate",
+    "property": "non_negative_remaining",
+    "precondition": "limit >= 0",
+    "formal": "traffic_shaping_gate(timestamps, now, window=window, limit=limit)[1] >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "traffic_shaping_gate",
+    "property": "bounded_remaining",
+    "precondition": "limit >= 0",
+    "formal": "traffic_shaping_gate(timestamps, now, window=window, limit=limit)[1] <= limit"
+  },
+  {
+    "scope": "function",
+    "function": "traffic_shaping_gate",
+    "property": "monotonic_remaining",
+    "precondition": "limit >= 0",
+    "formal": "len(active1) <= len(active2) implies traffic_shaping_gate(timestamps1, now, window=window, limit=limit)[1] >= traffic_shaping_gate(timestamps2, now, window=window, limit=limit)[1]"
+  },
+  {
+    "scope": "function",
+    "function": "traffic_shaping_gate",
+    "property": "window_filtering",
+    "precondition": "window > 0",
+    "formal": "traffic_shaping_gate(timestamps, now, window=window, limit=limit) == traffic_shaping_gate([t for t in timestamps if t >= now - window], now, window=window, limit=limit)"
+  },
+  {
+    "scope": "function",
+    "function": "traffic_shaping_gate",
+    "property": "empty_timestamps_allow",
+    "precondition": "limit >= 0",
+    "formal": "traffic_shaping_gate([], now, window=window, limit=limit) == (True, limit)"
+  },
+  {
+    "scope": "function",
+    "function": "traffic_shaping_gate",
+    "property": "identity_on_empty",
+    "precondition": "limit >= 0",
+    "formal": "traffic_shaping_gate([], now, window=window, limit=limit) == (True, limit)"
+  },
+  {
+    "scope": "function",
+    "function": "traffic_shaping_gate",
+    "property": "deterministic",
+    "precondition": "True",
+    "formal": "traffic_shaping_gate(timestamps, now, window=window, limit=limit) is deterministic for same inputs"
+  },
+  {
+    "scope": "function",
+    "function": "traffic_shaping_gate",
+    "property": "time_independence",
+    "precondition": "True",
+    "formal": "traffic_shaping_gate(timestamps, now, window=window, limit=limit) == traffic_shaping_gate([t + delta for t in timestamps], now + delta, window=window, limit=limit) for any delta"
+  },
+  {
+    "scope": "function",
+    "function": "traffic_shaping_gate",
+    "property": "order_independence",
+    "precondition": "True",
+    "formal": "traffic_shaping_gate(timestamps, now, window=window, limit=limit) == traffic_shaping_gate(sorted(timestamps), now, window=window, limit=limit)"
+  },
+  {
+    "scope": "function",
+    "function": "traffic_shaping_gate",
+    "property": "limit_zero_blocks_all",
+    "precondition": "limit == 0",
+    "formal": "traffic_shaping_gate(timestamps, now, window=window, limit=0) == (False, 0)"
+  },
+  {
+    "scope": "function",
+    "function": "traffic_shaping_gate",
+    "property": "infinite_limit_allows_all",
+    "precondition": "limit == infinity",
+    "formal": "traffic_shaping_gate(timestamps, now, window=window, limit=inf) == (True, inf)"
+  },
+  {
+    "scope": "function",
+    "function": "traffic_shaping_gate",
+    "property": "window_zero_blocks_all",
+    "precondition": "window == 0",
+    "formal": "traffic_shaping_gate(timestamps, now, window=0, limit=limit) == (True, limit)"
+  },
+  {
+    "scope": "function",
+    "function": "traffic_shaping_gate",
+    "property": "metamorphic_window_increase",
+    "precondition": "window1 <= window2",
+    "formal": "traffic_shaping_gate(timestamps, now, window=window1, limit=limit)[0] implies traffic_shaping_gate(timestamps, now, window=window2, limit=limit)[0]"
+  },
+  {
+    "scope": "function",
+    "function": "traffic_shaping_gate",
+    "property": "metamorphic_limit_increase",
+    "precondition": "limit1 <= limit2",
+    "formal": "traffic_shaping_gate(timestamps, now, window=window, limit=limit1)[0] implies traffic_shaping_gate(timestamps, now, window=window, limit=limit2)[0]"
+  },
+  {
+    "scope": "function",
+    "function": "traffic_shaping_gate",
+    "property": "precondition_window_positive",
+    "precondition": "window > 0",
+    "formal": "function behavior is well-defined when window > 0"
+  },
+  {
+    "scope": "function",
+    "function": "traffic_shaping_gate",
+    "property": "precondition_limit_non_negative",
+    "precondition": "limit >= 0",
+    "formal": "function behavior is well-defined when limit >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "traffic_shaping_gate",
+    "property": "postcondition_return_type",
+    "precondition": "True",
+    "formal": "traffic_shaping_gate(timestamps, now, window=window, limit=limit) returns tuple of (bool, int)"
+  },
+  {
+    "scope": "function",
+    "function": "traffic_shaping_gate",
+    "property": "postcondition_allow_implies_positive_remaining",
+    "precondition": "traffic_shaping_gate(timestamps, now, window=window, limit=limit)[0] == True",
+    "formal": "traffic_shaping_gate(timestamps, now, window=window, limit=limit)[1] > 0"
+  },
+  {
+    "scope": "function",
+    "function": "traffic_shaping_gate",
+    "property": "postcondition_block_implies_zero_remaining",
+    "precondition": "traffic_shaping_gate(timestamps, now, window=window, limit=limit)[0] == False",
+    "formal": "traffic_shaping_gate(timestamps, now, window=window, limit=limit)[1] == 0"
+  }
+]

@@ -1,0 +1,86 @@
+[
+  {
+    "scope": "branch",
+    "function": "memory_moving_mean",
+    "condition": "window <= 0",
+    "property": "invalid_window_error",
+    "formal": "if window <= 0 then raise ValueError(\"invalid window\")"
+  },
+  {
+    "scope": "branch",
+    "function": "memory_moving_mean",
+    "condition": "not series",
+    "property": "empty_series_error",
+    "formal": "if not series then raise ValueError(\"no samples\")"
+  },
+  {
+    "scope": "branch",
+    "function": "memory_moving_mean",
+    "condition": "len(tail) < warmup_min",
+    "property": "insufficient_samples",
+    "formal": "if len(tail) < warmup_min then return None"
+  },
+  {
+    "scope": "function",
+    "function": "memory_moving_mean",
+    "property": "valid_window_precondition",
+    "precondition": "window > 0",
+    "formal": "window must be positive for function to proceed beyond initial validation"
+  },
+  {
+    "scope": "function",
+    "function": "memory_moving_mean",
+    "property": "non_empty_series_precondition",
+    "precondition": "series is not empty",
+    "formal": "series must contain at least one element for function to proceed beyond initial validation"
+  },
+  {
+    "scope": "function",
+    "function": "memory_moving_mean",
+    "property": "moving_average_calculation",
+    "precondition": "window > 0 and series is not empty and len(tail) >= warmup_min",
+    "formal": "avg = sum(series[-window:]) / window"
+  },
+  {
+    "scope": "function",
+    "function": "memory_moving_mean",
+    "property": "window_size_consistency",
+    "precondition": "window > 0 and series is not empty",
+    "formal": "tail = series[-window:] ensures tail length is min(window, len(series))"
+  },
+  {
+    "scope": "function",
+    "function": "memory_moving_mean",
+    "property": "warmup_min_dependency",
+    "precondition": "window > 0 and series is not empty",
+    "formal": "function depends on undefined warmup_min variable (potential bug)"
+  },
+  {
+    "scope": "function",
+    "function": "memory_moving_mean",
+    "property": "partial_window_handling",
+    "precondition": "window > 0 and series is not empty",
+    "formal": "when len(series) < window, tail = series (all elements used)"
+  },
+  {
+    "scope": "function",
+    "function": "memory_moving_mean",
+    "property": "return_type_consistency",
+    "precondition": "window > 0 and series is not empty and len(tail) >= warmup_min",
+    "formal": "returns float (average value) when sufficient data available"
+  },
+  {
+    "scope": "function",
+    "function": "memory_moving_mean",
+    "property": "return_type_none",
+    "precondition": "window > 0 and series is not empty and len(tail) < warmup_min",
+    "formal": "returns None when insufficient warmup samples"
+  },
+  {
+    "scope": "function",
+    "function": "memory_moving_mean",
+    "property": "error_handling",
+    "precondition": "window <= 0 or series is empty",
+    "formal": "raises ValueError with descriptive message for invalid inputs"
+  }
+]

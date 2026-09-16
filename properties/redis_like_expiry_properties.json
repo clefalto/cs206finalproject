@@ -1,0 +1,51 @@
+[
+  {
+    "scope": "branch",
+    "function": "redis_like_expiry",
+    "condition": "item is None",
+    "property": "null_item_returns_none",
+    "formal": "redis_like_expiry(store, key, now) == None"
+  },
+  {
+    "scope": "branch",
+    "function": "redis_like_expiry",
+    "condition": "now > expires_at",
+    "property": "expired_item_returns_none",
+    "formal": "redis_like_expiry(store, key, now) == None"
+  },
+  {
+    "scope": "branch",
+    "function": "redis_like_expiry",
+    "condition": "now <= expires_at",
+    "property": "valid_item_returns_value",
+    "formal": "redis_like_expiry(store, key, now) == value"
+  },
+  {
+    "scope": "function",
+    "function": "redis_like_expiry",
+    "property": "non_negative_expiry",
+    "precondition": "expires_at >= 0",
+    "formal": "expires_at >= 0"
+  },
+  {
+    "scope": "function",
+    "function": "redis_like_expiry",
+    "property": "monotonic_expiry",
+    "precondition": "now1 <= now2",
+    "formal": "redis_like_expiry(store, key, now1) == None implies redis_like_expiry(store, key, now2) == None"
+  },
+  {
+    "scope": "function",
+    "function": "redis_like_expiry",
+    "property": "idempotent_lookup",
+    "precondition": "True",
+    "formal": "redis_like_expiry(store, key, now) == redis_like_expiry(store, key, now)"
+  },
+  {
+    "scope": "function",
+    "function": "redis_like_expiry",
+    "property": "boundary_inclusion",
+    "precondition": "now == expires_at",
+    "formal": "redis_like_expiry(store, key, now) == value"
+  }
+]

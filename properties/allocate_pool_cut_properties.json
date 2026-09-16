@@ -1,0 +1,72 @@
+[
+  {
+    "scope": "branch",
+    "function": "allocate_pool_cut",
+    "condition": "not ratios",
+    "property": "empty_ratios_error",
+    "formal": "if not ratios then raise ValueError(\"ratios required\")"
+  },
+  {
+    "scope": "branch",
+    "function": "allocate_pool_cut",
+    "condition": "amount < 0",
+    "property": "negative_amount_error",
+    "formal": "if amount < 0 then raise ValueError(\"negative amount\")"
+  },
+  {
+    "scope": "branch",
+    "function": "allocate_pool_cut",
+    "condition": "total_ratio <= 0",
+    "property": "invalid_ratios_error",
+    "formal": "if total_ratio <= 0 then raise ValueError(\"invalid ratios\")"
+  },
+  {
+    "scope": "function",
+    "function": "allocate_pool_cut",
+    "property": "proportional_allocation",
+    "precondition": "ratios and amount >= 0 and sum(ratios) > 0",
+    "formal": "sum([s - fee for s in shares]) == amount - len(ratios) * fee"
+  },
+  {
+    "scope": "function",
+    "function": "allocate_pool_cut",
+    "property": "fee_deduction",
+    "precondition": "ratios and amount >= 0 and sum(ratios) > 0",
+    "formal": "all(s - fee < s for s in shares)"
+  },
+  {
+    "scope": "function",
+    "function": "allocate_pool_cut",
+    "property": "non_negative_shares",
+    "precondition": "ratios and amount >= 0 and sum(ratios) > 0 and fee <= min(shares)",
+    "formal": "all(s - fee >= 0 for s in shares)"
+  },
+  {
+    "scope": "function",
+    "function": "allocate_pool_cut",
+    "property": "monotonic_allocation",
+    "precondition": "ratios and amount >= 0 and sum(ratios) > 0",
+    "formal": "if ratios[i] > ratios[j] then shares[i] > shares[j]"
+  },
+  {
+    "scope": "function",
+    "function": "allocate_pool_cut",
+    "property": "scale_invariance",
+    "precondition": "ratios and amount >= 0 and sum(ratios) > 0 and k > 0",
+    "formal": "allocate_pool_cut(amount * k, [r * k for r in ratios]) == [s * k - fee for s in shares]"
+  },
+  {
+    "scope": "function",
+    "function": "allocate_pool_cut",
+    "property": "zero_amount_handling",
+    "precondition": "ratios and sum(ratios) > 0",
+    "formal": "allocate_pool_cut(0, ratios) == [-fee] * len(ratios)"
+  },
+  {
+    "scope": "function",
+    "function": "allocate_pool_cut",
+    "property": "single_ratio_handling",
+    "precondition": "len(ratios) == 1 and ratios[0] > 0",
+    "formal": "allocate_pool_cut(amount, ratios) == [amount - fee]"
+  }
+]

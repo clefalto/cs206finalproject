@@ -1,0 +1,51 @@
+[
+  {
+    "scope": "branch",
+    "function": "schedule_pickup",
+    "condition": "a >= b",
+    "property": "empty_window_error",
+    "formal": "raises ValueError(\"empty window\")"
+  },
+  {
+    "scope": "branch",
+    "function": "schedule_pickup",
+    "condition": "any(not (b <= s or a >= e) for s, e in timeline)",
+    "property": "conflict_detection",
+    "formal": "return False, timeline"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_pickup",
+    "property": "non_empty_window",
+    "precondition": "a < b",
+    "formal": "window is not empty"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_pickup",
+    "property": "conflict_free_insertion",
+    "precondition": "no overlap between window and timeline",
+    "formal": "result contains all original timeline entries plus window"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_pickup",
+    "property": "sorted_output",
+    "precondition": "valid input",
+    "formal": "result is sorted by start time"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_pickup",
+    "property": "timeline_preservation",
+    "precondition": "conflict detected",
+    "formal": "original timeline is returned unchanged"
+  },
+  {
+    "scope": "function",
+    "function": "schedule_pickup",
+    "property": "boolean_return",
+    "precondition": "valid input",
+    "formal": "returns tuple (bool, list) where bool indicates success"
+  }
+]

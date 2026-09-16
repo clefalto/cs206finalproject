@@ -1,0 +1,86 @@
+[
+  {
+    "scope": "branch",
+    "function": "plan_delivery_slot",
+    "condition": "a >= b",
+    "property": "empty_window_error",
+    "formal": "raises ValueError(\"empty window\")"
+  },
+  {
+    "scope": "branch",
+    "function": "plan_delivery_slot",
+    "condition": "any(not (b <= s or a >= e) for s, e in timeline)",
+    "property": "conflict_detection",
+    "formal": "return False, timeline"
+  },
+  {
+    "scope": "function",
+    "function": "plan_delivery_slot",
+    "property": "non_empty_window",
+    "precondition": "a < b",
+    "formal": "window is valid interval"
+  },
+  {
+    "scope": "function",
+    "function": "plan_delivery_slot",
+    "property": "timeline_sorted",
+    "precondition": "no conflicts",
+    "formal": "result = sorted(timeline + [window])"
+  },
+  {
+    "scope": "function",
+    "function": "plan_delivery_slot",
+    "property": "conflict_free_insertion",
+    "precondition": "not any(not (b <= s or a >= e) for s, e in timeline)",
+    "formal": "window does not overlap with any existing slot"
+  },
+  {
+    "scope": "function",
+    "function": "plan_delivery_slot",
+    "property": "timeline_integrity",
+    "precondition": "no conflicts",
+    "formal": "result contains all original timeline slots plus new window"
+  },
+  {
+    "scope": "function",
+    "function": "plan_delivery_slot",
+    "property": "return_format",
+    "precondition": "valid input",
+    "formal": "returns tuple (bool, list)"
+  },
+  {
+    "scope": "function",
+    "function": "plan_delivery_slot",
+    "property": "success_indicator",
+    "precondition": "no conflicts",
+    "formal": "returns True when successful"
+  },
+  {
+    "scope": "function",
+    "function": "plan_delivery_slot",
+    "property": "failure_indicator",
+    "precondition": "conflicts detected",
+    "formal": "returns False when conflicts detected"
+  },
+  {
+    "scope": "function",
+    "function": "plan_delivery_slot",
+    "property": "boundary_inclusion_bug",
+    "precondition": "window touches existing slot boundary",
+    "formal": "incorrectly rejects valid adjacent slots due to strict inequality"
+  },
+  {
+    "scope": "function",
+    "function": "plan_delivery_slot",
+    "property": "timeline_immutability_on_conflict",
+    "precondition": "conflicts detected",
+    "formal": "returns original timeline unchanged when conflicts detected"
+  },
+  {
+    "scope": "function",
+    "function": "plan_delivery_slot",
+    "property": "window_type_preservation",
+    "precondition": "valid input",
+    "formal": "window maintains its original structure in result"
+  }
+]

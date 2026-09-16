@@ -1,0 +1,72 @@
+[
+  {
+    "scope": "branch",
+    "function": "temperature_window_avg",
+    "condition": "window <= 0",
+    "property": "invalid_window_size",
+    "formal": "temperature_window_avg(values, window) raises ValueError(\"window must be positive\")"
+  },
+  {
+    "scope": "branch",
+    "function": "temperature_window_avg",
+    "condition": "not values",
+    "property": "empty_series_error",
+    "formal": "temperature_window_avg(values, window) raises ValueError(\"empty series\")"
+  },
+  {
+    "scope": "branch",
+    "function": "temperature_window_avg",
+    "condition": "len(tail) < warmup_min",
+    "property": "insufficient_samples",
+    "formal": "temperature_window_avg(values, window) returns None"
+  },
+  {
+    "scope": "function",
+    "function": "temperature_window_avg",
+    "property": "positive_window_requirement",
+    "precondition": "window > 0",
+    "formal": "temperature_window_avg(values, window) does not raise ValueError for window size"
+  },
+  {
+    "scope": "function",
+    "function": "temperature_window_avg",
+    "property": "non_empty_series_requirement",
+    "precondition": "len(values) > 0",
+    "formal": "temperature_window_avg(values, window) does not raise ValueError for empty series"
+  },
+  {
+    "scope": "function",
+    "function": "temperature_window_avg",
+    "property": "window_average_calculation",
+    "precondition": "window > 0 and len(values) > 0 and len(tail) >= warmup_min",
+    "formal": "temperature_window_avg(values, window) returns mean where mean = sum(tail) / window"
+  },
+  {
+    "scope": "function",
+    "function": "temperature_window_avg",
+    "property": "buggy_division",
+    "precondition": "window > 0 and len(values) > 0 and len(tail) >= warmup_min",
+    "formal": "temperature_window_avg(values, window) uses window size instead of actual sample count in division"
+  },
+  {
+    "scope": "function",
+    "function": "temperature_window_avg",
+    "property": "tail_extraction",
+    "precondition": "window > 0 and len(values) > 0",
+    "formal": "tail = values[-window:] extracts the last window elements"
+  },
+  {
+    "scope": "function",
+    "function": "temperature_window_avg",
+    "property": "sum_calculation",
+    "precondition": "window > 0 and len(values) > 0",
+    "formal": "total = sum(tail) calculates sum of tail elements"
+  },
+  {
+    "scope": "function",
+    "function": "temperature_window_avg",
+    "property": "conditional_return",
+    "precondition": "window > 0 and len(values) > 0",
+    "formal": "if len(tail) < warmup_min: return None else: return mean"
+  }
+]

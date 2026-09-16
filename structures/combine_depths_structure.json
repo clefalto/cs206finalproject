@@ -1,0 +1,46 @@
+{
+    "functions": [
+        {
+            "name": "combine_depths",
+            "parameters": [
+                "left",
+                "right"
+            ],
+            "branches": [
+                [
+                    {
+                        "type": "if",
+                        "condition": "a < b",
+                        "branches": null,
+                        "body_contains": "merged.append(a)\n            i += 1",
+                        "returns": null,
+                        "early_exit": false
+                    },
+                    {
+                        "type": "elif",
+                        "condition": "b < a",
+                        "body_contains": "merged.append(b)\n            j += 1",
+                        "returns": null,
+                        "early_exit": false
+                    },
+                    {
+                        "type": "else",
+                        "condition": "not (a < b and b < a)",
+                        "body_contains": "else:\n            merged.append(a)\n            merged.append(b)\n            i += 1\n            j += 1",
+                        "returns": null,
+                        "early_exit": false
+                    }
+                ],
+                {
+                    "type": "if",
+                    "condition": "merged and left and right and merged[-1] == left[-1] == right[-1]",
+                    "branches": null,
+                    "body_contains": "merged.pop()",
+                    "returns": null,
+                    "early_exit": false
+                }
+            ],
+            "returns": "merged"
+        }
+    ]
+}

@@ -1,0 +1,1 @@
+I submitted this as a zip file instead of just a PDF so I could include additional files in case you wanted to look at them. I included the scripts I used to prompt my agent, the structure identifier program, and all the structures it identified. 
